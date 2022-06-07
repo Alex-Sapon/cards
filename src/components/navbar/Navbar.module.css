@@ -1,0 +1,32 @@
+.navbar_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #212429;
+}
+
+.navbar_list {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 4px;
+    height: 52px;
+}
+
+.navbar_list a {
+    color: #f6f4e6;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    padding: 15px 10px 14px;
+}
+
+.navbar_list a:hover {
+    color: #212429;
+    background: #f6b750;
+}
+
+.navbar_list a:not(:last-child) {
+    margin-right: 30px;
+}
