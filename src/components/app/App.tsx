@@ -1,14 +1,17 @@
 import './App.css';
 import {Routes, Route, Navigate} from 'react-router-dom';
-import {Login} from './pages/login/Login';
-import {Error404} from './pages/error404/Error404';
-import {NewPassword} from './pages/newPassword/NewPassword';
-import {RecoveryPassword} from './pages/recoveryPassword/RecoveryPassword';
-import {Register} from './pages/register/Register';
-import {Profile} from './pages/profile/Profile';
-import {Test} from './pages/test/Test';
-import {Navbar} from './components/navbar/Navbar';
-import {PATH} from './enums/path';
+import React from 'react';
+
+import {Navbar} from '../navbar/Navbar';
+import {Login} from '../../features/login/Login';
+import {Register} from '../../features/register/Register';
+import {Profile} from '../../features/profile/Profile';
+import {SetPassword} from '../../features/setPass/SetPassword';
+import {RecoveryPass} from '../../features/recoveryPass/RecoveryPass';
+import {Test} from '../../features/test/Test';
+import {Error404} from '../error404/Error404';
+
+import {PATH} from '../../enums/path';
 
 function App() {
     return (
@@ -19,10 +22,10 @@ function App() {
                 <Route path={PATH.LOGIN} element={<Login/>}/>
                 <Route path={PATH.REGISTER} element={<Register/>}/>
                 <Route path={PATH.PROFILE} element={<Profile/>}/>
-                <Route path={PATH.NEW_PASSWORD} element={<NewPassword/>}/>
-                <Route path={PATH.RECOVERY_PASSWORD} element={<RecoveryPassword/>}/>
+                <Route path={PATH.SET_PASS} element={<SetPassword/>}/>
+                <Route path={PATH.RECOVERY_PASS} element={<RecoveryPass/>}/>
                 <Route path={PATH.TEST} element={<Test/>}/>
-                <Route path={'/*'} element={<Error404/>}/>
+                <Route path={PATH.PAGE_NOT_FOUND} element={<Error404/>}/>
             </Routes>
         </div>
     );
