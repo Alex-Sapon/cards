@@ -13,13 +13,24 @@
     height: 52px;
 }
 
-.navbar_list a {
+.navbar_item {
     color: #f6f4e6;
     text-decoration: none;
     text-transform: uppercase;
     transition: all 0.3s ease;
     font-weight: 600;
     padding: 15px 10px 14px;
+}
+
+.active {
+    color: #f6f4e6;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    padding: 15px 10px 14px;
+    color: #212429;
+    background: #f6b750;
 }
 
 .navbar_list a:hover {

@@ -1,5 +1,5 @@
 import React, {DetailedHTMLProps, InputHTMLAttributes, HTMLAttributes, useState} from 'react'
-import SuperInputText from '../superInputText/SuperInputText';
+import SuperInputText from '../inputText/InputText';
 // import {BsPencil} from 'react-icons/all';
 import styles from './SuperEditableSpan.module.css';
 

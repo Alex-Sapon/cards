@@ -3,15 +3,17 @@ import styles from './Navbar.module.css';
 import {PATH} from '../../enums/path';
 
 export const Navbar = () => {
+    const setActiveClass = (navData: { isActive: boolean }): string => navData.isActive ? styles.active : styles.navbar_item;
+
     return (
         <div className={styles.navbar_container}>
             <nav className={styles.navbar_list}>
-                <NavLink to={PATH.PROFILE}>Profile</NavLink>
-                <NavLink to={PATH.LOGIN}>Login</NavLink>
-                <NavLink to={PATH.REGISTER}>Register</NavLink>
-                <NavLink to={PATH.SET_PASS}>Set password</NavLink>
-                <NavLink to={PATH.RECOVERY_PASS}>Recovery password</NavLink>
-                <NavLink to={PATH.TEST}>Test</NavLink>
+                <NavLink to={PATH.PROFILE} className={setActiveClass}>Profile</NavLink>
+                <NavLink to={PATH.LOGIN} className={setActiveClass}>Login</NavLink>
+                <NavLink to={PATH.REGISTER} className={setActiveClass}>Register</NavLink>
+                <NavLink to={PATH.SET_PASS} className={setActiveClass}>Set password</NavLink>
+                <NavLink to={PATH.RECOVERY_PASS} className={setActiveClass}>Recovery password</NavLink>
+                <NavLink to={PATH.TEST} className={setActiveClass}>Test</NavLink>
             </nav>
         </div>
     )
