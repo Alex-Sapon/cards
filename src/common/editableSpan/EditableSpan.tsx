@@ -1,25 +1,25 @@
 import React, {DetailedHTMLProps, InputHTMLAttributes, HTMLAttributes, useState} from 'react'
-import SuperInputText from '../inputText/InputText';
+import InputText from '../inputText/InputText';
 // import {BsPencil} from 'react-icons/all';
-import styles from './SuperEditableSpan.module.css';
+import styles from './EditableSpan.module.css';
 
 // тип пропсов обычного инпута
-type DefaultInputPropsType = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
+type DefaultInputType = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
 // тип пропсов обычного спана
-type DefaultSpanPropsType = DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>
+type DefaultSpanType = DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>
 
 // здесь мы говорим что у нашего инпута будут такие же пропсы как у обычного инпута
 // (чтоб не писать value: string, onChange: ...; они уже все описаны в DefaultInputPropsType)
-type SuperEditableSpanType = DefaultInputPropsType & { // и + ещё пропсы которых нет в стандартном инпуте
+type EditableSpanType = DefaultInputType & { // и + ещё пропсы которых нет в стандартном инпуте
     onChangeText?: (value: string) => void
     onEnter?: () => void
     error?: string
     spanClassName?: string
 
-    spanProps?: DefaultSpanPropsType // пропсы для спана
+    spanProps?: DefaultSpanType // пропсы для спана
 }
 
-const SuperEditableSpan: React.FC<SuperEditableSpanType> = (
+const EditableSpan: React.FC<EditableSpanType> = (
     {
         autoFocus, // игнорировать изменение этого пропса
         onBlur, onEnter, spanProps,
@@ -48,7 +48,7 @@ const SuperEditableSpan: React.FC<SuperEditableSpanType> = (
         <>
             {editMode
                 ? (
-                    <SuperInputText
+                    <InputText
                         autoFocus
                         onBlur={onBlurCallback}
                         onEnter={onEnterCallback}
@@ -69,4 +69,4 @@ const SuperEditableSpan: React.FC<SuperEditableSpanType> = (
     )
 }
 
-export default SuperEditableSpan;
+export default EditableSpan;

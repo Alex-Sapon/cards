@@ -14,7 +14,7 @@ const rootReducer = combineReducers({
     register: registerReducer,
 });
 
-const store = createStore(rootReducer, applyMiddleware(thunk));
+export const store = createStore(rootReducer, applyMiddleware(thunk));
 
 export type AppStateType = ReturnType<typeof rootReducer>;
 

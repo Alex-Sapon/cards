@@ -1,16 +1,16 @@
 import React, {ChangeEvent, useState} from 'react';
-import styles from './SuperDoubleRange.module.css';
+import styles from './DoubleRange.module.css';
 
 type DefaultInputRangeType = React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
 
-type SuperDoubleRangePropsType = DefaultInputRangeType & {
+type DoubleRangeType = DefaultInputRangeType & {
     onChangeRange?: (value: [number, number]) => void
     value: [number, number]
     min: number
     max: number
 };
 
-const SuperDoubleRange: React.FC<SuperDoubleRangePropsType> = props => {
+const DoubleRange: React.FC<DoubleRangeType> = props => {
     const {value, min, max, step, disabled, onChangeRange} = props;
 
     const [left, setLeft] = useState(value[0]);
@@ -62,4 +62,4 @@ const SuperDoubleRange: React.FC<SuperDoubleRangePropsType> = props => {
     )
 };
 
-export default SuperDoubleRange;
+export default DoubleRange;
