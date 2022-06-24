@@ -1,4 +1,13 @@
 .button {
     width: 266px;
     height: 36px;
+    margin-bottom: 2rem;
+}
+
+.wrapper {
+    margin-bottom: 0.5rem;
+}
+
+.label {
+    margin-bottom: 5rem;
 }

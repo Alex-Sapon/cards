@@ -1,6 +1,7 @@
 export enum PATH {
+    HOME = '/',
     LOGIN = '/login',
-    REGISTER = '/register',
+    REGISTRATION = '/registration',
     PROFILE = '/profile',
     SET_PASS = '/set-password',
     RECOVERY_PASS = '/recovery-password',

@@ -5,9 +5,8 @@ import styles from './RecoveryPass.module.css';
 
 export const RecoveryPass = () => {
     return (
-        <Form onSubmit={() => {}}>
-            <h3>Forgot your password?</h3>
-            <InputText placeholder="Email"/>
+        <Form onSubmit={() => {}} title={'Forgot your password?'}>
+            <InputText error={''} wrapperStyles={styles.wrapper} placeholder="Email"/>
             <Button className={styles.button}>Send Instructions</Button>
             <div>Did you remember your password?</div>
         </Form>

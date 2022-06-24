@@ -10,7 +10,7 @@ export const Navbar = () => {
             <nav className={styles.navbar_list}>
                 <NavLink to={PATH.PROFILE} className={setActiveClass}>Profile</NavLink>
                 <NavLink to={PATH.LOGIN} className={setActiveClass}>Login</NavLink>
-                <NavLink to={PATH.REGISTER} className={setActiveClass}>Register</NavLink>
+                <NavLink to={PATH.REGISTRATION} className={setActiveClass}>Registration</NavLink>
                 <NavLink to={PATH.SET_PASS} className={setActiveClass}>Set password</NavLink>
                 <NavLink to={PATH.RECOVERY_PASS} className={setActiveClass}>Recovery password</NavLink>
                 <NavLink to={PATH.TEST} className={setActiveClass}>Test</NavLink>

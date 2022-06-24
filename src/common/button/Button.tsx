@@ -1,21 +1,17 @@
-import React, {ButtonHTMLAttributes, DetailedHTMLProps} from 'react'
-import s from './Button.module.css'
+import React, {ButtonHTMLAttributes, DetailedHTMLProps} from 'react';
+import styles from './Button.module.css';
 
-// тип пропсов обычной кнопки, children в котором храниться название кнопки там уже описан
-type DefaultButtonPropsType = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>
+type DefaultButtonPropsType = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>;
 
 type ButtonPropsType = DefaultButtonPropsType & {
     red?: boolean
     remove?: boolean
-}
+};
 
-const Button: React.FC<ButtonPropsType> = (
-    {
-        red, remove, className, ...restProps
-        // все остальные пропсы попадут в объект restProps, там же будет children
-    }
-) => {
-    const finalClassName = `${s.button} ${red ? s.red : ''} ${remove ? s.remove : ''} ${className}`
+const Button: React.FC<ButtonPropsType> = props => {
+    const {red, remove, className, ...restProps} = props;
+
+    const finalClassName = `${styles.button} ${red ? styles.red : ''} ${remove ? styles.remove : ''} ${className ? className : ''}`
 
     return (
         <button
@@ -23,6 +19,6 @@ const Button: React.FC<ButtonPropsType> = (
             {...restProps} // отдаём кнопке остальные пропсы если они есть (children там внутри)
         />
     )
-}
+};
 
-export default Button
+export default Button;

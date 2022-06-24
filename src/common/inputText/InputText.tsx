@@ -1,56 +1,53 @@
-import React, {ChangeEvent, DetailedHTMLProps, InputHTMLAttributes, KeyboardEvent} from 'react'
-import s from './InputText.module.css'
+import React, {ChangeEvent, DetailedHTMLProps, InputHTMLAttributes, KeyboardEvent} from 'react';
+import styles from './InputText.module.css';
 
-// тип пропсов обычного инпута
 type DefaultInputPropsType = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
 
 // здесь мы говорим что у нашего инпута будут такие же пропсы как у обычного инпута
 // (чтоб не писать value: string, onChange: ...; они уже все описаны в DefaultInputPropsType)
-type InputTextPropsType = DefaultInputPropsType & { // и + ещё пропсы которых нет в стандартном инпуте
+type InputTextPropsType = DefaultInputPropsType & {
     onChangeText?: (value: string) => void
     onEnter?: () => void
     error?: string
-    spanClassName?: string
+    spanStyles?: string
+    wrapperStyles?: string
 }
 
-const InputText: React.FC<InputTextPropsType> = (
-    {
+const InputText: React.FC<InputTextPropsType> = props => {
+    const {
         type, // достаём и игнорируем чтоб нельзя было задать другой тип инпута
         onChange, onChangeText, onKeyPress, onEnter,
-        error, className, spanClassName,
-        ...restProps// все остальные пропсы попадут в объект restProps
-    }
-) => {
-    const onChangeCallback = (e: ChangeEvent<HTMLInputElement>) => {
-        onChange // если есть пропс onChange
-        && onChange(e) // то передать ему е (поскольку onChange не обязателен)
+        error, className, spanStyles, wrapperStyles, ...restProps
+    } = props;
 
-        onChangeText && onChangeText(e.currentTarget.value)
-    }
+    const onChangeCallback = (e: ChangeEvent<HTMLInputElement>) => {
+        onChange && onChange(e);
+
+        onChangeText && onChangeText(e.currentTarget.value);
+    };
+
     const onKeyPressCallback = (e: KeyboardEvent<HTMLInputElement>) => {
         onKeyPress && onKeyPress(e);
 
-        onEnter // если есть пропс onEnter
-        && e.key === 'Enter' // и если нажата кнопка Enter
-        && onEnter() // то вызвать его
+        onEnter && e.key === 'Enter' && onEnter();
     }
 
-    const finalSpanClassName = `${s.error} ${spanClassName ? spanClassName : ''}`
-    const finalInputClassName = `${s.input} ${error ? s.errorInput : s.superInput} ${className ? className : ''}`
-    // need to fix with (?:) and s.superInput
+    const inputWrapper = `${styles.wrapper} ${wrapperStyles ? wrapperStyles : ''}`;
+    const spanClassName = `${styles.error} ${spanStyles ? spanStyles : ''}`;
+    const inputClassName = `${styles.input} ${error ? styles.error_input : styles.input} ${className ? className : ''}`;
 
     return (
-        <>
+        <div className={inputWrapper}>
             <input
-                type={'text'}
+                type='text'
                 onChange={onChangeCallback}
                 onKeyPress={onKeyPressCallback}
-                className={finalInputClassName}
+                className={inputClassName}
                 {...restProps} // отдаём инпуту остальные пропсы если они есть (value например там внутри)
             />
-            {error && <span className={finalSpanClassName}>{error}</span>}
-        </>
+            {error && <div className={spanClassName}>{error}</div>}
+        </div>
     )
-}
+};
 
-export default InputText
+export default InputText;

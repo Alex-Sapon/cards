@@ -3,7 +3,7 @@ import {profileReducer} from '../../features/profile/profileReducer';
 import thunk, {ThunkAction} from 'redux-thunk';
 import {loginReducer} from '../../features/login/loginReducer';
 import {setPassReducer} from '../../features/setPass/setPassReducer';
-import {registerReducer} from '../../features/register/registerReducer';
+import {registrationReducer} from '../../features/registration/registrationReducer';
 import {recoveryPassReducer} from '../../features/recoveryPass/recoveryPassReducer';
 
 const rootReducer = combineReducers({
@@ -11,7 +11,7 @@ const rootReducer = combineReducers({
     login: loginReducer,
     setPass: setPassReducer,
     recoveryPass: recoveryPassReducer,
-    register: registerReducer,
+    register: registrationReducer,
 });
 
 export const store = createStore(rootReducer, applyMiddleware(thunk));
