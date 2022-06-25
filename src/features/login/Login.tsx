@@ -2,8 +2,8 @@ import Button from '../../common/button/Button';
 import {Form} from '../../common/form/Form';
 import styles from './Login.module.css';
 import {useFormik} from 'formik';
-import {useDispatch} from 'react-redux';
-import {NavLink} from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux';
+import {Navigate, NavLink} from 'react-router-dom';
 import {PATH} from '../../enums/path';
 import {
     Checkbox,
@@ -19,6 +19,9 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Input from '@mui/material/Input';
 import React, {useState} from 'react';
+import {ActionsType, AppStateType} from '../../components/app/store';
+import {login} from './login-reducer';
+import {ThunkDispatch} from 'redux-thunk';
 
 type LoginErrorType = {
     email: string
@@ -26,8 +29,12 @@ type LoginErrorType = {
     rememberMe: boolean
 }
 
+export const useAppDispatch = () => useDispatch<ThunkDispatch<AppStateType, unknown, ActionsType>>();
+
 export const Login = () => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
+
+    const isLoggedIn = useSelector<AppStateType, boolean>(state => state.login.isLoggedIn);
 
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -39,7 +46,7 @@ export const Login = () => {
         },
 
         onSubmit: values => {
-            alert(JSON.stringify(values, null, 2));
+            dispatch(login(values));
             formik.resetForm();
             formik.values.rememberMe = false;
 
@@ -50,7 +57,9 @@ export const Login = () => {
 
     const handleClickShowPassword = () => setShowPassword(!showPassword);
 
-
+    if (isLoggedIn) {
+        return <Navigate to={PATH.PROFILE}/>
+    }
 
     return (
         <Form onSubmit={formik.handleSubmit} title={'Sign In'}>

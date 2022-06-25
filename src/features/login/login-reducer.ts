@@ -1,5 +1,5 @@
 import {AppThunk} from '../../components/app/store';
-import {ILoginResponse, loginAPI} from './login-api';
+import {ILoginParams, ILoginResponse, loginAPI} from './login-api';
 import {AxiosError} from 'axios';
 
 const initialState: LoginDataUserType = {
@@ -15,12 +15,13 @@ const initialState: LoginDataUserType = {
     rememberMe: false,
     error: '',
     isLoggedIn: false,
+    errorMessage: null,
 }
 
 export type LoginStateType = typeof initialState;
 
 export const loginReducer = (state: LoginStateType = initialState, action: LoginActions): LoginStateType => {
-    switch(action.type) {
+    switch (action.type) {
         case 'LOGIN/SET-LOGIN-USER':
             return {...state, ...action.data, isLoggedIn: true};
         default:
@@ -33,11 +34,12 @@ export const setLogin = (data: ILoginResponse) => ({
     data,
 } as const);
 
-export const login = (data: LoginParamsType): AppThunk => dispatch => {
+export const login = (data: ILoginParams): AppThunk => dispatch => {
 
 
     loginAPI.login(data)
         .then(res => {
+            debugger
             dispatch(setLogin(res.data));
         })
         .catch((e: AxiosError) => {
@@ -50,14 +52,9 @@ export const login = (data: LoginParamsType): AppThunk => dispatch => {
         })
 }
 
-type LoginActions = ReturnType<typeof setLogin>;
-
-type LoginParamsType = {
-    email: string
-    password: string
-    rememberMe: boolean
-};
+export type LoginActions = ReturnType<typeof setLogin>;
 
 type LoginDataUserType = ILoginResponse & {
     isLoggedIn: boolean
+    errorMessage: string | null
 }
