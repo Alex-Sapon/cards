@@ -1,5 +1,4 @@
 import Button from '../../common/button/Button';
-// import Checkbox from '../../common/checkbox/Checkbox';
 import {Form} from '../../common/form/Form';
 import styles from './Login.module.css';
 import {useFormik} from 'formik';
@@ -51,6 +50,8 @@ export const Login = () => {
 
     const handleClickShowPassword = () => setShowPassword(!showPassword);
 
+
+
     return (
         <Form onSubmit={formik.handleSubmit} title={'Sign In'}>
             <FormGroup sx={{width: '30ch'}}>
@@ -90,7 +91,8 @@ export const Login = () => {
             </FormGroup>
             <NavLink className={styles.forgot_pass} to={PATH.RECOVERY_PASS}>Forgot Password</NavLink>
             <Button type="submit" className={styles.button}>login</Button>
-            <div>Don't have an account?</div>
+            <div className={styles.text}>Don't have an account?</div>
+            <NavLink className={styles.link} to={PATH.REGISTRATION}>Sign Up</NavLink>
         </Form>
     )
 };

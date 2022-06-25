@@ -1,7 +1,7 @@
 import {applyMiddleware, combineReducers, legacy_createStore as createStore} from 'redux';
 import {profileReducer} from '../../features/profile/profileReducer';
 import thunk, {ThunkAction} from 'redux-thunk';
-import {loginReducer} from '../../features/login/loginReducer';
+import {loginReducer} from '../../features/login/login-reducer';
 import {setPassReducer} from '../../features/setPass/setPassReducer';
 import {registrationReducer} from '../../features/registration/registrationReducer';
 import {recoveryPassReducer} from '../../features/recoveryPass/recoveryPassReducer';
