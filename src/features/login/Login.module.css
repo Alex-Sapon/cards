@@ -5,13 +5,13 @@
 }
 
 .input {
-    margin-bottom: 1.5rem!important;
     width: 100%;
 }
 
 .forgot_pass {
-    color: #2D2E46;
+    color: #21268F;
     display: block;
+    font-weight: var(--fw-normal);
     justify-content: flex-end;
     margin-left: auto;
     margin-bottom: 3rem;
@@ -29,4 +29,8 @@
     font-weight: var(--fw-normal);
     text-align: center;
     text-decoration: none;
+}
+
+.view {
+    padding-bottom: 5px;
 }

@@ -12,21 +12,22 @@ import {
     FormGroup,
     IconButton,
     InputAdornment,
-    InputLabel,
-    TextField
+    InputLabel
 } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
+import TextField from '@mui/material/TextField';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Input from '@mui/material/Input';
 import React, {useState} from 'react';
 import {ActionsType, AppStateType} from '../../components/app/store';
 import {login} from './login-reducer';
 import {ThunkDispatch} from 'redux-thunk';
+import FormHelperText from '@mui/material/FormHelperText';
 
 type LoginErrorType = {
-    email: string
-    password: string
-    rememberMe: boolean
+    email?: string
+    password?: string
+    rememberMe?: boolean
 }
 
 export const useAppDispatch = () => useDispatch<ThunkDispatch<AppStateType, unknown, ActionsType>>();
@@ -44,14 +45,30 @@ export const Login = () => {
             password: '',
             rememberMe: false,
         },
+        validate(values) {
+            const errors: LoginErrorType = {};
 
+            if (!values.email) {
+                errors.email = 'Required';
+            } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+                errors.email = 'Invalid email address';
+            }
+
+            if (!values.password) {
+                errors.password = 'Required';
+            } else if (values.password.length < 8) {
+                errors.password = 'Password should be more than 2 symbols';
+            }
+
+            return errors;
+        },
         onSubmit: values => {
-            dispatch(login(values));
-            formik.resetForm();
-            formik.values.rememberMe = false;
-
+            if (values.email && values.password) {
+                dispatch(login(values));
+                formik.resetForm();
+            }
         }
-    })
+    });
 
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => event.preventDefault();
 
@@ -63,36 +80,42 @@ export const Login = () => {
 
     return (
         <Form onSubmit={formik.handleSubmit} title={'Sign In'}>
-            <FormGroup sx={{width: '30ch'}}>
-                <TextField
-                    label="Email"
-                    variant="standard"
-                    className={styles.input}
-                    {...formik.getFieldProps('email')}
-                />
-                <FormControl variant="standard">
-                    <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
+            <FormGroup sx={{width: '35ch'}}>
+                <FormControl variant="standard" sx={{height: '71px', mb: '0.5rem'}}>
+                    <InputLabel htmlFor="email">Email</InputLabel>
+                    <Input id="email" fullWidth {...formik.getFieldProps('email')}/>
+                    <FormHelperText sx={{color: 'red'}}>
+                        {formik.touched.email && !!formik.errors.email && formik.errors.email}
+                    </FormHelperText>
+                </FormControl>
+                <FormControl variant="standard" sx={{height: '71px'}}>
+                    <InputLabel htmlFor="password">Password</InputLabel>
                     <Input
+                        id="password"
                         type={showPassword ? 'text' : 'password'}
                         endAdornment={
                             <InputAdornment position="end">
                                 <IconButton
                                     onClick={handleClickShowPassword}
                                     onMouseDown={handleMouseDownPassword}
+                                    className={styles.view}
                                 >
                                     {showPassword ? <Visibility/> : <VisibilityOff/>}
                                 </IconButton>
                             </InputAdornment>
                         }
-                        className={styles.input}
                         {...formik.getFieldProps('password')}
                     />
+                    <FormHelperText sx={{color: 'red'}}>
+                        {formik.touched.password && !!formik.errors.password && formik.errors.password}
+                    </FormHelperText>
                 </FormControl>
                 <FormControlLabel
                     label="remember me"
                     sx={{mb: '2rem'}}
                     control={
                         <Checkbox
+                            size='small'
                             sx={{'&.Mui-checked': {color: '#9991c8'}}}
                             {...formik.getFieldProps('rememberMe')}
                         />}
