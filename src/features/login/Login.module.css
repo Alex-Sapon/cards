@@ -1,13 +1,23 @@
 .button {
-    width: 266px;
+    width: 166px;
     height: 36px;
     margin-bottom: 2rem;
 }
 
-.wrapper {
-    margin-bottom: 0.5rem;
+/*.wrapper {*/
+/*    margin-bottom: 0.5rem;*/
+/*}*/
+
+.input {
+    margin-bottom: 1.5rem!important;
+    width: 100%;
 }
 
-.label {
-    margin-bottom: 5rem;
+.forgot_pass {
+    color: #2D2E46;
+    display: block;
+    justify-content: flex-end;
+    margin-left: auto;
+    margin-bottom: 3rem;
+    text-decoration: none;
 }
