@@ -58,8 +58,8 @@ export const Login = () => {
 
             if (!values.password) {
                 errors.password = 'Required';
-            } else if (values.password.length < 8) {
-                errors.password = 'Password should be more than 2 symbols';
+            } else if (values.password.length < 6) {
+                errors.password = 'Password should be more than 6 symbols';
             }
 
             return errors;
@@ -115,7 +115,7 @@ export const Login = () => {
                     </FormControl>
                     <FormControlLabel
                         label="remember me"
-                        sx={{mb: '2rem'}}
+                        sx={{mb: '1rem'}}
                         control={
                             <Checkbox
                                 size="small"
