@@ -1,6 +1,5 @@
 import {AppThunk} from '../../components/app/store';
 import {ILoginParams, ILoginResponse, loginAPI} from './login-api';
-import {AxiosError} from 'axios';
 
 const initialState: LoginDataUserType = {
     _id: '',
@@ -23,8 +22,10 @@ export type LoginStateType = typeof initialState;
 
 export const loginReducer = (state: LoginStateType = initialState, action: LoginActions): LoginStateType => {
     switch (action.type) {
-        case 'LOGIN/SET-LOGIN-USER':
-            return {...state, ...action.data, isLoggedIn: true};
+        case 'LOGIN/SET-LOGIN-DATA-USER':
+            return {...state, ...action.data};
+        case 'LOGIN/SET-IS-LOGGED-IN':
+            return {...state, isLoggedIn: action.isLoggedIn};
         case 'LOGIN/SET-ERROR-MESSAGE':
             return {...state, errorMessage: action.error};
         case 'LOGIN/SET-IS-DISABLED':
@@ -35,8 +36,13 @@ export const loginReducer = (state: LoginStateType = initialState, action: Login
 };
 
 export const setLogin = (data: ILoginResponse) => ({
-    type: 'LOGIN/SET-LOGIN-USER',
+    type: 'LOGIN/SET-LOGIN-DATA-USER',
     data,
+} as const);
+
+export const setIsLoggedIn = (isLoggedIn: boolean) => ({
+    type: 'LOGIN/SET-IS-LOGGED-IN',
+    isLoggedIn,
 } as const);
 
 export const setErrorMessage = (error: string | null) => ({
@@ -55,6 +61,7 @@ export const login = (data: ILoginParams): AppThunk => dispatch => {
     loginAPI.login(data)
         .then(res => {
             dispatch(setLogin(res.data));
+            dispatch(setIsLoggedIn(true));
         })
         .catch((e) => {
             const error = e.response ? e.response.data.error : (e.message + ', more details in the console');
@@ -67,6 +74,7 @@ export const login = (data: ILoginParams): AppThunk => dispatch => {
 
 export type LoginActions =
     | ReturnType<typeof setLogin>
+    | ReturnType<typeof setIsLoggedIn>
     | ReturnType<typeof setErrorMessage>
     | ReturnType<typeof setIsDisabled>;
 
