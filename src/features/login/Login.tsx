@@ -2,7 +2,7 @@ import Button from '../../common/button/Button';
 import {Form} from '../../common/form/Form';
 import styles from './Login.module.css';
 import {useFormik} from 'formik';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {Navigate, NavLink} from 'react-router-dom';
 import {PATH} from '../../enums/path';
 import {
@@ -18,9 +18,8 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Input from '@mui/material/Input';
 import React, {useState} from 'react';
-import {ActionsType, AppStateType} from '../../components/app/store';
+import {AppStateType, useAppDispatch} from '../../components/app/store';
 import {login} from './login-reducer';
-import {ThunkDispatch} from 'redux-thunk';
 import FormHelperText from '@mui/material/FormHelperText';
 import {ErrorAlert} from './ErrorAlert';
 
@@ -29,8 +28,6 @@ type LoginErrorType = {
     password?: string
     rememberMe?: boolean
 }
-
-export const useAppDispatch = () => useDispatch<ThunkDispatch<AppStateType, unknown, ActionsType>>();
 
 export const Login = () => {
     const dispatch = useAppDispatch();

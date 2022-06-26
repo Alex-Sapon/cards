@@ -5,7 +5,7 @@ export const instanceLogin = axios.create({
     withCredentials: true,
 });
 
-export const loginAPI = {
+export const appAPI = {
     me() {
         return instanceLogin.post<IMeResponse>(`auth/me`);
     }
@@ -23,4 +23,4 @@ export interface IMeResponse {
     verified: boolean
     rememberMe: boolean
     error?: string
-};
+}

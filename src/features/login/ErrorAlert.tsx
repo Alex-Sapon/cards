@@ -3,9 +3,8 @@ import AlertTitle from '@mui/material/AlertTitle';
 import Stack from '@mui/material/Stack';
 import React, {useEffect} from 'react';
 import {useSelector} from 'react-redux';
-import {AppStateType} from '../../components/app/store';
+import {AppStateType, useAppDispatch} from '../../components/app/store';
 import {setErrorMessage} from './login-reducer';
-import {useAppDispatch} from './Login';
 
 export const ErrorAlert = () => {
     const dispatch = useAppDispatch();

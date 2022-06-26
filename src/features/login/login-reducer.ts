@@ -35,7 +35,7 @@ export const loginReducer = (state: LoginStateType = initialState, action: Login
     }
 };
 
-export const setLogin = (data: ILoginResponse) => ({
+export const setLoginData = (data: ILoginResponse) => ({
     type: 'LOGIN/SET-LOGIN-DATA-USER',
     data,
 } as const);
@@ -60,7 +60,7 @@ export const login = (data: ILoginParams): AppThunk => dispatch => {
 
     loginAPI.login(data)
         .then(res => {
-            dispatch(setLogin(res.data));
+            dispatch(setLoginData(res.data));
             dispatch(setIsLoggedIn(true));
         })
         .catch((e) => {
@@ -73,7 +73,7 @@ export const login = (data: ILoginParams): AppThunk => dispatch => {
 };
 
 export type LoginActions =
-    | ReturnType<typeof setLogin>
+    | ReturnType<typeof setLoginData>
     | ReturnType<typeof setIsLoggedIn>
     | ReturnType<typeof setErrorMessage>
     | ReturnType<typeof setIsDisabled>;
