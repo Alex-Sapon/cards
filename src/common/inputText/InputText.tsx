@@ -15,7 +15,7 @@ type InputTextPropsType = DefaultInputPropsType & {
 
 const InputText: React.FC<InputTextPropsType> = props => {
     const {
-        type, // достаём и игнорируем чтоб нельзя было задать другой тип инпута
+        type = 'text', // достаём и игнорируем чтоб нельзя было задать другой тип инпута
         onChange, onChangeText, onKeyPress, onEnter,
         error, className, spanStyles, wrapperStyles, ...restProps
     } = props;
@@ -39,7 +39,7 @@ const InputText: React.FC<InputTextPropsType> = props => {
     return (
         <div className={inputWrapper}>
             <input
-                type='text'
+                type={type}
                 onChange={onChangeCallback}
                 onKeyPress={onKeyPressCallback}
                 className={inputClassName}
