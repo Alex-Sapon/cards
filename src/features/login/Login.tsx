@@ -15,7 +15,6 @@ import {
     InputLabel
 } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
-import TextField from '@mui/material/TextField';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Input from '@mui/material/Input';
 import React, {useState} from 'react';
@@ -23,6 +22,7 @@ import {ActionsType, AppStateType} from '../../components/app/store';
 import {login} from './login-reducer';
 import {ThunkDispatch} from 'redux-thunk';
 import FormHelperText from '@mui/material/FormHelperText';
+import {ErrorAlert} from './ErrorAlert';
 
 type LoginErrorType = {
     email?: string
@@ -36,6 +36,8 @@ export const Login = () => {
     const dispatch = useAppDispatch();
 
     const isLoggedIn = useSelector<AppStateType, boolean>(state => state.login.isLoggedIn);
+    const errorMessage = useSelector<AppStateType, string | null>(state => state.login.errorMessage);
+    const isDisabled = useSelector<AppStateType, boolean>(state => state.login.isDisabled);
 
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -79,52 +81,55 @@ export const Login = () => {
     }
 
     return (
-        <Form onSubmit={formik.handleSubmit} title={'Sign In'}>
-            <FormGroup sx={{width: '35ch'}}>
-                <FormControl variant="standard" sx={{height: '71px', mb: '0.5rem'}}>
-                    <InputLabel htmlFor="email">Email</InputLabel>
-                    <Input id="email" fullWidth {...formik.getFieldProps('email')}/>
-                    <FormHelperText sx={{color: 'red'}}>
-                        {formik.touched.email && !!formik.errors.email && formik.errors.email}
-                    </FormHelperText>
-                </FormControl>
-                <FormControl variant="standard" sx={{height: '71px'}}>
-                    <InputLabel htmlFor="password">Password</InputLabel>
-                    <Input
-                        id="password"
-                        type={showPassword ? 'text' : 'password'}
-                        endAdornment={
-                            <InputAdornment position="end">
-                                <IconButton
-                                    onClick={handleClickShowPassword}
-                                    onMouseDown={handleMouseDownPassword}
-                                    className={styles.view}
-                                >
-                                    {showPassword ? <Visibility/> : <VisibilityOff/>}
-                                </IconButton>
-                            </InputAdornment>
-                        }
-                        {...formik.getFieldProps('password')}
+        <>
+            <Form onSubmit={formik.handleSubmit} title="Sign In">
+                <FormGroup sx={{width: '35ch'}}>
+                    <FormControl variant="standard" sx={{height: '71px', mb: '0.5rem'}}>
+                        <InputLabel htmlFor="email">Email</InputLabel>
+                        <Input id="email" fullWidth {...formik.getFieldProps('email')}/>
+                        <FormHelperText sx={{color: 'red'}}>
+                            {formik.touched.email && !!formik.errors.email && formik.errors.email}
+                        </FormHelperText>
+                    </FormControl>
+                    <FormControl variant="standard" sx={{height: '71px'}}>
+                        <InputLabel htmlFor="password">Password</InputLabel>
+                        <Input
+                            id="password"
+                            type={showPassword ? 'text' : 'password'}
+                            endAdornment={
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        onClick={handleClickShowPassword}
+                                        onMouseDown={handleMouseDownPassword}
+                                        className={styles.view}
+                                    >
+                                        {showPassword ? <Visibility/> : <VisibilityOff/>}
+                                    </IconButton>
+                                </InputAdornment>
+                            }
+                            {...formik.getFieldProps('password')}
+                        />
+                        <FormHelperText sx={{color: 'red'}}>
+                            {formik.touched.password && !!formik.errors.password && formik.errors.password}
+                        </FormHelperText>
+                    </FormControl>
+                    <FormControlLabel
+                        label="remember me"
+                        sx={{mb: '2rem'}}
+                        control={
+                            <Checkbox
+                                size="small"
+                                sx={{'&.Mui-checked': {color: '#9991c8'}}}
+                                {...formik.getFieldProps('rememberMe')}
+                            />}
                     />
-                    <FormHelperText sx={{color: 'red'}}>
-                        {formik.touched.password && !!formik.errors.password && formik.errors.password}
-                    </FormHelperText>
-                </FormControl>
-                <FormControlLabel
-                    label="remember me"
-                    sx={{mb: '2rem'}}
-                    control={
-                        <Checkbox
-                            size='small'
-                            sx={{'&.Mui-checked': {color: '#9991c8'}}}
-                            {...formik.getFieldProps('rememberMe')}
-                        />}
-                />
-            </FormGroup>
-            <NavLink className={styles.forgot_pass} to={PATH.RECOVERY_PASS}>Forgot Password</NavLink>
-            <Button type="submit" className={styles.button}>login</Button>
-            <div className={styles.text}>Don't have an account?</div>
-            <NavLink className={styles.link} to={PATH.REGISTRATION}>Sign Up</NavLink>
-        </Form>
+                </FormGroup>
+                <NavLink className={styles.forgot_pass} to={PATH.RECOVERY_PASS}>Forgot Password</NavLink>
+                <Button type="submit" className={styles.button} disabled={isDisabled}>login</Button>
+                <div className={styles.text}>Don't have an account?</div>
+                <NavLink className={styles.link} to={PATH.REGISTRATION}>Sign Up</NavLink>
+            </Form>
+            {errorMessage && <ErrorAlert/>}
+        </>
     )
 };
