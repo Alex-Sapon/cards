@@ -3,6 +3,8 @@ import {Form} from '../../common/form/Form';
 import InputText from '../../common/inputText/InputText';
 import styles from './Registration.module.css';
 
+
+//init commit
 export const Registration = () => {
     return (
         <Form onSubmit={() => {}} title={'Sign Un'}>
