@@ -1,5 +1,5 @@
-import { AxiosError } from "axios";
-import { AppThunk } from "../../components/app/store";
+import {AxiosError} from 'axios';
+import {AppThunk} from '../../components/app/store';
 import {forgotAPI, IForgotData} from './recoveryPass-api';
 import {setErrorMessage} from '../login/login-reducer';
 
@@ -9,7 +9,7 @@ const initialState: RecPassStateType = {
 }
 
 export const recoveryPassReducer = (state: RecPassStateType = initialState, action: RecPassActions): RecPassStateType => {
-    switch(action.type) {
+    switch (action.type) {
         case 'RECOVERY-PASS/SET-IS-SEND-EMAIL':
             return {...state, isSendEmail: action.isSend};
         case 'RECOVERY-PASS/SET-IS-DISABLED':
@@ -44,9 +44,11 @@ export const forgotPass = (email: string): AppThunk => dispatch => {
 
     forgotAPI.forgot(data)
         .then(() => {
+            debugger
             dispatch(setIsSendEmail(true));
         })
         .catch((e: AxiosError) => {
+            debugger
             dispatch(setErrorMessage(e.message));
         })
         .finally(() => {
