@@ -58,8 +58,7 @@ export const Profile = () => {
 						/>
 						<Button onClick={logoutHandler}>Log out</Button>
 					</div>
-					<div className={styles.name}>
-						{isEditMode
+					<div className={styles.name}>{isEditMode
 							?
 							<TextField
 								onChange={changeTitle}
@@ -71,7 +70,7 @@ export const Profile = () => {
 							: <span onDoubleClick={activateEditMode}>{name}</span>}
 					</div>
 					<div>
-						<div className={styles.profileTitle}>Имя: {email}</div>
+						<div className={styles.profileTitle}>Email: {email}</div>
 						<div className={styles.profileTitle}>Количество создоваемых колод: {publicCardPacksCount}</div>
 
 					</div>

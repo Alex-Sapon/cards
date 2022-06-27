@@ -40,7 +40,7 @@ export const profileReducer = (state: ProfileStateType = initialState, action: A
     }
 }
 
-export const setLogOut = (value: boolean) => ({type: 'profile/SET-LOG-OUT', value} as const)
+/*export const setLogOut = (value: boolean) => ({type: 'profile/SET-LOG-OUT', value} as const)*/
 export const setUpdateProfile = (name: string) => ({type: 'profile/SET-UPDATE-PROFILE', name} as const)
 export const setProfileStatusAC = (status: RequestStatusType) => ({type: 'profile/SET-STATUS', status} as const)
 export const setProfileErrorAC = (error: string | null) => ({type: 'profile/SET-ERROR', error} as const)
