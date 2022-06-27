@@ -1,9 +1,31 @@
 .button {
-    width: 266px;
+    padding: 0 25px;
     height: 36px;
-    margin-bottom: 2rem
+    margin-bottom: 9rem;
 }
 
 .wrapper {
     margin-bottom: 3rem;
+}
+
+.title {
+    margin-bottom: 4rem;
+    width: 300px;
+}
+
+.title,
+.subtitle {
+    color: rgba(45, 46, 70, 0.5);
+}
+
+.subtitle {
+    margin-bottom: 1rem;
+}
+
+.link {
+    color: #21268F;
+    font-size: var(--fs-md);
+    font-weight: var(--fw-normal);
+    text-align: center;
+    text-decoration: none;
 }
