@@ -1,4 +1,4 @@
-import React, {ChangeEvent, DetailedHTMLProps, InputHTMLAttributes, KeyboardEvent} from 'react';
+import React, {ChangeEvent, DetailedHTMLProps, InputHTMLAttributes, KeyboardEvent, useState} from 'react';
 import styles from './InputText.module.css';
 
 type DefaultInputPropsType = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
@@ -15,21 +15,23 @@ type InputTextPropsType = DefaultInputPropsType & {
 
 const InputText: React.FC<InputTextPropsType> = props => {
     const {
-        type = 'text', // достаём и игнорируем чтоб нельзя было задать другой тип инпута
+        type, // достаём и игнорируем чтоб нельзя было задать другой тип инпута
         onChange, onChangeText, onKeyPress, onEnter,
         error, className, spanStyles, wrapperStyles, ...restProps
     } = props;
 
-    const onChangeCallback = (e: ChangeEvent<HTMLInputElement>) => {
-        onChange && onChange(e);
+    const [value, setValue] = useState<string>('')
 
-        onChangeText && onChangeText(e.currentTarget.value);
+    const onChangeCallback = (e: ChangeEvent<HTMLInputElement>) => {
+        setValue(e.currentTarget.value)
     };
 
     const onKeyPressCallback = (e: KeyboardEvent<HTMLInputElement>) => {
         onKeyPress && onKeyPress(e);
-
         onEnter && e.key === 'Enter' && onEnter();
+        if (onChangeText){
+            onChangeText(value)
+        }
     }
 
     const inputWrapper = `${styles.wrapper} ${wrapperStyles ? wrapperStyles : ''}`;
@@ -39,6 +41,7 @@ const InputText: React.FC<InputTextPropsType> = props => {
     return (
         <div className={inputWrapper}>
             <input
+                value={value}
                 type={type}
                 onChange={onChangeCallback}
                 onKeyPress={onKeyPressCallback}

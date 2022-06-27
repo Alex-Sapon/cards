@@ -22,7 +22,7 @@ const userRegisterAC = (email: string, password: string) => ({type: 'REGISTER/US
 export const userRegisterTC = (email: string, password: string): AppThunk => (dispatch) => {
     registerAPI.register(email, password)
         .then((res) => {
-
+            dispatch(userRegisterAC(email, password))
         })
 }
 

@@ -2,6 +2,8 @@ import Button from '../../common/button/Button';
 import {Form} from '../../common/form/Form';
 import InputText from '../../common/inputText/InputText';
 import styles from './Register.module.css';
+import {useAppDispatch, useAppSelector} from '../../components/app/hooks';
+import {userRegisterTC} from './registerReducer';
 
 import * as React from 'react';
 import Box from '@mui/material/Box';
@@ -52,41 +54,45 @@ export const Register = () => {
         event.preventDefault();
     };
 
+
     return (
-        <>
+
         <Form onSubmit={() => {}} title={'Sign In'}>
+                <div>
+                    <FormControl sx={{ m: 1, width: '30ch' }} variant="standard">
+                        <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
+                        <Input
+                            id="standard-adornment-password"
+                            type={values.showPassword ? 'text' : 'password'}
+                            value={values.password}
+                            onChange={handleChange('password')}
+                            endAdornment={
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        aria-label="toggle password visibility"
+                                        onClick={handleClickShowPassword}
+                                        onMouseDown={handleMouseDownPassword}
+                                    >
+                                        {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                                    </IconButton>
+                                </InputAdornment>
+                            }
+                        />
+                    </FormControl>
+                </div>
             <InputText error={''} wrapperStyles={styles.wrapper} placeholder='Email'/>
-            <InputText error={''} wrapperStyles={styles.wrapper} placeholder='Password' type='password'/>
-            <InputText error={''} wrapperStyles={styles.wrapper} placeholder='Confirm password' type='password'/>
+            {/*<InputText error={''} wrapperStyles={styles.wrapper} placeholder='Password' type='password'/>
+            <InputText error={''} wrapperStyles={styles.wrapper} placeholder='Confirm password' type='password'/>*/}
             <div className={styles.button_group}>
                 <Button>Register</Button>
             </div>
+
         </Form>
 
-            <div>
-                    <OutlinedInput
-                        type={values.showPassword ? 'text' : 'password'}
-                        value={values.password}
-                        onChange={handleChange('password')}
-                        endAdornment={
-                            <InputAdornment position="end">
-                                <IconButton
-                                    aria-label="toggle password visibility"
-                                    onClick={handleClickShowPassword}
-                                    onMouseDown={handleMouseDownPassword}
-                                    edge="end"
-                                >
-                                    {values.showPassword ? <VisibilityOff /> : <Visibility />}
-                                </IconButton>
-                            </InputAdornment>
-                        }
-                        label="Password"
-                    />
-            </div>
 
-        </>
     )
 };
+
 
 
 
