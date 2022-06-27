@@ -10,6 +10,7 @@ import {FormControl, FormGroup, InputLabel} from '@mui/material';
 import Input from '@mui/material/Input';
 import FormHelperText from '@mui/material/FormHelperText';
 import {ErrorAlert} from '../login/ErrorAlert';
+import {forgotPass} from './recoveryPassReducer';
 
 type RecoveryPasswordErrorType = {
     email?: string
@@ -18,9 +19,9 @@ type RecoveryPasswordErrorType = {
 export const RecoveryPass = () => {
     const dispatch = useAppDispatch();
 
-    // const isSendEmail = useSelector<AppStateType, boolean>(state => state.recoveryPass.isSendEmail);
-    // const errorMessage = useSelector<AppStateType, string | null>(state => state.app.errorMessage);
-    // const isDisabled = useSelector<AppStateType, boolean>(state => state.recoveryPass.isDisabled);
+    const isSendEmail = useSelector<AppStateType, boolean>(state => state.recoveryPass.isSendEmail);
+    const errorMessage = useSelector<AppStateType, string | null>(state => state.login.errorMessage);
+    const isDisabled = useSelector<AppStateType, boolean>(state => state.recoveryPass.isDisabled);
 
     const navigate = useNavigate();
 
@@ -41,15 +42,11 @@ export const RecoveryPass = () => {
         },
         onSubmit: values => {
             if (values.email) {
-                // dispatch(forgotPass(values.email));
+                dispatch(forgotPass(values.email));
                 formik.resetForm();
             }
         }
     });
-
-    // if (isRegisterIn) {
-    //     return <Navigate to={PATH.LOGIN}/>
-    // }
 
     return (
         <>

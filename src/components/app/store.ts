@@ -4,7 +4,7 @@ import thunk, {ThunkAction, ThunkDispatch} from 'redux-thunk';
 import {LoginActions, loginReducer} from '../../features/login/login-reducer';
 import {setPassReducer} from '../../features/setPass/setPassReducer';
 import {registrationReducer} from '../../features/registration/registrationReducer';
-import {recoveryPassReducer} from '../../features/recoveryPass/recoveryPassReducer';
+import {recoveryPassReducer, RecPassActions} from '../../features/recoveryPass/recoveryPassReducer';
 import {AppActionsType, appReducer} from './app-reducer';
 import {useDispatch} from 'react-redux';
 
@@ -23,7 +23,7 @@ export type AppStateType = ReturnType<typeof rootReducer>;
 
 export const useAppDispatch = () => useDispatch<ThunkDispatch<AppStateType, unknown, ActionsType>>();
 
-export type ActionsType = LoginActions | AppActionsType | ProfileActions;
+export type ActionsType = LoginActions | AppActionsType | ProfileActions | RecPassActions;
 
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppStateType, unknown, ActionsType>;
 
