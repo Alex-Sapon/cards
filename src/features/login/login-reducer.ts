@@ -63,7 +63,7 @@ export const login = (data: ILoginParams): AppThunk => dispatch => {
             dispatch(setLoginData(res.data));
             dispatch(setIsLoggedIn(true));
         })
-        .catch((e) => {
+        .catch((e: any) => {
             const error = e.response ? e.response.data.error : (e.message + ', more details in the console');
             dispatch(setErrorMessage(error));
         })
