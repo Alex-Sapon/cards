@@ -25,3 +25,11 @@ form div:nth-child(3) {
 .button_group button:not(:last-child) {
     margin-right: 2rem;
 }
+.login {
+    margin-top: 20px;
+    text-decoration: none;
+}
+
+.login:hover {
+    text-decoration: underline;
+}

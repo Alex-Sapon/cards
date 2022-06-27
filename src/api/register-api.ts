@@ -8,15 +8,12 @@ const instance = axios.create({
 
 export const registerAPI = {
     register(email: string, password: string) {
-        return instance.post<any, AxiosResponse<ResponseType<{data: RegisteredUserType}>>, {email: string, password: string}>('auth/register', {email, password} )
+        return instance.post<any, AxiosResponse<ResponseType>, {email: string, password: string}>('auth/register', {email, password} )
     },
 }
 
 //types
-type ResponseType<D> = {
-    data: D
-}
-type RegisteredUserType = {
+type ResponseType = {
     addedUser: {
         _id: string,
         email: string,
@@ -30,6 +27,9 @@ type RegisteredUserType = {
         __v: number
     },
     error?: string
+}
+type RegisteredUserType = {
+
 }
 /*{
     "error": "email already exists /ᐠ｡ꞈ｡ᐟ\\",

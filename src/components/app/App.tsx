@@ -11,12 +11,14 @@ import {Test} from '../../common/test/Test';
 import {Error404} from '../error404/Error404';
 
 import {PATH} from '../../enums/path';
+import {ErrorSnackbar} from '../ErrorSnackbar/ErrorSnackbar';
 
 export const App = () => {
     return (
         <div>
             <Navbar/>
             <div className={styles.app_container}>
+                <ErrorSnackbar/>
                 <Routes>
                     <Route path={PATH.HOME} element={<Navigate to={PATH.TEST}/>}/>
                     <Route path={PATH.LOGIN} element={<Login/>}/>

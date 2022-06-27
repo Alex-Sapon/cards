@@ -54,3 +54,4 @@ const InputText: React.FC<InputTextPropsType> = props => {
 };
 
 export default InputText;
+

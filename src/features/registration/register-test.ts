@@ -1,12 +1,10 @@
 import {RegisterStateType} from './registerReducer';
 
-let startState: RegisterStateType;
+let startState: {};
 
 
 beforeEach( () => {
     startState = {
-        email: 'blabla@gmail.com',
-        password: '123456789'
     }
 } )
 

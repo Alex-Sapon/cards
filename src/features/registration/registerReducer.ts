@@ -1,35 +1,48 @@
 import {AppThunk} from '../../components/app/store';
 import {registerAPI} from '../../api/register-api';
+import {AxiosError} from 'axios';
 
 const initialState: RegisterStateType = {
-    email: '',
-    password: '',
+    isRegistered: false,
+    message: null
 }
 
 export const registerReducer = (state: RegisterStateType = initialState, action: RegisterActionsType): RegisterStateType => {
     switch(action.type) {
-        case 'REGISTER/USER-REGISTER':
-            return {...state, email: action.email, password: action.password}
+        case 'REGISTER/USER-SET-REGISTERED':
+            return {...state, isRegistered: action.isRegistered}
+        case 'REGISTER/SET-MESSAGE':
+            return {...state, message: action.message}
         default:
             return state;
     }
 }
 
 //actions
-const userRegisterAC = (email: string, password: string) => ({type: 'REGISTER/USER-REGISTER', email, password} as const)
-
+const userSetRegisterAC = (isRegistered: boolean) => ({type: 'REGISTER/USER-SET-REGISTERED', isRegistered} as const)
+export const setRegisterMessageAC = (message: string | null) => ({type: 'REGISTER/SET-MESSAGE', message} as const)
 //thunks
 export const userRegisterTC = (email: string, password: string): AppThunk => (dispatch) => {
     registerAPI.register(email, password)
         .then((res) => {
-            dispatch(userRegisterAC(email, password))
+            debugger
+            if (res.data.addedUser) {
+                dispatch(userSetRegisterAC(true))
+                dispatch(setRegisterMessageAC('You have successfully registered'))
+            }
         })
+        .catch((error) => {
+            debugger
+            dispatch(setRegisterMessageAC(error.response.data.error))
+        })
+
 }
 
 //types
 export type RegisterStateType = {
-    email: string,
-    password: string
+    isRegistered: boolean
+    message: string | null
 }
-type RegisterActionsType =
-    | ReturnType<typeof userRegisterAC>
+export type RegisterActionsType =
+    | ReturnType<typeof userSetRegisterAC>
+    | ReturnType<typeof setRegisterMessageAC>
