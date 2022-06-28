@@ -12,9 +12,10 @@ import FormHelperText from '@mui/material/FormHelperText';
 import {ErrorAlert} from '../login/ErrorAlert';
 import {forgotPass} from './recoveryPassReducer';
 import {setErrorMessage} from './recoveryPassReducer';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {SendEmail} from './sendEmail/SendEmail';
 import {LoadingStatus} from '../setPass/set-pass-reducer';
+import {initializeApp} from '../../components/app/app-reducer';
 
 type RecoveryPasswordErrorType = {
     email?: string

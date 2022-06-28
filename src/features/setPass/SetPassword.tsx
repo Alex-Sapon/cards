@@ -10,11 +10,12 @@ import FormHelperText from '@mui/material/FormHelperText';
 import {ErrorAlert} from '../login/ErrorAlert';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { Navigate, useParams } from 'react-router';
 import LoadingButton from '@mui/lab/LoadingButton/LoadingButton';
 import {LoadingStatus, setErrorMessage, updateNewPassword} from './set-pass-reducer';
 import styles from './SetPassword.module.css';
+import {initializeApp} from '../../components/app/app-reducer';
 
 type SetPasswordErrorType = {
     password?: string
@@ -59,6 +60,10 @@ export const SetPassword = () => {
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => event.preventDefault();
 
     const handleClickShowPassword = () => setShowPassword(!showPassword);
+
+    useEffect(() => {
+        dispatch(initializeApp());
+    }, []);
 
     if (isUpdatePassword) {
         return <Navigate to={PATH.LOGIN} />
