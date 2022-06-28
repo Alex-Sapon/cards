@@ -1,5 +1,5 @@
 import styles from './App.module.css';
-import {Navigate, Route, Routes} from 'react-router-dom';
+import {Routes, Route, Navigate} from 'react-router-dom';
 import {Navbar} from '../navbar/Navbar';
 import {Login} from '../../features/login/Login';
 import {Registration} from '../../features/registration/Registration';
@@ -12,10 +12,29 @@ import {PATH} from '../../enums/path';
 import {ErrorSnackbar} from '../ErrorSnackbar/ErrorSnackbar';
 import {useAppSelector} from './hooks';
 import LinearProgress from '@mui/material/LinearProgress/LinearProgress';
+import {useEffect} from 'react';
+import {initializeApp} from './app-reducer';
+import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export const App = () => {
     const status = useAppSelector(state => state.register.status);
-    console.log(status);
+    const dispatch = useAppDispatch();
+
+    const isInitialized = useAppSelector(state => state.app.isInitialized);
+
+    useEffect(() => {
+        dispatch(initializeApp());
+    }, [dispatch]);
+
+    if (!isInitialized) {
+        return (
+            <Box sx={{display: 'flex', justifyContent: 'center', marginTop: '30%'}}>
+                <CircularProgress/>
+            </Box>
+        )
+    }
+
     return (
         <div>
             <Navbar/>
