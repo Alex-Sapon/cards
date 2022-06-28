@@ -1,14 +1,14 @@
-import { CSSProperties, ReactNode } from 'react';
+import {ReactNode} from 'react';
 import styles from './Form.module.css';
 
-type FromType = {
+type FormType = {
     title?: string
     children: ReactNode
     onSubmit: () => void
-    formWrapper?: CSSProperties
+    formWrapper?: string
 }
 
-export const Form = (props: FromType) => {
+export const Form = (props: FormType) => {
     const {title, children, onSubmit, formWrapper} = props;
 
     return (
