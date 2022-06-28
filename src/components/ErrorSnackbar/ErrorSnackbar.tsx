@@ -2,7 +2,7 @@ import React from 'react';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, {AlertProps} from '@mui/material/Alert';
 import {useAppDispatch, useAppSelector } from '../app/hooks';
-import { setRegisterMessageAC} from '../../features/registration/registerReducer';
+import {setAppErrorAC, setRegisterMessageAC} from '../../features/registration/registerReducer';
 
 
 
@@ -11,9 +11,10 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-export function ErrorSnackbar() {
+export const ErrorSnackbar = () => {
 
-    const error = useAppSelector(state => state.register.message)
+    const error = useAppSelector(state => state.register.error)
+    const message = useAppSelector(state => state.register.message)
     const dispatch = useAppDispatch()
 
     const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
@@ -21,13 +22,14 @@ export function ErrorSnackbar() {
             return;
         }
         dispatch(setRegisterMessageAC(null))
+        dispatch(setAppErrorAC(null))
     };
 
     return (
-        <Snackbar open={error !== null} autoHideDuration={6000} onClose={handleClose}>
-            <Alert onClose={handleClose} severity="success" sx={{width: '100%'}}>
-                {error}
+        <Snackbar open={error !== null || message !== null} autoHideDuration={6000} onClose={handleClose}>
+            <Alert onClose={handleClose} severity={message ? 'success': 'error'} sx={{width: '100%'}}>
+                {error || message}
             </Alert>
         </Snackbar>
     );
-}
+};

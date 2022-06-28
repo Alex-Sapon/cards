@@ -13,7 +13,7 @@ export const registerAPI = {
 }
 
 //types
-type ResponseType = {
+type ResponseType= {
     addedUser: {
         _id: string,
         email: string,
@@ -26,14 +26,6 @@ type ResponseType = {
         updated: string,
         __v: number
     },
-    error?: string
+    error?: string,
 }
-type RegisteredUserType = {
-
-}
-/*{
-    "error": "email already exists /ᐠ｡ꞈ｡ᐟ\\",
-    "email": "nya-admin@nya.nya",
-    "in": "createUser"
-}*/
 

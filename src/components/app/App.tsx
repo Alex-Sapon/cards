@@ -12,11 +12,15 @@ import {Error404} from '../error404/Error404';
 
 import {PATH} from '../../enums/path';
 import {ErrorSnackbar} from '../ErrorSnackbar/ErrorSnackbar';
+import {useAppSelector} from './hooks';
+import LinearProgress from '@mui/material/LinearProgress/LinearProgress';
 
 export const App = () => {
+    const status = useAppSelector(state => state.register.status)
     return (
         <div>
             <Navbar/>
+            {status === 'loading' && <LinearProgress color="secondary"/>}
             <div className={styles.app_container}>
                 <ErrorSnackbar/>
                 <Routes>

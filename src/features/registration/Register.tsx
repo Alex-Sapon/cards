@@ -13,13 +13,14 @@ import {useFormik} from 'formik';
 import {FormGroup, FormLabel} from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import {PATH} from '../../enums/path';
-import {useAppDispatch} from '../../components/app/hooks';
+import {useAppDispatch, useAppSelector} from '../../components/app/hooks';
 import {userRegisterTC} from './registerReducer';
 
 
 export const Register = () => {
 
     const dispatch = useAppDispatch()
+    const status = useAppSelector(state => state.register.status)
 
     const formik = useFormik({
         initialValues: {
@@ -117,10 +118,11 @@ export const Register = () => {
                         <div style={{color: 'red'}}>{formik.errors.confirmPassword}</div> : null}
                 </FormControl>
                 <div className={styles.button_group}>
-                    <Button type={'submit'}>Register</Button>
+                    <Button type={'submit'} disabled={status === 'loading'}>Register</Button>
                 </div>
             </FormGroup>
-            <NavLink className={styles.login} to={PATH.LOGIN}>Are you already registered?</NavLink>
+
+            <NavLink style={{pointerEvents: status === 'loading' ? 'none': undefined}} className={styles.login} to={PATH.LOGIN} >Are you already registered?</NavLink>
         </Form>
 
         </>
