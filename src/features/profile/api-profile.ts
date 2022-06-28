@@ -7,23 +7,23 @@ const instanceProfile = axios.create({
 
 
 export const profileAPI = {
-    createProfile(name: string) {
-        return instanceProfile.put<IUpdateUserProfile>('auth/me', {name});
+    updateUserProfile(name:string) {
+        return instanceProfile.put<IProfileResponse>('auth/me', {name});
     },
 }
 
 export const authProfileAPI = {
     logout() {
-        return instanceProfile.delete<IlogOut>('auth/me');
+        return instanceProfile.delete<IlogOutResponse>('auth/me');
     }
 }
 
-interface IlogOut {
+interface IlogOutResponse {
     info: string
     error: string
 }
 
-interface IUpdateUserProfile {
+export interface IProfileResponse {
     updatedUser: {
         _id: string;
         email: string;
