@@ -50,7 +50,10 @@ export const userRegisterTC = (email: string, password: string): AppThunk => (di
                 }
             }
             dispatch(setAppStatusAC('failed'));
-        });
+        })
+       /* .finally(() => {
+            dispatch(setAppStatusAC('idle'))
+        })*/
 
 };
 

@@ -49,6 +49,7 @@ export const Registration = () => {
         },
         onSubmit: values => {
             dispatch(userRegisterTC(values.email, values.password));
+            formik.resetForm()
         },
     });
 

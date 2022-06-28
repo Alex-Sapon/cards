@@ -15,6 +15,7 @@ import LinearProgress from '@mui/material/LinearProgress/LinearProgress';
 
 export const App = () => {
     const status = useAppSelector(state => state.register.status);
+    console.log(status);
     return (
         <div>
             <Navbar/>
