@@ -1,4 +1,4 @@
-import {RegisterStateType} from './registerReducer';
+import {RegisterStateType} from './registrationReducer';
 
 let startState: {};
 

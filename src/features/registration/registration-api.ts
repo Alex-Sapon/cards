@@ -6,7 +6,7 @@ const instance = axios.create({
     withCredentials: true,
 });
 
-export const registerAPI = {
+export const registrationApi = {
     register(email: string, password: string) {
         return instance.post<any, AxiosResponse<ResponseType>, {email: string, password: string}>('auth/register', {email, password} )
     },
