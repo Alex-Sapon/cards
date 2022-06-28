@@ -1,5 +1,6 @@
 import {authProfileAPI, profileAPI} from "./api-profile";
 import {AppThunk} from "../../components/app/store";
+import {setIsLoggedIn} from '../login/login-reducer';
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
@@ -25,10 +26,8 @@ export type ProfileStateType = {
     error: string | null
 }
 
-export const profileReducer = (state: ProfileStateType = initialState, action: ActionsType): ProfileStateType => {
+export const profileReducer = (state: ProfileStateType = initialState, action: ProfileActions): ProfileStateType => {
     switch (action.type) {
-        case 'profile/SET-LOG-OUT':
-            return {...state, IsLogOut: action.value}
         case 'profile/SET-UPDATE-PROFILE':
             return {...state, name: action.name}
         case 'profile/SET-STATUS':
@@ -49,7 +48,7 @@ export const logoutTC = (): AppThunk => dispatch => {
     dispatch(setProfileStatusAC('loading'))
     authProfileAPI.logout()
         .then(res => {
-            dispatch(setLogOut(false))
+            dispatch(setIsLoggedIn(false))
         })
         .catch((error) => {
             dispatch(setProfileErrorAC(error.message ? error.message : 'Some error occurred'))
@@ -73,12 +72,11 @@ export const updateProfileTC = (name: string): AppThunk => dispatch => {
         })
 }
 
-export type SetLogOutActionType = ReturnType<typeof setLogOut>
 export type SetUpdateProfileActionType = ReturnType<typeof setUpdateProfile>
 export type SetProfileStatusActionType = ReturnType<typeof setProfileStatusAC>
 export type SetProfileErrorActionType = ReturnType<typeof setProfileErrorAC>
 
-export type ActionsType = SetLogOutActionType
+export type ProfileActions =
     | SetUpdateProfileActionType
     | SetProfileStatusActionType
     | SetProfileErrorActionType

@@ -19,7 +19,7 @@ export const authProfileAPI = {
 }
 
 interface IlogOut {
-    info: number
+    info: string
     error: string
 }
 

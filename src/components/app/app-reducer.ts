@@ -1,6 +1,6 @@
 import {AppThunk} from './store';
 import {appAPI} from './app-api';
-import {setErrorMessage, setIsLoggedIn} from '../../features/login/login-reducer';
+import {setErrorMessage, setIsLoggedIn, setLoginData} from '../../features/login/login-reducer';
 
 const initialState: AppStateType = {
     isInitialized: false,
@@ -22,7 +22,8 @@ const setInitializeApp = (isInitialized: boolean) => ({
 
 export const initializeApp = (): AppThunk => dispatch => {
     appAPI.me()
-        .then(() => {
+        .then(res => {
+            dispatch(setLoginData(res.data));
             dispatch(setIsLoggedIn(true));
         })
         .catch((e) => {

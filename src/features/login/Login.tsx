@@ -19,9 +19,11 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Input from '@mui/material/Input';
 import React, {useState} from 'react';
 import {AppStateType, useAppDispatch} from '../../components/app/store';
-import {login} from './login-reducer';
+import {login, setErrorMessage} from './login-reducer';
 import FormHelperText from '@mui/material/FormHelperText';
 import {ErrorAlert} from './ErrorAlert';
+import LoadingButton from '@mui/lab/LoadingButton/LoadingButton';
+import {LoadingStatus} from '../setPass/set-pass-reducer';
 
 type LoginErrorType = {
     email?: string
@@ -34,9 +36,15 @@ export const Login = () => {
 
     const isLoggedIn = useSelector<AppStateType, boolean>(state => state.login.isLoggedIn);
     const errorMessage = useSelector<AppStateType, string | null>(state => state.login.errorMessage);
-    const isDisabled = useSelector<AppStateType, boolean>(state => state.login.isDisabled);
+    const status = useSelector<AppStateType, LoadingStatus>(state => state.login.status);
 
     const [showPassword, setShowPassword] = useState<boolean>(false);
+
+    const handleClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+        if (status === 'loading') {
+            e.preventDefault();
+        }
+    };
 
     const formik = useFormik({
         initialValues: {
@@ -55,8 +63,8 @@ export const Login = () => {
 
             if (!values.password) {
                 errors.password = 'Required';
-            } else if (values.password.length < 6) {
-                errors.password = 'Password should be more than 6 symbols';
+            } else if (values.password.length <= 8) {
+                errors.password = 'Password should be more than 8 symbols';
             }
 
             return errors;
@@ -83,7 +91,12 @@ export const Login = () => {
                 <FormGroup sx={{width: '35ch'}}>
                     <FormControl variant="standard" sx={{height: '71px', mb: '0.5rem'}}>
                         <InputLabel htmlFor="email">Email</InputLabel>
-                        <Input id="email" fullWidth {...formik.getFieldProps('email')}/>
+                        <Input
+                            id="email"
+                            fullWidth
+                            disabled={status === 'loading'}
+                            {...formik.getFieldProps('email')}
+                        />
                         <FormHelperText sx={{color: 'red'}}>
                             {formik.touched.email && !!formik.errors.email && formik.errors.email}
                         </FormHelperText>
@@ -93,15 +106,18 @@ export const Login = () => {
                         <Input
                             id="password"
                             type={showPassword ? 'text' : 'password'}
+                            disabled={status === 'loading'}
                             endAdornment={
                                 <InputAdornment position="end">
-                                    <IconButton
-                                        onClick={handleClickShowPassword}
-                                        onMouseDown={handleMouseDownPassword}
-                                        className={styles.view}
-                                    >
-                                        {showPassword ? <Visibility/> : <VisibilityOff/>}
-                                    </IconButton>
+                                    {status === 'loading'
+                                        ? <LoadingButton loading variant="text" sx={{minWidth: '24px'}}></LoadingButton>
+                                        : <IconButton
+                                            onClick={handleClickShowPassword}
+                                            onMouseDown={handleMouseDownPassword}
+                                            className={styles.view}
+                                        >
+                                            {showPassword ? <Visibility/> : <VisibilityOff/>}
+                                        </IconButton>}
                                 </InputAdornment>
                             }
                             {...formik.getFieldProps('password')}
@@ -116,17 +132,19 @@ export const Login = () => {
                         control={
                             <Checkbox
                                 size="small"
+                                disabled={status === 'loading'}
                                 sx={{'&.Mui-checked': {color: '#9991c8'}}}
                                 {...formik.getFieldProps('rememberMe')}
                             />}
                     />
                 </FormGroup>
-                <NavLink className={styles.forgot_pass} to={PATH.RECOVERY_PASS}>Forgot Password</NavLink>
-                <Button type="submit" className={styles.button} disabled={isDisabled}>login</Button>
+                <NavLink className={styles.forgot_pass} to={PATH.RECOVERY_PASS} onClick={handleClick}>Forgot
+                    Password</NavLink>
+                <Button type="submit" className={styles.button} disabled={status === 'loading'}>Login</Button>
                 <div className={styles.text}>Don't have an account?</div>
-                <NavLink className={styles.link} to={PATH.REGISTRATION}>Sign Up</NavLink>
+                <NavLink className={styles.link} to={PATH.REGISTRATION} onClick={handleClick}>Sign Up</NavLink>
             </Form>
-            {errorMessage && <ErrorAlert/>}
+            {errorMessage && <ErrorAlert error={errorMessage} closeErrorAlert={() => setErrorMessage(null)}/>}
         </>
     )
 };

@@ -9,10 +9,10 @@ import LinearProgress from "@mui/material/LinearProgress";
 import Button from "../../common/button/Button";
 import userPhoto from "../../assets/images/avatar.jpg"
 import {AppStateType} from "../../components/app/store";
-import {ActionsType, logoutTC, ProfileStateType, updateProfileTC} from "./profileReducer";
+import {logoutTC, ProfileActions, ProfileStateType, updateProfileTC} from './profileReducer';
 import {useStyles} from "./styles";
 
-export const useAppDispatch = () => useDispatch<ThunkDispatch<AppStateType, unknown, ActionsType>>();
+export const useAppDispatch = () => useDispatch<ThunkDispatch<AppStateType, unknown, ProfileActions>>();
 
 export const Profile = () => {
 	const styles = useStyles()
@@ -37,7 +37,7 @@ export const Profile = () => {
 	}
 
 	const updateName = () => {
-		dispatch(updateProfileTC(name))
+		dispatch(updateProfileTC(title))
 		setEditMode(false)
 	}
 

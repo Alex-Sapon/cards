@@ -1,31 +1,33 @@
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Stack from '@mui/material/Stack';
-import React, {useEffect} from 'react';
-import {useSelector} from 'react-redux';
-import {AppStateType, useAppDispatch} from '../../components/app/store';
-import {setErrorMessage} from './login-reducer';
+import {CSSProperties, useEffect} from 'react';
+import {ActionsType, useAppDispatch} from '../../components/app/store';
 
-export const ErrorAlert = () => {
+type ErrorAlertType = {
+    error: string | null
+    closeErrorAlert: () => ActionsType
+    alertWrapper?: CSSProperties
+}
+
+export const ErrorAlert = ({error, closeErrorAlert, alertWrapper}: ErrorAlertType) => {
     const dispatch = useAppDispatch();
 
-    const errorMessage = useSelector<AppStateType, string | null>(state => state.login.errorMessage);
-
-    const handleCloseErrorBar = () => dispatch(setErrorMessage(null));
+    const handleCloseErrorBar = () => dispatch(closeErrorAlert.call(this));
 
     useEffect(() => {
-        if (errorMessage) {
+        if (error) {
             setTimeout(() => {
-                dispatch(setErrorMessage(null));
+                dispatch(closeErrorAlert.call(this));
             }, 5000)
         }
-    }, [errorMessage, dispatch]);
+    }, [error, dispatch, closeErrorAlert]);
 
     return (
-        <Stack sx={{width: '413px', margin: '2rem auto 0'}} spacing={2}>
+        <Stack sx={{width: '413px', margin: '2rem auto 0'}} spacing={2} style={alertWrapper}>
             <Alert severity="error" onClose={handleCloseErrorBar}>
                 <AlertTitle sx={{alignItems: 'center', marginBottom: '0'}}>
-                    <strong>{errorMessage}</strong>
+                    <strong>{error}</strong>
                 </AlertTitle>
             </Alert>
         </Stack>
