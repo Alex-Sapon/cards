@@ -11,6 +11,10 @@ import Input from '@mui/material/Input';
 import FormHelperText from '@mui/material/FormHelperText';
 import {ErrorAlert} from '../login/ErrorAlert';
 import {forgotPass} from './recoveryPassReducer';
+import {setErrorMessage} from './recoveryPassReducer';
+import React from 'react';
+import {SendEmail} from './sendEmail/SendEmail';
+import {LoadingStatus} from '../setPass/set-pass-reducer';
 
 type RecoveryPasswordErrorType = {
     email?: string
@@ -20,8 +24,14 @@ export const RecoveryPass = () => {
     const dispatch = useAppDispatch();
 
     const isSendEmail = useSelector<AppStateType, boolean>(state => state.recoveryPass.isSendEmail);
-    const errorMessage = useSelector<AppStateType, string | null>(state => state.login.errorMessage);
-    const isDisabled = useSelector<AppStateType, boolean>(state => state.recoveryPass.isDisabled);
+    const errorMessage = useSelector<AppStateType, string | null>(state => state.recoveryPass.errorMessage);
+    const status = useSelector<AppStateType, LoadingStatus>(state => state.recoveryPass.status);
+
+    const handleDisableClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+        if (status === 'loading') {
+            e.preventDefault();
+        }
+    }
 
     const formik = useFormik({
         initialValues: {
@@ -47,8 +57,7 @@ export const RecoveryPass = () => {
     });
 
     if (isSendEmail) {
-        // return <SendEmail/>
-        return <div>Success send email</div>
+        return <SendEmail/>
     }
 
     return (
@@ -57,18 +66,23 @@ export const RecoveryPass = () => {
                 <FormGroup sx={{width: '35ch'}}>
                     <FormControl variant="standard" sx={{height: '71px'}}>
                         <InputLabel htmlFor="email">Email</InputLabel>
-                        <Input id="email" fullWidth {...formik.getFieldProps('email')}/>
+                        <Input
+                            id="email"
+                            fullWidth
+                            disabled={status === 'loading'}
+                            {...formik.getFieldProps('email')}
+                        />
                         <FormHelperText sx={{color: 'red'}}>
                             {formik.touched.email && !!formik.errors.email && formik.errors.email}
                         </FormHelperText>
                     </FormControl>
                 </FormGroup>
                 <div className={styles.title}>Enter your email address and we will send you further instructions</div>
-                <Button type="submit" className={styles.button} disabled={isDisabled}>Send Instructions</Button>
+                <Button type="submit" className={styles.button} disabled={status === 'loading'}>Send instructions</Button>
                 <div className={styles.subtitle}>Did you remember your password?</div>
-                <NavLink className={styles.link} to={PATH.LOGIN}>Try logging in</NavLink>
+                <NavLink className={styles.link} to={PATH.LOGIN} onClick={handleDisableClick}>Try logging in</NavLink>
             </Form>
-            {false && <ErrorAlert/>}
+            {errorMessage && <ErrorAlert error={errorMessage} closeErrorAlert={() => setErrorMessage(null)}/>}
         </>
     )
-}
+};

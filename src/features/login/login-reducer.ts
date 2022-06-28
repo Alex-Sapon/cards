@@ -1,4 +1,5 @@
 import {AppThunk} from '../../components/app/store';
+import {LoadingStatus} from '../setPass/set-pass-reducer';
 import {ILoginParams, ILoginResponse, loginAPI} from './login-api';
 
 const initialState: LoginDataUserType = {
@@ -15,7 +16,7 @@ const initialState: LoginDataUserType = {
     error: '',
     isLoggedIn: false,
     errorMessage: null,
-    isDisabled: false,
+    status: 'idle',
 }
 
 export type LoginStateType = typeof initialState;
@@ -28,8 +29,8 @@ export const loginReducer = (state: LoginStateType = initialState, action: Login
             return {...state, isLoggedIn: action.isLoggedIn};
         case 'LOGIN/SET-ERROR-MESSAGE':
             return {...state, errorMessage: action.error};
-        case 'LOGIN/SET-IS-DISABLED':
-            return {...state, isDisabled: action.isDisabled};
+        case 'LOGIN/SET-STATUS':
+            return {...state, status: action.status};
         default:
             return state;
     }
@@ -50,25 +51,25 @@ export const setErrorMessage = (error: string | null) => ({
     error,
 } as const);
 
-export const setIsDisabled = (isDisabled: boolean) => ({
-    type: 'LOGIN/SET-IS-DISABLED',
-    isDisabled,
+export const setLoadStatus = (status: LoadingStatus) => ({
+    type: 'LOGIN/SET-STATUS',
+    status,
 } as const);
 
 export const login = (data: ILoginParams): AppThunk => dispatch => {
-    dispatch(setIsDisabled(true));
+    dispatch(setLoadStatus('loading'));
 
     loginAPI.login(data)
         .then(res => {
             dispatch(setLoginData(res.data));
             dispatch(setIsLoggedIn(true));
         })
-        .catch((e: any) => {
-            const error = e.response ? e.response.data.error : (e.message + ', more details in the console');
+        .catch((e) => {
+            const error = e.response.data ? e.response.data.error : e.message;
             dispatch(setErrorMessage(error));
         })
         .finally(() => {
-            dispatch(setIsDisabled(false));
+            dispatch(setLoadStatus('idle'));
         })
 };
 
@@ -76,10 +77,10 @@ export type LoginActions =
     | ReturnType<typeof setLoginData>
     | ReturnType<typeof setIsLoggedIn>
     | ReturnType<typeof setErrorMessage>
-    | ReturnType<typeof setIsDisabled>;
+    | ReturnType<typeof setLoadStatus>;
 
 type LoginDataUserType = ILoginResponse & {
     isLoggedIn: boolean
     errorMessage: string | null
-    isDisabled: boolean
+    status: LoadingStatus
 };

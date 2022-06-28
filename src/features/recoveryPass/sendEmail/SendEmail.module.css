@@ -1,0 +1,33 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 413px;
+    min-height: 450px;
+    margin: 60px auto 0;
+    padding: 80px 35px;
+    background: #F9F9FE;
+    border-radius: 8px;
+}
+
+.image {
+    background-color: rgba(45, 46, 70, 0.5);
+    display: block;
+    width: 120px;
+    height: 120px;
+    border-radius: 100%;
+    object-fit: cover;
+    object-position: center;
+    margin-bottom: 2rem;
+}
+
+.title {
+   margin-bottom: 2rem;
+   text-align: center;
+}
+
+.subtitle {
+    color: rgba(45, 46, 70, 0.5);
+    text-align: center;
+}
