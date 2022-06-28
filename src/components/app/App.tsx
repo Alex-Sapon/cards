@@ -10,12 +10,12 @@ import {Test} from '../../common/test/Test';
 import {Error404} from '../error404/Error404';
 import {PATH} from '../../enums/path';
 import {ErrorSnackbar} from '../ErrorSnackbar/ErrorSnackbar';
-import {useAppSelector} from './hooks';
 import LinearProgress from '@mui/material/LinearProgress/LinearProgress';
 import {useEffect} from 'react';
 import {initializeApp} from './app-reducer';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
+import {useAppDispatch, useAppSelector } from './store';
 
 export const App = () => {
     const status = useAppSelector(state => state.register.status);

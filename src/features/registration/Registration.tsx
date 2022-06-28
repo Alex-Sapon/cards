@@ -13,8 +13,8 @@ import {useFormik} from 'formik';
 import {FormGroup} from '@mui/material';
 import {NavLink} from 'react-router-dom';
 import {PATH} from '../../enums/path';
-import {useAppDispatch, useAppSelector} from '../../components/app/hooks';
 import {userRegisterTC} from './registrationReducer';
+import {useAppDispatch, useAppSelector} from '../../components/app/store';
 
 
 export const Registration = () => {

@@ -1,8 +1,8 @@
 import React from 'react';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, {AlertProps} from '@mui/material/Alert';
-import {useAppDispatch, useAppSelector } from '../app/hooks';
 import {setAppErrorAC, setRegisterMessageAC} from '../../features/registration/registrationReducer';
+import {useAppDispatch, useAppSelector } from '../app/store';
 
 
 

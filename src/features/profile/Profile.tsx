@@ -1,22 +1,21 @@
-import React, {ChangeEvent, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {ThunkDispatch} from "redux-thunk";
-import {Navigate} from "react-router-dom";
+import React, {ChangeEvent, useState} from 'react';
+import {useSelector} from 'react-redux';
+import {Navigate} from 'react-router-dom';
 
-import {Avatar} from "@mui/material";
-import TextField from "@mui/material/TextField";
+import {Avatar} from '@mui/material';
+import TextField from '@mui/material/TextField';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
-import ClearIcon from '@mui/icons-material/Clear'
-import CircularProgress from "@mui/material/CircularProgress";
-import {AccountCircle} from "@mui/icons-material";
-import Stack from "@mui/material/Stack";
+import ClearIcon from '@mui/icons-material/Clear';
+import CircularProgress from '@mui/material/CircularProgress';
+import {AccountCircle} from '@mui/icons-material';
+import Stack from '@mui/material/Stack';
 
-import Button from "../../common/button/Button";
-import userPhoto from "../../assets/images/avatar.jpg"
-import {AppStateType} from "../../components/app/store";
-import {logoutTC, ProfileActions, ProfileStateType, updateProfileTC} from './profileReducer';
-import {useStyles} from "./styles";
-import {PATH} from "../../enums/path";
+import Button from '../../common/button/Button';
+import userPhoto from '../../assets/images/avatar.jpg';
+import {AppStateType, useAppDispatch} from '../../components/app/store';
+import {logoutTC, updateProfileTC} from './profileReducer';
+import {useStyles} from './styles';
+import {PATH} from '../../enums/path';
 
 
 export const Profile = () => {
