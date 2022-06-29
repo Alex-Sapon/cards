@@ -1,4 +1,5 @@
-import {makeStyles} from "@mui/styles";
+import {makeStyles, styled} from "@mui/styles";
+import {Avatar} from "@mui/material";
 
 export const useStyles = makeStyles((theme) => ({
 	profileContainer: {
@@ -48,3 +49,7 @@ export const useStyles = makeStyles((theme) => ({
 	}
 
 }))
+export const SmallAvatar = styled(Avatar)(({ theme }) => ({
+	width: 32,
+	height: 32,
+}));
