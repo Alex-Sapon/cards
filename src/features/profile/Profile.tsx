@@ -62,13 +62,16 @@ export const Profile = () => {
 		dispatch(logoutTC())
 	};
 
+	useEffect(() => {
+		dispatch(initializeApp());
+	}, [dispatch]);
+
+
 		if (!isLoggedIn) {
 		return <Navigate to={PATH.LOGIN}/>
 	}
 
-	useEffect(() => {
-		dispatch(initializeApp());
-	}, [dispatch]);
+
 
 
 	return (
