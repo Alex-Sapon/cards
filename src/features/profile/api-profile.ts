@@ -1,24 +1,19 @@
 import axios, {AxiosResponse} from "axios";
-
-const instanceProfile = axios.create({
-    baseURL: process.env.REACT_APP_BACK_URL || 'http://localhost:7542/2.0/',
-    withCredentials: true,
-})
-
+import {instance} from "../../assets/settings/instance-api";
 
 export const profileAPI = {
     updateUserProfile(name:string, avatar: string) {
-        return instanceProfile.put<AxiosResponse<IProfileResponse>,{name:string, avatar:string}>('auth/me', {name, avatar});
+        return instance.put<AxiosResponse<IProfileResponse>,{name:string, avatar:string}>('auth/me', {name, avatar});
     },
 }
 
 export const authProfileAPI = {
     logout() {
-        return instanceProfile.delete<IlogOutResponse>('auth/me');
+        return instance.delete<ILogOutResponse>('auth/me');
     }
 }
 
-interface IlogOutResponse {
+interface ILogOutResponse {
     info: string
     error: string
 }
