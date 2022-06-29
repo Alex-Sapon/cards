@@ -1,4 +1,3 @@
-import axios from 'axios';
 import {instance} from "../../assets/settings/instance-api";
 
 export const setPasswordAPI = {
