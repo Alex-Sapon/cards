@@ -36,20 +36,22 @@ export const userRegisterTC = (email: string, password: string): AppThunk => (di
                 dispatch(setAppStatusAC('succeeded'));
             } else if (res.data.error) {
                 dispatch(setAppErrorAC(res.data.error));
+                dispatch(setAppStatusAC('failed'));
             } else {
                 dispatch(setRegisterMessageAC('Some error occurred'));
+                dispatch(setAppStatusAC('failed'));
             }
-            dispatch(setAppStatusAC('failed'));
         })
         .catch((error: AxiosError<{ error: string }>) => {
             if (error.response) {
                 if (error.response.data === undefined) {
                     dispatch(setAppErrorAC(error.message));
+                    dispatch(setAppStatusAC('failed'));
                 } else {
                     dispatch(setAppErrorAC(error.response.data.error));
+                    dispatch(setAppStatusAC('failed'));
                 }
             }
-            dispatch(setAppStatusAC('failed'));
         })
        /* .finally(() => {
             dispatch(setAppStatusAC('idle'))
