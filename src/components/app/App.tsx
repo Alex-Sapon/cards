@@ -6,7 +6,6 @@ import {Registration} from '../../features/registration/Registration';
 import {Profile} from '../../features/profile/Profile';
 import {SetPassword} from '../../features/setPass/SetPassword';
 import {RecoveryPass} from '../../features/recoveryPass/RecoveryPass';
-import {Test} from '../../common/test/Test';
 import {Error404} from '../error404/Error404';
 import {PATH} from '../../enums/path';
 import {ErrorSnackbar} from '../ErrorSnackbar/ErrorSnackbar';
@@ -15,13 +14,17 @@ import {useEffect} from 'react';
 import {initializeApp} from './app-reducer';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
-import {useAppDispatch, useAppSelector } from './store';
+import {AppStateType, useAppDispatch, useAppSelector} from './store';
+import {RequestStatusType} from '../../features/registration/registrationReducer';
+
+const selectStatus = (state: AppStateType): RequestStatusType => state.register.status;
+const selectIsInitialized = (state: AppStateType): boolean => state.app.isInitialized;
 
 export const App = () => {
-    const status = useAppSelector(state => state.register.status);
     const dispatch = useAppDispatch();
+    const status = useAppSelector(selectStatus);
 
-    const isInitialized = useAppSelector(state => state.app.isInitialized);
+    const isInitialized = useAppSelector(selectIsInitialized);
 
     useEffect(() => {
         dispatch(initializeApp());
@@ -42,13 +45,12 @@ export const App = () => {
             <div className={styles.app_container}>
                 <ErrorSnackbar/>
                 <Routes>
-                    <Route path={PATH.HOME} element={<Navigate to={PATH.TEST}/>}/>
+                    <Route path={PATH.HOME} element={<Navigate to={PATH.PROFILE}/>}/>
                     <Route path={PATH.LOGIN} element={<Login/>}/>
                     <Route path={PATH.REGISTRATION} element={<Registration/>}/>
                     <Route path={PATH.PROFILE} element={<Profile/>}/>
                     <Route path={PATH.SET_PASS} element={<SetPassword/>}/>
                     <Route path={PATH.RECOVERY_PASS} element={<RecoveryPass/>}/>
-                    <Route path={PATH.TEST} element={<Test/>}/>
                     <Route path={PATH.PAGE_NOT_FOUND} element={<Error404/>}/>
                 </Routes>
             </div>

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, {AxiosResponse} from 'axios';
 
 export const instanceLogin = axios.create({
     baseURL: process.env.REACT_APP_BACK_URL || 'http://localhost:7542/2.0/',
@@ -7,7 +7,7 @@ export const instanceLogin = axios.create({
 
 export const appAPI = {
     me() {
-        return instanceLogin.post<IMeResponse>(`auth/me`);
+        return instanceLogin.post<any, AxiosResponse<IMeResponse>, {}>(`auth/me`);
     }
 };
 

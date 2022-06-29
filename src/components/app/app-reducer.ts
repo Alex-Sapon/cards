@@ -1,55 +1,45 @@
 import {AppThunk} from './store';
 import {appAPI} from './app-api';
-import {setErrorMessage, setIsLoggedIn, setLoginData} from '../../features/login/login-reducer';
+import {setIsLoggedIn, setLoginData} from '../../features/login/login-reducer';
+import {AxiosError} from 'axios';
 
 const initialState: AppStateType = {
-	isInitialized: false,
+    isInitialized: false,
 };
 
 export const appReducer = (state: AppStateType = initialState, action: AppActionsType): AppStateType => {
-	switch (action.type) {
-		case 'APP/SET-INITIALIZE-APP':
-			return {...state, isInitialized: action.isInitialized};
-		default:
-			return state;
-	}
+    switch (action.type) {
+        case 'APP/SET-INITIALIZE-APP':
+            return {...state, isInitialized: action.isInitialized};
+        default:
+            return state;
+    }
 };
 
 const setInitializeApp = (isInitialized: boolean) => ({
-	type: 'APP/SET-INITIALIZE-APP',
-	isInitialized,
+    type: 'APP/SET-INITIALIZE-APP',
+    isInitialized,
 } as const);
 
 export const initializeApp = (): AppThunk => dispatch => {
     appAPI.me()
-        .then(res => {
-            dispatch(setLoginData(res.data));
+        .then((res) => {
+            dispatch(setLoginData(res.data))
             dispatch(setIsLoggedIn(true));
         })
-        .catch((e) => {
-            const error = e.response ? e.response.data.error : (e.message + ', more details in the console');
-            dispatch(setErrorMessage(error));
+        .catch((e: AxiosError<{ error: string }, any>) => {
+            const error = (e.response && e.response.data) ? e.response.data.error : e.message;
+
+            console.log(error);
         })
         .finally(() => {
             dispatch(setInitializeApp(true));
         })
-	appAPI.me()
-		.then((res) => {
-			dispatch(setLoginData(res.data))
-			dispatch(setIsLoggedIn(true));
-		})
-		.catch((e) => {
-			const error = e.response ? e.response.data.error : (e.message + ', more details in the console');
-			dispatch(setErrorMessage(error));
-		})
-		.finally(() => {
-			dispatch(setInitializeApp(true));
-		})
 }
 
 type AppStateType = {
-	isInitialized: boolean
+    isInitialized: boolean
 }
 
 export type AppActionsType =
-	| ReturnType<typeof setInitializeApp>;
+    | ReturnType<typeof setInitializeApp>;
