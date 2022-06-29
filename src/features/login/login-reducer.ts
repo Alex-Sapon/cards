@@ -1,3 +1,4 @@
+import axios, {AxiosError} from 'axios';
 import {AppThunk} from '../../components/app/store';
 import {LoadingStatus} from '../setPass/set-pass-reducer';
 import {ILoginParams, ILoginResponse, loginAPI} from './login-api';
@@ -15,7 +16,7 @@ const initialState: LoginDataUserType = {
     rememberMe: false,
     error: '',
     isLoggedIn: false,
-    errorMessage: null,
+    responseMessage: null,
     status: 'idle',
 }
 
@@ -27,8 +28,8 @@ export const loginReducer = (state: LoginStateType = initialState, action: Login
             return {...state, ...action.data};
         case 'LOGIN/SET-IS-LOGGED-IN':
             return {...state, isLoggedIn: action.isLoggedIn};
-        case 'LOGIN/SET-ERROR-MESSAGE':
-            return {...state, errorMessage: action.error};
+        case 'LOGIN/SET-RESPONSE-MESSAGE':
+            return {...state, responseMessage: action.message};
         case 'LOGIN/SET-STATUS':
             return {...state, status: action.status};
         default:
@@ -46,9 +47,9 @@ export const setIsLoggedIn = (isLoggedIn: boolean) => ({
     isLoggedIn,
 } as const);
 
-export const setErrorMessage = (error: string | null) => ({
-    type: 'LOGIN/SET-ERROR-MESSAGE',
-    error,
+export const setResponseMessage = (message: string | null) => ({
+    type: 'LOGIN/SET-RESPONSE-MESSAGE',
+    message,
 } as const);
 
 export const setLoadStatus = (status: LoadingStatus) => ({
@@ -64,9 +65,10 @@ export const login = (data: ILoginParams): AppThunk => dispatch => {
             dispatch(setLoginData(res.data));
             dispatch(setIsLoggedIn(true));
         })
-        .catch((e) => {
-            const error = e.response.data ? e.response.data.error : e.message;
-            dispatch(setErrorMessage(error));
+        .catch((e: AxiosError<{error: string}>) => {
+            const error = (e.response && e.response.data) ? e.response.data.error : e.message;
+
+            dispatch(setResponseMessage(error));
         })
         .finally(() => {
             dispatch(setLoadStatus('idle'));
@@ -76,11 +78,11 @@ export const login = (data: ILoginParams): AppThunk => dispatch => {
 export type LoginActions =
     | ReturnType<typeof setLoginData>
     | ReturnType<typeof setIsLoggedIn>
-    | ReturnType<typeof setErrorMessage>
+    | ReturnType<typeof setResponseMessage>
     | ReturnType<typeof setLoadStatus>;
 
 type LoginDataUserType = ILoginResponse & {
     isLoggedIn: boolean
-    errorMessage: string | null
+    responseMessage: string | null
     status: LoadingStatus
 };

@@ -1,32 +1,34 @@
 import {useFormik} from 'formik';
-import {useSelector} from 'react-redux';
 import {NavLink} from 'react-router-dom';
 import Button from '../../common/button/Button';
 import {Form} from '../../common/form/Form';
-import {AppStateType, useAppDispatch} from '../../components/app/store';
+import {AppStateType, useAppDispatch, useAppSelector} from '../../components/app/store';
 import {PATH} from '../../enums/path';
 import styles from './RecoveryPass.module.css';
-import {FormControl, FormGroup, InputLabel} from '@mui/material';
+import {FormControl, FormGroup, InputAdornment, InputLabel} from '@mui/material';
 import Input from '@mui/material/Input';
 import FormHelperText from '@mui/material/FormHelperText';
-import {ErrorAlert} from '../login/ErrorAlert';
-import {forgotPass} from './recoveryPassReducer';
-import {setErrorMessage} from './recoveryPassReducer';
-import React, {useEffect} from 'react';
+import {AlertBar} from '../login/AlertBar';
+import {forgotPass, setResponseMessage} from './recoveryPassReducer';
+import React from 'react';
 import {SendEmail} from './sendEmail/SendEmail';
 import {LoadingStatus} from '../setPass/set-pass-reducer';
-import {initializeApp} from '../../components/app/app-reducer';
+import LoadingButton from '@mui/lab/LoadingButton/LoadingButton';
 
 type RecoveryPasswordErrorType = {
     email?: string
 }
 
+const selectIsSendEmail = (state: AppStateType): boolean => state.recoveryPass.isSendEmail;
+const selectResponseMessage = (state: AppStateType): string | null => state.recoveryPass.responseMessage;
+const selectStatus = (state: AppStateType): LoadingStatus => state.recoveryPass.status;
+
 export const RecoveryPass = () => {
     const dispatch = useAppDispatch();
 
-    const isSendEmail = useSelector<AppStateType, boolean>(state => state.recoveryPass.isSendEmail);
-    const errorMessage = useSelector<AppStateType, string | null>(state => state.recoveryPass.errorMessage);
-    const status = useSelector<AppStateType, LoadingStatus>(state => state.recoveryPass.status);
+    const isSendEmail = useAppSelector(selectIsSendEmail);
+    const responseMessage = useAppSelector(selectResponseMessage);
+    const status = useAppSelector(selectStatus);
 
     const handleDisableClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         if (status === 'loading') {
@@ -50,10 +52,8 @@ export const RecoveryPass = () => {
             return errors;
         },
         onSubmit: values => {
-            if (values.email) {
-                dispatch(forgotPass(values.email));
-                formik.resetForm();
-            }
+            dispatch(forgotPass(values.email));
+            formik.resetForm();
         }
     });
 
@@ -71,6 +71,12 @@ export const RecoveryPass = () => {
                             id="email"
                             fullWidth
                             disabled={status === 'loading'}
+                            endAdornment={
+                                <InputAdornment position="end">
+                                    {status === 'loading' &&
+                                        <LoadingButton loading variant="text" sx={{minWidth: '24px'}}></LoadingButton>}
+                                </InputAdornment>
+                            }
                             {...formik.getFieldProps('email')}
                         />
                         <FormHelperText sx={{color: 'red'}}>
@@ -83,7 +89,7 @@ export const RecoveryPass = () => {
                 <div className={styles.subtitle}>Did you remember your password?</div>
                 <NavLink className={styles.link} to={PATH.LOGIN} onClick={handleDisableClick}>Try logging in</NavLink>
             </Form>
-            {errorMessage && <ErrorAlert error={errorMessage} closeErrorAlert={() => setErrorMessage(null)}/>}
+            {responseMessage && <AlertBar message={responseMessage} closeAlert={() => setResponseMessage(null)}/>}
         </>
     )
 };

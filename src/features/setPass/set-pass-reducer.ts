@@ -4,7 +4,7 @@ import {IUpdateDataPass, setPasswordAPI} from './set-pass-api';
 const initialState: SetPassStateType = {
     isUpdatePassword: false,
     status: 'idle',
-    errorMessage: null,
+    responseMessage: null,
 }
 
 export const setPassReducer = (state: SetPassStateType = initialState, action: SetNewPassActions): SetPassStateType => {
@@ -13,8 +13,8 @@ export const setPassReducer = (state: SetPassStateType = initialState, action: S
             return {...state, isUpdatePassword: action.isUpdatePass};
         case 'SET-PASSWORD/SET-LOADING-STATUS':
             return {...state, status: action.status};
-        case 'SET-PASSWORD/SET-ERROR-MESSAGE':
-            return {...state, errorMessage: action.error};
+        case 'SET-PASSWORD/SET-RESPONSE-MESSAGE':
+            return {...state, responseMessage: action.message};
         default:
             return state;
     }
@@ -30,9 +30,9 @@ const setLoadingStatus = (status: LoadingStatus) => ({
     status,
 } as const);
 
-export const setErrorMessage = (error: string | null) => ({
-    type: 'SET-PASSWORD/SET-ERROR-MESSAGE',
-    error,
+export const setResponseMessage = (message: string | null) => ({
+    type: 'SET-PASSWORD/SET-RESPONSE-MESSAGE',
+    message,
 } as const);
 
 export const updateNewPassword = (data: IUpdateDataPass): AppThunk => dispatch => {
@@ -43,7 +43,7 @@ export const updateNewPassword = (data: IUpdateDataPass): AppThunk => dispatch =
             dispatch(setNewPassword(true));
         })
         .catch((e) => {
-            dispatch(setErrorMessage(e.message));
+            dispatch(setResponseMessage(e.message));
         })
         .finally(() => {
             dispatch(setLoadingStatus('idle'));
@@ -53,12 +53,12 @@ export const updateNewPassword = (data: IUpdateDataPass): AppThunk => dispatch =
 export type SetNewPassActions =
     | ReturnType<typeof setNewPassword>
     | ReturnType<typeof setLoadingStatus>
-    | ReturnType<typeof setErrorMessage>
+    | ReturnType<typeof setResponseMessage>
 
 export type SetPassStateType = {
     isUpdatePassword: boolean
     status: LoadingStatus
-    errorMessage: string | null
+    responseMessage: string | null
 }
 
 export type LoadingStatus = 'idle' | 'loading' | 'succeeded' | 'failed';

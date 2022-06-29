@@ -2,7 +2,6 @@ import Button from '../../common/button/Button';
 import {Form} from '../../common/form/Form';
 import styles from './Login.module.css';
 import {useFormik} from 'formik';
-import {useSelector} from 'react-redux';
 import {Navigate, NavLink} from 'react-router-dom';
 import {PATH} from '../../enums/path';
 import {
@@ -18,10 +17,10 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Input from '@mui/material/Input';
 import React, {useState} from 'react';
-import {AppStateType, useAppDispatch} from '../../components/app/store';
-import {login, setErrorMessage} from './login-reducer';
+import {AppStateType, useAppDispatch, useAppSelector} from '../../components/app/store';
+import {login, setResponseMessage} from './login-reducer';
 import FormHelperText from '@mui/material/FormHelperText';
-import {ErrorAlert} from './ErrorAlert';
+import {AlertBar} from './AlertBar';
 import LoadingButton from '@mui/lab/LoadingButton/LoadingButton';
 import {LoadingStatus} from '../setPass/set-pass-reducer';
 
@@ -31,12 +30,16 @@ type LoginErrorType = {
     rememberMe?: boolean
 }
 
+const selectIsLoggedIn = (state: AppStateType): boolean => state.login.isLoggedIn;
+const selectResponseMessage = (state: AppStateType): string | null => state.login.responseMessage;
+const selectStatus = (state: AppStateType): LoadingStatus => state.login.status;
+
 export const Login = () => {
     const dispatch = useAppDispatch();
 
-    const isLoggedIn = useSelector<AppStateType, boolean>(state => state.login.isLoggedIn);
-    const errorMessage = useSelector<AppStateType, string | null>(state => state.login.errorMessage);
-    const status = useSelector<AppStateType, LoadingStatus>(state => state.login.status);
+    const isLoggedIn = useAppSelector(selectIsLoggedIn);
+    const responseMessage = useAppSelector(selectResponseMessage);
+    const status = useAppSelector(selectStatus);
 
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -70,10 +73,8 @@ export const Login = () => {
             return errors;
         },
         onSubmit: values => {
-            if (values.email && values.password) {
-                dispatch(login(values));
-                formik.resetForm();
-            }
+            dispatch(login(values));
+            formik.resetForm();
         }
     });
 
@@ -132,6 +133,7 @@ export const Login = () => {
                         control={
                             <Checkbox
                                 size="small"
+                                checked={formik.values.rememberMe}
                                 disabled={status === 'loading'}
                                 sx={{'&.Mui-checked': {color: '#9991c8'}}}
                                 {...formik.getFieldProps('rememberMe')}
@@ -144,7 +146,7 @@ export const Login = () => {
                 <div className={styles.text}>Don't have an account?</div>
                 <NavLink className={styles.link} to={PATH.REGISTRATION} onClick={handleClick}>Sign Up</NavLink>
             </Form>
-            {errorMessage && <ErrorAlert error={errorMessage} closeErrorAlert={() => setErrorMessage(null)}/>}
+            {responseMessage && <AlertBar message={responseMessage} closeAlert={() => setResponseMessage(null)}/>}
         </>
     )
 };

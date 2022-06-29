@@ -4,30 +4,30 @@ import Stack from '@mui/material/Stack';
 import {CSSProperties, useEffect} from 'react';
 import {ActionsType, useAppDispatch} from '../../components/app/store';
 
-type ErrorAlertType = {
-    error: string | null
-    closeErrorAlert: () => ActionsType
+type AlertBarType = {
+    message: string | null
+    closeAlert: () => ActionsType
     alertWrapper?: CSSProperties
 }
 
-export const ErrorAlert = ({error, closeErrorAlert, alertWrapper}: ErrorAlertType) => {
+export const AlertBar = ({message, closeAlert, alertWrapper}: AlertBarType) => {
     const dispatch = useAppDispatch();
 
-    const handleCloseErrorBar = () => dispatch(closeErrorAlert.call(this));
+    const handleCloseAlertBar = () => dispatch(closeAlert.call(this));
 
     useEffect(() => {
-        if (error) {
+        if (message) {
             setTimeout(() => {
-                dispatch(closeErrorAlert.call(this));
+                dispatch(closeAlert.call(this));
             }, 5000)
         }
-    }, [error, dispatch, closeErrorAlert]);
+    }, [message, dispatch, closeAlert]);
 
     return (
-        <Stack sx={{width: '413px', margin: '2rem auto 0'}} spacing={2} style={alertWrapper}>
-            <Alert severity="error" onClose={handleCloseErrorBar}>
+        <Stack sx={{position: 'absolute', bottom: '1rem', left: '1rem'}} spacing={2} style={alertWrapper}>
+            <Alert severity="error" onClose={handleCloseAlertBar}>
                 <AlertTitle sx={{alignItems: 'center', marginBottom: '0'}}>
-                    <strong>{error}</strong>
+                    <strong>{message}</strong>
                 </AlertTitle>
             </Alert>
         </Stack>

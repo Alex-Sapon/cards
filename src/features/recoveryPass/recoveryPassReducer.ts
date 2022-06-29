@@ -7,7 +7,7 @@ const initialState: RecPassStateType = {
     email: 'example@mail.com',
     isSendEmail: false,
     status: 'idle',
-    errorMessage: null,
+    responseMessage: null,
 }
 
 export const recoveryPassReducer = (state: RecPassStateType = initialState, action: RecPassActions): RecPassStateType => {
@@ -18,8 +18,8 @@ export const recoveryPassReducer = (state: RecPassStateType = initialState, acti
             return {...state, status: action.status};
         case 'RECOVERY-PASS/SET-EMAIL':
             return {...state, email: action.email};
-        case 'RECOVERY-PASS/SET-ERROR-MESSAGE':
-            return {...state, errorMessage: action.error};
+        case 'RECOVERY-PASS/SET-RESPONSE-MESSAGE':
+            return {...state, responseMessage: action.message};
         default:
             return state;
     }
@@ -40,9 +40,9 @@ const setEmail = (email: string) => ({
     email,
 } as const);
 
-export const setErrorMessage = (error: string | null) => ({
-    type: 'RECOVERY-PASS/SET-ERROR-MESSAGE',
-    error,
+export const setResponseMessage = (message: string | null) => ({
+    type: 'RECOVERY-PASS/SET-RESPONSE-MESSAGE',
+    message,
 } as const);
 
 export const forgotPass = (email: string): AppThunk => dispatch => {
@@ -64,7 +64,7 @@ export const forgotPass = (email: string): AppThunk => dispatch => {
             dispatch(setEmail(email));
         })
         .catch((e) => {
-            dispatch(setErrorMessage(e.message));
+            dispatch(setResponseMessage(e.message));
         })
         .finally(() => {
             dispatch(setLoadingStatus('idle'));
@@ -75,11 +75,11 @@ export type RecPassActions =
     | ReturnType<typeof setIsSendEmail>
     | ReturnType<typeof setLoadingStatus>
     | ReturnType<typeof setEmail>
-    | ReturnType<typeof setErrorMessage>
+    | ReturnType<typeof setResponseMessage>
 
 export type RecPassStateType = {
     email: string
     isSendEmail: boolean
     status: LoadingStatus
-    errorMessage: string | null
+    responseMessage: string | null
 }

@@ -1,25 +1,28 @@
 import {useFormik} from 'formik';
-import {useSelector} from 'react-redux';
 import Button from '../../common/button/Button';
 import {Form} from '../../common/form/Form';
-import {AppStateType, useAppDispatch} from '../../components/app/store';
+import {AppStateType, useAppDispatch, useAppSelector} from '../../components/app/store';
 import {PATH} from '../../enums/path';
 import {FormControl, FormGroup, IconButton, InputAdornment, InputLabel} from '@mui/material';
 import Input from '@mui/material/Input';
 import FormHelperText from '@mui/material/FormHelperText';
-import {ErrorAlert} from '../login/ErrorAlert';
+import {AlertBar} from '../login/AlertBar';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import React, {useEffect, useState} from 'react';
-import { Navigate, useParams } from 'react-router';
+import {Navigate, useParams} from 'react-router';
 import LoadingButton from '@mui/lab/LoadingButton/LoadingButton';
-import {LoadingStatus, setErrorMessage, updateNewPassword} from './set-pass-reducer';
+import {LoadingStatus, setResponseMessage, updateNewPassword} from './set-pass-reducer';
 import styles from './SetPassword.module.css';
 import {initializeApp} from '../../components/app/app-reducer';
 
 type SetPasswordErrorType = {
     password?: string
 }
+
+const selectIsUpdatePassword = (state: AppStateType): boolean => state.setPass.isUpdatePassword;
+const selectStatus = (state: AppStateType): LoadingStatus => state.setPass.status;
+const selectResponseMessage = (state: AppStateType): string | null => state.setPass.responseMessage;
 
 export const SetPassword = () => {
     const dispatch = useAppDispatch();
@@ -28,9 +31,9 @@ export const SetPassword = () => {
 
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
-    const isUpdatePassword = useSelector<AppStateType, boolean>(state => state.setPass.isUpdatePassword);
-    const status = useSelector<AppStateType, LoadingStatus>(state => state.setPass.status);
-    const errorMessage = useSelector<AppStateType, string | null>(state => state.setPass.errorMessage);
+    const isUpdatePassword = useAppSelector(selectIsUpdatePassword);
+    const status = useAppSelector(selectStatus);
+    const responseMessage = useAppSelector(selectResponseMessage);
 
     const formik = useFormik({
         initialValues: {
@@ -101,7 +104,7 @@ export const SetPassword = () => {
                 <div className={styles.title}>Create new password and we will send you further instructions to email</div>
                 <Button type="submit" className={styles.button} disabled={status === 'loading'}>Create new password</Button>
             </Form>
-            {errorMessage && <ErrorAlert error={errorMessage} closeErrorAlert={() => setErrorMessage(null)}/>}
+            {responseMessage && <AlertBar message={responseMessage} closeAlert={() => setResponseMessage(null)}/>}
         </>
     )
 }

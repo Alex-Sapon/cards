@@ -1,6 +1,6 @@
 import {authProfileAPI, profileAPI} from "./api-profile";
 import {AppThunk} from "../../components/app/store";
-import {setErrorMessage, setIsLoggedIn} from "../login/login-reducer";
+import {setResponseMessage, setIsLoggedIn} from "../login/login-reducer";
 
 const initialState: ProfileStateType = {
 	name: '',
@@ -32,7 +32,7 @@ export const logoutTC = (): AppThunk => dispatch => {
 				dispatch(setIsLoggedIn(false))
 			})
 			.catch((error) => {
-				dispatch(setErrorMessage(error.message ? error.message : 'Some error occurred'))
+				dispatch(setResponseMessage(error.message ? error.message : 'Some error occurred'))
 			})
 			.finally(() => {
 				dispatch(setProfileStatusAC(false))
@@ -44,7 +44,7 @@ export const logoutTC = (): AppThunk => dispatch => {
 			})
 			.catch((e: any) => {
 				const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
-				dispatch(setErrorMessage(error))
+				dispatch(setResponseMessage(error))
 			})
 			.finally(() => {
 				dispatch(setProfileStatusAC(false))
@@ -59,7 +59,7 @@ export const logoutTC = (): AppThunk => dispatch => {
 			})
 			.catch((e: any) => {
 				const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
-				dispatch(setErrorMessage(error))
+				dispatch(setResponseMessage(error))
 			})
 			.finally(() => {
 				dispatch(setProfileStatusAC(false))
