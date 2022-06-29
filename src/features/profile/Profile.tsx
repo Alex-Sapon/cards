@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import {Navigate} from 'react-router-dom';
 
 import {Avatar} from '@mui/material';
@@ -17,6 +17,7 @@ import {logoutTC, updateProfileTC} from './profileReducer';
 import {SmallAvatar, useStyles} from './styles';
 import {PATH} from '../../enums/path';
 import Badge from "@mui/material/Badge";
+import {initializeApp} from "../../components/app/app-reducer";
 
 export const Profile = () => {
 	const styles = useStyles()
@@ -61,9 +62,14 @@ export const Profile = () => {
 		dispatch(logoutTC())
 	};
 
-	if (!isLoggedIn) {
+		if (!isLoggedIn) {
 		return <Navigate to={PATH.LOGIN}/>
 	}
+
+	useEffect(() => {
+		dispatch(initializeApp());
+	}, [dispatch]);
+
 
 	return (
 		<div>

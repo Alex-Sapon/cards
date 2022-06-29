@@ -1,4 +1,4 @@
-import axios, {AxiosResponse} from 'axios';
+import {AxiosResponse} from 'axios';
 import {instance} from "../../assets/settings/instance-api";
 
 export const appAPI = {
