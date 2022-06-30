@@ -67,8 +67,8 @@ export const Registration = () => {
     return (
         <>
             <Form onSubmit={formik.handleSubmit} title={'Registration'}>
-                <FormGroup sx={{width: '35ch'}}>
-                    <FormControl sx={{height: '71px', mb: '0.5rem'}} variant="standard">
+                <FormGroup sx={{width: '80%'}}>
+                    <FormControl sx={{height: '71px', mb: '0.5rem', width: '100%'}} variant="standard">
                         <InputLabel htmlFor="email">Email</InputLabel>
                         <Input
                             {...formik.getFieldProps('email')}
@@ -79,7 +79,7 @@ export const Registration = () => {
                         {formik.touched.email &&
                         formik.errors.email ? <div style={{color: 'red'}}>{formik.errors.email}</div> : null}
                     </FormControl>
-                    <FormControl sx={{height: '71px', mb: '0.5rem'}} variant="standard">
+                    <FormControl sx={{height: '71px', mb: '0.5rem', width: '100%'}} variant="standard">
                         <InputLabel htmlFor="password">Password</InputLabel>
                         <Input
                             {...formik.getFieldProps('password')}

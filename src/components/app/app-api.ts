@@ -3,7 +3,7 @@ import {instance} from "../../assets/settings/instance-api";
 
 export const appAPI = {
     me() {
-        return instance.post<any, AxiosResponse<IMeResponse>, {}>(`auth/me`);
+        return instance.post<IMeResponse>(`auth/me`);
     }
 };
 

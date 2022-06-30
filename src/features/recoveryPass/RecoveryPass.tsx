@@ -64,8 +64,8 @@ export const RecoveryPass = () => {
     return (
         <>
             <Form onSubmit={formik.handleSubmit} title="Forgot your password?">
-                <FormGroup sx={{width: '35ch'}}>
-                    <FormControl variant="standard" sx={{height: '71px'}}>
+                <FormGroup sx={{width: '80%'}}>
+                    <FormControl variant="standard" sx={{height: '71px', width: '100%'}}>
                         <InputLabel htmlFor="email">Email</InputLabel>
                         <Input
                             id="email"

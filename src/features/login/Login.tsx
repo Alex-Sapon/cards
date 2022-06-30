@@ -89,7 +89,7 @@ export const Login = () => {
     return (
         <>
             <Form onSubmit={formik.handleSubmit} title="Sign In">
-                <FormGroup sx={{width: '35ch'}}>
+                <FormGroup sx={{width: '80%'}}>
                     <FormControl variant="standard" sx={{height: '71px', mb: '0.5rem'}}>
                         <InputLabel htmlFor="email">Email</InputLabel>
                         <Input
@@ -102,7 +102,7 @@ export const Login = () => {
                             {formik.touched.email && !!formik.errors.email && formik.errors.email}
                         </FormHelperText>
                     </FormControl>
-                    <FormControl variant="standard" sx={{height: '71px'}}>
+                    <FormControl variant="standard" sx={{height: '71px', width: '100%'}}>
                         <InputLabel htmlFor="password">Password</InputLabel>
                         <Input
                             id="password"
