@@ -18,7 +18,6 @@ import {SmallAvatar, useStyles} from './styles';
 import {PATH} from '../../enums/path';
 import Badge from "@mui/material/Badge";
 
-
 export const Profile = () => {
 	const styles = useStyles()
 	const dispatch = useAppDispatch()
@@ -29,7 +28,6 @@ export const Profile = () => {
 	const email = useAppSelector(state => state.login.email)
 	const publicCardPacksCount = useAppSelector(state => state.login.publicCardPacksCount)
 	const isLoggedIn = useAppSelector(state => state.login.isLoggedIn)
-
 
 	let [isEditMode, setEditMode] = useState<boolean>(false)
 	let [title, setTitle] = useState<string>(name);
