@@ -1,4 +1,4 @@
-import axios, {AxiosError} from 'axios';
+import {AxiosError} from 'axios';
 import {AppThunk} from '../../components/app/store';
 import {LoadingStatus} from '../setPass/set-pass-reducer';
 import {ILoginParams, ILoginResponse, loginAPI} from './login-api';

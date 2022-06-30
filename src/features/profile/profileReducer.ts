@@ -1,7 +1,6 @@
-import {authProfileAPI, IProfileResponse, IProfileUpdateData, profileAPI} from "./api-profile";
-import {AppThunk} from "../../components/app/store";
-import {setResponseMessage, setIsLoggedIn, setLoginData} from "../login/login-reducer";
-import {ILoginResponse} from "../login/login-api";
+import {authProfileAPI, IProfileResponse, IProfileUpdateData, profileAPI} from './api-profile';
+import {AppThunk} from '../../components/app/store';
+import {setIsLoggedIn, setResponseMessage} from '../login/login-reducer';
 
 const initialState: ProfileStateType = {
 	_id: '',
