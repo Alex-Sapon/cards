@@ -1,17 +1,27 @@
-import {authProfileAPI, profileAPI} from "./api-profile";
+import {authProfileAPI, IProfileResponse, IProfileUpdateData, profileAPI} from "./api-profile";
 import {AppThunk} from "../../components/app/store";
-import {setResponseMessage, setIsLoggedIn} from "../login/login-reducer";
+import {setResponseMessage, setIsLoggedIn, setLoginData} from "../login/login-reducer";
+import {ILoginResponse} from "../login/login-api";
 
 const initialState: ProfileStateType = {
+	_id: '',
+	email: '',
 	name: '',
+	avatar: '',
+	publicCardPacksCount: 0,
+	created: new Date(),
+	updated: new Date(),
+	isAdmin: false,
+	verified: false,
+	rememberMe: false,
+	error: '',
 	status: false,
-	avatar:''
 }
 
 export const profileReducer = (state: ProfileStateType = initialState, action: ProfileActionsType): ProfileStateType => {
 	switch (action.type) {
 		case 'profile/SET-UPDATE-PROFILE':
-			return {...state, name: action.name, avatar: action.avatar}
+			return {...state, ...action.data}
 		case 'profile/SET-STATUS':
 			return {...state, status: action.status}
 		default:
@@ -19,35 +29,33 @@ export const profileReducer = (state: ProfileStateType = initialState, action: P
 	}
 }
 
-//actions
-export const setUpdateProfileAC = (name: string, avatar: string) => ({
-	type: 'profile/SET-UPDATE-PROFILE', name,
-	avatar
-} as const)
+export const setUpdateProfileAC = (data: IProfileResponse) => ({
+	type: 'profile/SET-UPDATE-PROFILE',
+	data,
+} as const);
+
 export const setProfileStatusAC = (status: boolean) => ({type: 'profile/SET-STATUS', status} as const)
 
 //thunks
 export const logoutTC = (): AppThunk => dispatch => {
-		dispatch(setProfileStatusAC(true))
-		authProfileAPI.logout()
-			.then(res => {
-				dispatch(setIsLoggedIn(false))
-			})
-			.catch((error) => {
-				dispatch(setResponseMessage(error.message ? error.message : 'Some error occurred'))
-			})
-			.finally(() => {
-				dispatch(setProfileStatusAC(false))
-			})
-
-	}
+	dispatch(setProfileStatusAC(true))
+	authProfileAPI.logout()
+		.then(res => {
+			dispatch(setIsLoggedIn(false))
+		})
+		.catch((error) => {
+			dispatch(setResponseMessage(error.message ? error.message : 'Some error occurred'))
+		})
+		.finally(() => {
+			dispatch(setProfileStatusAC(false))
+		})
+}
 
 export const updateProfileTC = (name: string, avatar: string): AppThunk => dispatch => {
 	dispatch(setProfileStatusAC(true))
 	profileAPI.updateUserProfile(name, avatar)
 		.then(res => {
-			//let {name, avatar} = res.data.updatedUser
-			dispatch(setUpdateProfileAC(name, avatar))
+			dispatch(setUpdateProfileAC(res.data))
 		})
 		.catch((e: any) => {
 			const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
@@ -59,10 +67,9 @@ export const updateProfileTC = (name: string, avatar: string): AppThunk => dispa
 }
 
 //types
-export type ProfileStateType = {
-	name: string
+export type ProfileStateType = IProfileUpdateData & {
 	status: boolean
-	avatar?: string
+
 }
 export type ProfileActionsType =
 	| ReturnType<typeof setUpdateProfileAC>
