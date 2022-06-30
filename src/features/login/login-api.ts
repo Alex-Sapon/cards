@@ -3,7 +3,7 @@ import {instance} from "../../assets/settings/instance-api";
 
 export const loginAPI = {
     login(data: ILoginParams) {
-        return instance.post<any, AxiosResponse<ILoginResponse>, ILoginParams>(`auth/login`, data);
+        return instance.post<ILoginParams, AxiosResponse<ILoginResponse>>(`auth/login`, data);
     }
 };
 

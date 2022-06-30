@@ -62,6 +62,7 @@ export const login = (data: ILoginParams): AppThunk => dispatch => {
 
     loginAPI.login(data)
         .then(res => {
+            debugger
             dispatch(setLoginData(res.data));
             dispatch(setIsLoggedIn(true));
         })

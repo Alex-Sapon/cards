@@ -29,3 +29,31 @@
     text-align: center;
     text-decoration: none;
 }
+
+@media (max-width: 991.98px) {}
+
+@media (max-width: 767.98px) {
+    .title {
+        margin-bottom: 3rem;
+        width: 250px;
+    }
+
+    .button {
+        margin-bottom: 6.5rem;
+    }
+}
+
+@media (max-width: 479.98px) {
+    .title {
+        margin-bottom: 4rem;
+        width: 180px;
+    }
+
+    .subtitle {
+        width: 180px;
+    }
+
+    .button {
+        margin-bottom: 3.5rem;
+    }
+}

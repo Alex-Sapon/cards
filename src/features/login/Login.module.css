@@ -13,7 +13,7 @@
     display: block;
     font-weight: var(--fw-normal);
     justify-content: flex-end;
-    margin-left: auto;
+    margin-left: 12rem;
     margin-bottom: 4rem;
     text-decoration: none;
 }
@@ -33,4 +33,20 @@
 
 .view {
     padding-bottom: 5px;
+}
+
+@media (max-width: 991.98px) {}
+
+@media (max-width: 767.98px) {
+    .forgot_pass {
+        margin-bottom: 2rem;
+        margin-left: 8rem;
+    }
+}
+
+@media (max-width: 479.98px) {
+    .forgot_pass {
+        margin-bottom: 2rem;
+        margin-left: 4rem;
+    }
 }
