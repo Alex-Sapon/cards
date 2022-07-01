@@ -16,6 +16,7 @@ import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import {AppStateType, useAppDispatch, useAppSelector} from './store';
 import {RequestStatusType} from '../../features/registration/registrationReducer';
+import {PacksList} from '../../features/packsList/PacksList';
 
 const selectStatus = (state: AppStateType): RequestStatusType => state.register.status;
 const selectIsInitialized = (state: AppStateType): boolean => state.app.isInitialized;
@@ -45,13 +46,14 @@ export const App = () => {
             <div className={styles.app_container}>
                 <ErrorSnackbar/>
                 <Routes>
-                    <Route path={PATH.HOME} element={<Navigate to={PATH.PROFILE}/>}/>
-                    <Route path={PATH.LOGIN} element={<Login/>}/>
-                    <Route path={PATH.REGISTRATION} element={<Registration/>}/>
-                    <Route path={PATH.PROFILE} element={<Profile/>}/>
-                    <Route path={PATH.SET_PASS} element={<SetPassword/>}/>
-                    <Route path={PATH.RECOVERY_PASS} element={<RecoveryPass/>}/>
-                    <Route path={PATH.PAGE_NOT_FOUND} element={<Error404/>}/>
+                    <Route index element={<PacksList />}/>
+                    {/*<Route path={PATH.HOME} element={<Navigate to={PATH.PROFILE}/>}/>*/}
+                    {/*<Route path={PATH.LOGIN} element={<Login/>}/>*/}
+                    {/*<Route path={PATH.REGISTRATION} element={<Registration/>}/>*/}
+                    {/*<Route path={PATH.PROFILE} element={<Profile/>}/>*/}
+                    {/*<Route path={PATH.SET_PASS} element={<SetPassword/>}/>*/}
+                    {/*<Route path={PATH.RECOVERY_PASS} element={<RecoveryPass/>}/>*/}
+                    {/*<Route path={PATH.PAGE_NOT_FOUND} element={<Error404/>}/>*/}
                 </Routes>
             </div>
         </div>

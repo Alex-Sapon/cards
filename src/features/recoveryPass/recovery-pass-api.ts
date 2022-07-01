@@ -1,9 +1,9 @@
-import axios, {AxiosResponse} from 'axios';
+import {AxiosResponse} from 'axios';
 import {instance} from '../../assets/settings/instance-api';
 
 export const forgotAPI = {
     forgot(data: IForgotData) {
-        return instance.post<IForgotResponse>(`auth/forgot`, data);
+        return instance.post<IForgotData, AxiosResponse<IForgotResponse>>(`auth/forgot`, data);
     },
 };
 
