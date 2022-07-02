@@ -1,6 +1,6 @@
 import {AppThunk} from '../../components/app/store';
-import {forgotAPI, IForgotData} from './recovery-pass-api';
 import {LoadingStatus} from '../setPass/set-pass-reducer';
+import {authAPI, IForgotData} from '../../api/auth-api';
 
 const initialState: RecPassStateType = {
 	email: 'example@mail.com',
@@ -57,7 +57,7 @@ export const forgotPass = (email: string): AppThunk => dispatch => {
                 `,
 	}
 
-	forgotAPI.forgot(data)
+	authAPI.forgot(data)
 		.then(() => {
 			dispatch(setIsSendEmail(true));
 			dispatch(setEmail(email));

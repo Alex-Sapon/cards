@@ -1,4 +1,4 @@
-import {authProfileAPI, IProfileResponse, IProfileUpdateData, profileAPI} from './api-profile';
+import {authAPI, IProfileResponse, IProfileUpdateData} from '../../api/auth-api';
 import {AppThunk} from '../../components/app/store';
 import {setIsLoggedIn, setResponseMessage} from '../login/login-reducer';
 
@@ -38,7 +38,7 @@ export const setProfileStatusAC = (status: boolean) => ({type: 'profile/SET-STAT
 //thunks
 export const logoutTC = (): AppThunk => dispatch => {
 	dispatch(setProfileStatusAC(true))
-	authProfileAPI.logout()
+	authAPI.logout()
 		.then(res => {
 			dispatch(setIsLoggedIn(false))
 		})
@@ -52,7 +52,7 @@ export const logoutTC = (): AppThunk => dispatch => {
 
 export const updateProfileTC = (name: string, avatar: string): AppThunk => dispatch => {
 	dispatch(setProfileStatusAC(true))
-	profileAPI.updateUserProfile(name, avatar)
+	authAPI.updateUserProfile(name, avatar)
 		.then(res => {
 			dispatch(setUpdateProfileAC(res.data))
 		})

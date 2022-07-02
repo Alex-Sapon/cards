@@ -1,5 +1,5 @@
+import {authAPI, IUpdateDataPass} from '../../api/auth-api';
 import {AppThunk} from '../../components/app/store';
-import {IUpdateDataPass, setPasswordAPI} from './set-pass-api';
 
 const initialState: SetPassStateType = {
     isUpdatePassword: false,
@@ -38,7 +38,7 @@ export const setResponseMessage = (message: string | null) => ({
 export const updateNewPassword = (data: IUpdateDataPass): AppThunk => dispatch => {
     dispatch(setLoadingStatus('loading'));
 
-    setPasswordAPI.updatePass(data)
+    authAPI.updatePass(data)
         .then(res => {
             dispatch(setNewPassword(true));
         })

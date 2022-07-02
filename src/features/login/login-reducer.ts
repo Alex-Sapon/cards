@@ -1,7 +1,7 @@
 import {AxiosError} from 'axios';
+import {authAPI, ILoginParams, ILoginResponse} from '../../api/auth-api';
 import {AppThunk} from '../../components/app/store';
 import {LoadingStatus} from '../setPass/set-pass-reducer';
-import {ILoginParams, ILoginResponse, loginAPI} from './login-api';
 
 const initialState: LoginDataUserType = {
     _id: '',
@@ -60,7 +60,7 @@ export const setLoadStatus = (status: LoadingStatus) => ({
 export const login = (data: ILoginParams): AppThunk => dispatch => {
     dispatch(setLoadStatus('loading'));
 
-    loginAPI.login(data)
+    authAPI.login(data)
         .then(res => {
             dispatch(setLoginData(res.data));
             dispatch(setIsLoggedIn(true));

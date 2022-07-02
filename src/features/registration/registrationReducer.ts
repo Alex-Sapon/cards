@@ -1,6 +1,6 @@
 import {AppThunk} from '../../components/app/store';
-import {registrationApi} from './registration-api';
 import {AxiosError} from 'axios';
+import {authAPI} from '../../api/auth-api';
 
 const initialState: RegisterStateType = {
     message: null,
@@ -29,7 +29,7 @@ export const setAppErrorAC = (error: string | null) => ({type: 'REGISTER/SET-APP
 //thunks
 export const userRegisterTC = (email: string, password: string): AppThunk => (dispatch) => {
     dispatch(setAppStatusAC('loading'));
-    registrationApi.register(email, password)
+    authAPI.register(email, password)
         .then((res) => {
             if (res.data.addedUser) {
                 dispatch(setRegisterMessageAC('You have successfully registered'));

@@ -1,5 +1,5 @@
 import {AxiosResponse} from 'axios';
-import {instance} from "../../assets/settings/instance-api";
+import {instance} from "../../api/instance-api";
 
 export const appAPI = {
     me() {
