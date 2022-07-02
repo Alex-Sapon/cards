@@ -1,5 +1,5 @@
 import {useSelector} from 'react-redux';
-import {AppStateType} from '../../../components/app/store';
+import {AppStateType} from '../../../app/store';
 import styles from './SendEmail.module.css';
 
 export const SendEmail = () => {

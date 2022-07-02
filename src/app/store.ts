@@ -1,10 +1,10 @@
 import {applyMiddleware, combineReducers, legacy_createStore as createStore} from 'redux';
-import {ProfileActionsType, profileReducer} from '../../features/profile/profileReducer';
+import {ProfileActionsType, profileReducer} from '../features/profile/profileReducer';
 import thunk, {ThunkAction, ThunkDispatch} from 'redux-thunk';
-import {LoginActions, loginReducer} from '../../features/login/login-reducer';
-import {RegisterActionsType, registrationReducer} from '../../features/registration/registrationReducer';
-import {SetNewPassActions, setPassReducer} from '../../features/setPass/set-pass-reducer';
-import {recoveryPassReducer, RecPassActions} from '../../features/recoveryPass/recoveryPassReducer';
+import {LoginActions, loginReducer} from '../features/login/login-reducer';
+import {RegisterActionsType, registrationReducer} from '../features/registration/registrationReducer';
+import {SetNewPassActions, setPassReducer} from '../features/setPass/set-pass-reducer';
+import {recoveryPassReducer, RecPassActions} from '../features/recoveryPass/recoveryPassReducer';
 import {AppActionsType, appReducer} from './app-reducer';
 import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
 

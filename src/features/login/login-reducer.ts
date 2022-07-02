@@ -1,6 +1,6 @@
 import {AxiosError} from 'axios';
-import {authAPI, ILoginParams, ILoginResponse} from '../../api/auth-api';
-import {AppThunk} from '../../components/app/store';
+import {authAPI, LoginPayloadType, UserResponseType} from '../../api/auth-api';
+import {AppThunk} from '../../app/store';
 import {LoadingStatus} from '../setPass/set-pass-reducer';
 
 const initialState: LoginDataUserType = {
@@ -15,6 +15,9 @@ const initialState: LoginDataUserType = {
     verified: false,
     rememberMe: false,
     error: '',
+    __v: 0,
+    token: '',
+    tokenDeathTime: 0,
     isLoggedIn: false,
     responseMessage: null,
     status: 'idle',
@@ -37,7 +40,7 @@ export const loginReducer = (state: LoginStateType = initialState, action: Login
     }
 };
 
-export const setLoginData = (data: ILoginResponse) => ({
+export const setLoginData = (data: UserResponseType) => ({
     type: 'LOGIN/SET-LOGIN-DATA-USER',
     data,
 } as const);
@@ -57,7 +60,7 @@ export const setLoadStatus = (status: LoadingStatus) => ({
     status,
 } as const);
 
-export const login = (data: ILoginParams): AppThunk => dispatch => {
+export const login = (data: LoginPayloadType): AppThunk => dispatch => {
     dispatch(setLoadStatus('loading'));
 
     authAPI.login(data)
@@ -81,7 +84,7 @@ export type LoginActions =
     | ReturnType<typeof setResponseMessage>
     | ReturnType<typeof setLoadStatus>;
 
-type LoginDataUserType = ILoginResponse & {
+type LoginDataUserType = UserResponseType & {
     isLoggedIn: boolean
     responseMessage: string | null
     status: LoadingStatus

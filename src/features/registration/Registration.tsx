@@ -14,7 +14,7 @@ import {FormGroup} from '@mui/material';
 import {NavLink} from 'react-router-dom';
 import {PATH} from '../../enums/path';
 import {userRegisterTC} from './registrationReducer';
-import {useAppDispatch, useAppSelector} from '../../components/app/store';
+import {useAppDispatch, useAppSelector} from '../../app/store';
 
 
 export const Registration = () => {

@@ -1,7 +1,7 @@
 import {useFormik} from 'formik';
 import Button from '../../common/button/Button';
 import {Form} from '../../common/form/Form';
-import {AppStateType, useAppDispatch, useAppSelector} from '../../components/app/store';
+import {AppStateType, useAppDispatch, useAppSelector} from '../../app/store';
 import {PATH} from '../../enums/path';
 import {FormControl, FormGroup, IconButton, InputAdornment, InputLabel} from '@mui/material';
 import Input from '@mui/material/Input';
@@ -14,7 +14,7 @@ import {Navigate, useParams} from 'react-router';
 import LoadingButton from '@mui/lab/LoadingButton/LoadingButton';
 import {LoadingStatus, setResponseMessage, updateNewPassword} from './set-pass-reducer';
 import styles from './SetPassword.module.css';
-import {initializeApp} from '../../components/app/app-reducer';
+import {initializeApp} from '../../app/app-reducer';
 
 type SetPasswordErrorType = {
     password?: string

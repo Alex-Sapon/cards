@@ -1,7 +1,7 @@
 import {AppThunk} from './store';
-import {appAPI} from './app-api';
-import {setIsLoggedIn, setLoginData} from '../../features/login/login-reducer';
+import {setIsLoggedIn, setLoginData} from '../features/login/login-reducer';
 import {AxiosError} from 'axios';
+import {authAPI} from '../api/auth-api';
 
 const initialState: AppStateType = {
     isInitialized: false,
@@ -22,7 +22,7 @@ const setInitializeApp = (isInitialized: boolean) => ({
 } as const);
 
 export const initializeApp = (): AppThunk => dispatch => {
-    appAPI.me()
+    authAPI.me()
         .then((res) => {
             dispatch(setLoginData(res.data))
             dispatch(setIsLoggedIn(true));

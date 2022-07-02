@@ -2,7 +2,7 @@ import {useFormik} from 'formik';
 import {NavLink} from 'react-router-dom';
 import Button from '../../common/button/Button';
 import {Form} from '../../common/form/Form';
-import {AppStateType, useAppDispatch, useAppSelector} from '../../components/app/store';
+import {AppStateType, useAppDispatch, useAppSelector} from '../../app/store';
 import {PATH} from '../../enums/path';
 import styles from './RecoveryPass.module.css';
 import {FormControl, FormGroup, InputAdornment, InputLabel} from '@mui/material';

@@ -1,5 +1,5 @@
-import {authAPI, IProfileResponse, IProfileUpdateData} from '../../api/auth-api';
-import {AppThunk} from '../../components/app/store';
+import {authAPI, UpdateProfileResponseType, UserResponseType} from '../../api/auth-api';
+import {AppThunk} from '../../app/store';
 import {setIsLoggedIn, setResponseMessage} from '../login/login-reducer';
 
 const initialState: ProfileStateType = {
@@ -14,6 +14,9 @@ const initialState: ProfileStateType = {
 	verified: false,
 	rememberMe: false,
 	error: '',
+	__v: 0,
+	token: '',
+	tokenDeathTime: 0,
 	status: false,
 }
 
@@ -28,7 +31,7 @@ export const profileReducer = (state: ProfileStateType = initialState, action: P
 	}
 }
 
-export const setUpdateProfileAC = (data: IProfileResponse) => ({
+export const setUpdateProfileAC = (data: UpdateProfileResponseType) => ({
 	type: 'profile/SET-UPDATE-PROFILE',
 	data,
 } as const);
@@ -52,7 +55,7 @@ export const logoutTC = (): AppThunk => dispatch => {
 
 export const updateProfileTC = (name: string, avatar: string): AppThunk => dispatch => {
 	dispatch(setProfileStatusAC(true))
-	authAPI.updateUserProfile(name, avatar)
+	authAPI.updateProfile({name, avatar})
 		.then(res => {
 			dispatch(setUpdateProfileAC(res.data))
 		})
@@ -66,7 +69,7 @@ export const updateProfileTC = (name: string, avatar: string): AppThunk => dispa
 }
 
 //types
-export type ProfileStateType = IProfileUpdateData & {
+export type ProfileStateType = UserResponseType & {
 	status: boolean
 
 }

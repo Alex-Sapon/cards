@@ -1,6 +1,6 @@
-import {AppThunk} from '../../components/app/store';
+import {AppThunk} from '../../app/store';
 import {LoadingStatus} from '../setPass/set-pass-reducer';
-import {authAPI, IForgotData} from '../../api/auth-api';
+import {authAPI, ForgotPasswordPayloadType} from '../../api/auth-api';
 
 const initialState: RecPassStateType = {
 	email: 'example@mail.com',
@@ -47,7 +47,7 @@ export const setResponseMessage = (message: string | null) => ({
 export const forgotPass = (email: string): AppThunk => dispatch => {
 	dispatch(setLoadingStatus('loading'));
 
-	const data: IForgotData = {
+	const data: ForgotPasswordPayloadType = {
 		email: email,
 		from: 'alexsapon@gmail.com',
 		message: `
@@ -57,7 +57,7 @@ export const forgotPass = (email: string): AppThunk => dispatch => {
                 `,
 	}
 
-	authAPI.forgot(data)
+	authAPI.forgotPassword(data)
 		.then(() => {
 			dispatch(setIsSendEmail(true));
 			dispatch(setEmail(email));

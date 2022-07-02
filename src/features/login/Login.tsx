@@ -17,7 +17,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Input from '@mui/material/Input';
 import React, {useState} from 'react';
-import {AppStateType, useAppDispatch, useAppSelector} from '../../components/app/store';
+import {AppStateType, useAppDispatch, useAppSelector} from '../../app/store';
 import {login, setResponseMessage} from './login-reducer';
 import FormHelperText from '@mui/material/FormHelperText';
 import {AlertBar} from './AlertBar';
