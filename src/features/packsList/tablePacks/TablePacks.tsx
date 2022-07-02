@@ -19,6 +19,7 @@ import Select, {SelectChangeEvent} from '@mui/material/Select';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import Button from '../../../common/button/Button';
 import {TextField} from '@mui/material';
+import {PaginationGroup} from '../paginationGroup/PaginationGroup';
 
 const StyledTableCell = styled(TableCell)(({theme}) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -116,7 +117,7 @@ export const TablePacks = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {Array.from('1234567890').map((_, i) => (
+                        {true ? Array.from('1234567890').map((_, i) => (
                             <StyledTableRow key={i}>
                                 <StyledTableCell component="th" scope="row">New cards packs</StyledTableCell>
                                 <StyledTableCell align="center">2</StyledTableCell>
@@ -128,28 +129,11 @@ export const TablePacks = () => {
                                     <Button>Learn</Button>
                                 </StyledTableCell>
                             </StyledTableRow>
-                        ))}
+                        )) : <div>Now packs</div>}
                     </TableBody>
                 </Table>
             </TableContainer>
-            <div className={styles.pagination_group}>
-                <Stack spacing={2} sx={{mr: '2rem'}}>
-                    <Pagination count={10} shape="rounded"/>
-                </Stack>
-                <div className={styles.select_wrapper}>
-                    <span>Show</span>
-                    <Select
-                        size="small" value="10"
-                        onChange={handleChangeCheckbox}
-                        sx={{minWidth: '65px', m: '0 0.5rem', height: '30px'}}
-                    >
-                        <MenuItem value="5">{'5'}</MenuItem>
-                        <MenuItem value="10">{'10'}</MenuItem>
-                        <MenuItem value="15">{'15'}</MenuItem>
-                    </Select>
-                    <span>cards per page</span>
-                </div>
-            </div>
+            <PaginationGroup/>
         </div>
     )
-}
+};
