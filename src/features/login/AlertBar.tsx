@@ -6,19 +6,19 @@ import {ActionsType, useAppDispatch} from '../../components/app/store';
 
 type AlertBarType = {
     message: string | null
-    closeAlert: () => ActionsType
+    closeAlert?: () => ActionsType
     alertWrapper?: CSSProperties
 }
 
 export const AlertBar = ({message, closeAlert, alertWrapper}: AlertBarType) => {
     const dispatch = useAppDispatch();
 
-    const handleCloseAlertBar = () => dispatch(closeAlert.call(this));
+    const handleCloseAlertBar = () => closeAlert && dispatch(closeAlert.call(this));
 
     useEffect(() => {
         if (message) {
             setTimeout(() => {
-                dispatch(closeAlert.call(this));
+                closeAlert && dispatch(closeAlert.call(this));
             }, 5000)
         }
     }, [message, dispatch, closeAlert]);
