@@ -13,10 +13,11 @@ type PaginationGroupType = {
     pageCount?: number
     page?: number
     title?: string
+    disable?: boolean
 }
 
 export const PaginationGroup = memo((props: PaginationGroupType) => {
-    const {cardPacksTotalCount, pageCount, page, title} = props;
+    const {cardPacksTotalCount, pageCount, page, title, disable} = props;
 
     const dispatch = useAppDispatch();
 
@@ -33,11 +34,18 @@ export const PaginationGroup = memo((props: PaginationGroupType) => {
     return (
         <div className={styles.pagination_group}>
             <Stack spacing={2} sx={{mr: '2rem'}}>
-                <Pagination count={cardPacksTotalCount} page={page} shape="rounded" onChange={handleChange}/>
+                <Pagination
+                    disabled={disable}
+                    count={cardPacksTotalCount}
+                    page={page}
+                    shape="rounded"
+                    onChange={handleChange}
+                />
             </Stack>
             <div className={styles.select_wrapper}>
                 <span>Show</span>
                 <Select
+                    disabled={disable}
                     size="small"
                     value={String(pageCount)}
                     onChange={handleChangeValue}

@@ -8,6 +8,8 @@ import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import IconButton from '@mui/material/IconButton';
 import {SelectChangeEvent} from '@mui/material/Select';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import Button from '../../../common/button/Button';
@@ -127,12 +129,18 @@ export const TablePacks = () => {
                                     return (
                                         <StyledTableRow key={_id}>
                                             <StyledTableCell
-                                                sx={{width: '20%', cursor: 'pointer', padding: '14px 10px 14px 14px'}}
+                                                sx={{width: '20%', padding: '14px 10px 14px 14px'}}
                                                 component="th"
                                                 scope="row"
-                                                onClick={() => navigate(PATH.CARDS)}
                                             >
-                                                {shortWord(name)}
+                                                <span>{shortWord(name)}</span>
+                                                <IconButton
+                                                    aria-label="expand row"
+                                                    size="small"
+                                                    onClick={() => navigate(PATH.CARDS)}
+                                                >
+                                                    <ArrowForwardIcon/>
+                                                </IconButton>
                                             </StyledTableCell>
                                             <StyledTableCell sx={{width: '13%', padding: '14px 10px'}} align="center">
                                                 {cardsCount}
@@ -171,6 +179,7 @@ export const TablePacks = () => {
                 pageCount={pageCount}
                 page={page}
                 title="Cards per Page"
+                disable={status === 'loading'}
             />
         </div>
     )
