@@ -1,9 +1,6 @@
 import * as React from 'react';
 import styles from './TablePacks.module.css';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
-import FormControl from '@mui/material/FormControl';
 import SearchIcon from '@mui/icons-material/Search';
 import {styled} from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -12,14 +9,12 @@ import TableCell, {tableCellClasses} from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Pagination from '@mui/material/Pagination';
-import Stack from '@mui/material/Stack';
-import MenuItem from '@mui/material/MenuItem';
-import Select, {SelectChangeEvent} from '@mui/material/Select';
+import {SelectChangeEvent} from '@mui/material/Select';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import Button from '../../../common/button/Button';
 import {TextField} from '@mui/material';
 import {PaginationGroup} from '../paginationGroup/PaginationGroup';
+import {AppStateType, useAppSelector} from '../../../components/app/store';
 
 const StyledTableCell = styled(TableCell)(({theme}) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -41,12 +36,26 @@ const StyledTableRow = styled(TableRow)(({theme}) => ({
     },
 }));
 
+const selectCardPacks = (state: AppStateType) => state.packList.cardPacks;
+const selectCardPacksTotalCount = (state: AppStateType) => state.packList.cardPacksTotalCount;
+const selectPageCount = (state: AppStateType) => state.packList.pageCount;
+const selectPage = (state: AppStateType) => state.packList.page;
+const selectStatus = (state: AppStateType) => state.packList.status;
+const selectProfileUserId = (state: AppStateType) => state.profile._id;
+
 export const TablePacks = () => {
     // const createSortHandler = (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
     //     // onRequestSort(event, property);
     // };
 
     const [value, setValue] = React.useState<number[]>([20, 37]);
+
+    const cardPacks = useAppSelector(selectCardPacks);
+    const cardPacksTotalCount = useAppSelector(selectCardPacksTotalCount);
+    const pageCount = useAppSelector(selectPageCount);
+    const page = useAppSelector(selectPage);
+    const status = useAppSelector(selectStatus);
+    const profileUserId = useAppSelector(selectProfileUserId);
 
     const handleChange = (event: Event, newValue: number | number[]) => {
         setValue(newValue as number[]);
@@ -67,11 +76,12 @@ export const TablePacks = () => {
                     sx={{backgroundColor: '#ECECF9', mr: '2rem'}}
                     size="small"
                     placeholder="Enter new pack"
+                    disabled={status === 'loading'}
                     // value='Hello'
                     // onChange={() => {}}
                     InputProps={{startAdornment: <InputAdornment position="start"><SearchIcon/></InputAdornment>}}
                 />
-                <Button>Add new pack</Button>
+                <Button disabled={status === 'loading'}>Add new pack</Button>
             </div>
             <TableContainer className={styles.table_container}>
                 <Table>
@@ -117,23 +127,24 @@ export const TablePacks = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {true ? Array.from('1234567890').map((_, i) => (
-                            <StyledTableRow key={i}>
-                                <StyledTableCell component="th" scope="row">New cards packs</StyledTableCell>
-                                <StyledTableCell align="center">2</StyledTableCell>
-                                <StyledTableCell align="center">02.07.2022</StyledTableCell>
-                                <StyledTableCell align="center">Aleksandr</StyledTableCell>
+                        {cardPacks ? cardPacks.map(({_id, name, cardsCount, updated, user_name}) => (
+                            <StyledTableRow key={_id}>
+                                <StyledTableCell component="th" scope="row">{name}</StyledTableCell>
+                                <StyledTableCell align="center">{cardsCount}</StyledTableCell>
+                                <StyledTableCell align="center">{new Date(updated).toLocaleDateString()}</StyledTableCell>
+                                <StyledTableCell align="center">{user_name}</StyledTableCell>
                                 <StyledTableCell align="center" className={styles.table_button_group}>
-                                    <Button id="button_delete">Delete</Button>
-                                    <Button>Edit</Button>
-                                    <Button>Learn</Button>
+                                    {profileUserId === _id &&
+                                        <><Button id="button_delete" disabled={status === 'loading'}>Delete</Button>
+                                           <Button disabled={status === 'loading'}>Edit</Button></>}
+                                    <Button disabled={status === 'loading'}>Learn</Button>
                                 </StyledTableCell>
                             </StyledTableRow>
                         )) : <div>Now packs</div>}
                     </TableBody>
                 </Table>
             </TableContainer>
-            <PaginationGroup/>
+            <PaginationGroup cardPacksTotalCount={cardPacksTotalCount} pageCount={pageCount} page={page}/>
         </div>
     )
 };
