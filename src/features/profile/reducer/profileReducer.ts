@@ -32,6 +32,8 @@ export const profileReducer = (state: ProfileStateType = initialState, action: P
 
 //actions
 export const setUpdateProfileAC = (data: UpdateProfileResponseType) => ({type: 'profile/SET-UPDATE-PROFILE', data} as const);
+//actions
+export const setUpdateProfileAC = (data: IProfileResponse) => ({type: 'profile/SET-UPDATE-PROFILE',	data} as const);
 export const setProfileStatusAC = (status: boolean) => ({type: 'profile/SET-STATUS', status} as const)
 
 //thunks

@@ -145,6 +145,7 @@ export const TablePacks = () => {
                 </Table>
             </TableContainer>
             <PaginationGroup cardPacksTotalCount={cardPacksTotalCount} pageCount={pageCount} page={page}/>
+            <PaginationGroup title='Packs per Page'/>
         </div>
     )
 };
