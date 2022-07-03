@@ -1,6 +1,7 @@
 import {packsListApi, PacksParamsResponseType, PackType} from './packs-list-api';
 import {AppStateType, AppThunk} from '../../components/app/store';
 import {AxiosError} from 'axios';
+import {LoadingStatus} from '../setPass/set-pass-reducer';
 
 const initialState: PacksListStateType = {
     cardPacks: [] as PackType[],
@@ -12,6 +13,7 @@ const initialState: PacksListStateType = {
     token: '',
     tokenDeathTime: 0,
     responseMessage: null,
+    status: 'idle',
 }
 
 export const packsListReducer = (state: PacksListStateType = initialState, action: PacksListActions): PacksListStateType => {
@@ -20,6 +22,8 @@ export const packsListReducer = (state: PacksListStateType = initialState, actio
             return {...state, ...action.data};
         case 'PACKS-LIST/SET-RESPONSE-MESSAGE':
             return {...state, responseMessage: action.message};
+        case 'PACKS-LIST/SET-LOADING-STATUS':
+            return {...state, status: action.status};
         default:
             return state;
     }
@@ -35,31 +39,37 @@ export const setResponseMessage = (message: string | null) => ({
     message,
 } as const);
 
+export const setLoadingStatus = (status: LoadingStatus) => ({
+    type: 'PACKS-LIST/SET-LOADING-STATUS',
+    status,
+} as const);
+
 export const fetchCardPacks = (): AppThunk => (dispatch, getState: () => AppStateType) => {
-    const {minCardsCount, maxCardsCount, } = getState().packList;
+    const {minCardsCount, maxCardsCount,} = getState().packList;
 
-    const data ={
+    const data = {}
 
-    }
+    dispatch(setLoadingStatus('loading'));
 
     packsListApi.getPacks(data)
         .then(res => {
             dispatch(setPacksListData(res.data));
         })
-        .catch((e: AxiosError<{error: string}>) => {
+        .catch((e: AxiosError<{ error: string }>) => {
             const error = e.response ? e.response.data.error : e.message;
             dispatch(setResponseMessage(error));
-
         })
         .finally(() => {
-
+            dispatch(setLoadingStatus('loading'));
         })
 }
 
 export type PacksListActions =
     | ReturnType<typeof setPacksListData>
-    | ReturnType<typeof setResponseMessage>;
+    | ReturnType<typeof setResponseMessage>
+    | ReturnType<typeof setLoadingStatus>;
 
 type PacksListStateType = PacksParamsResponseType & {
     responseMessage: string | null
+    status: LoadingStatus
 }

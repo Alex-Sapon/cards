@@ -14,6 +14,7 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import Button from '../../../common/button/Button';
 import {TextField} from '@mui/material';
 import {PaginationGroup} from '../paginationGroup/PaginationGroup';
+import {AppStateType, useAppSelector} from '../../../components/app/store';
 
 const StyledTableCell = styled(TableCell)(({theme}) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -35,12 +36,22 @@ const StyledTableRow = styled(TableRow)(({theme}) => ({
     },
 }));
 
+const selectCardPacks = (state: AppStateType) => state.packList.cardPacks;
+const selectCardPacksTotalCount = (state: AppStateType) => state.packList.cardPacksTotalCount;
+const selectPageCount = (state: AppStateType) => state.packList.pageCount;
+const selectPage = (state: AppStateType) => state.packList.page;
+
 export const TablePacks = () => {
     // const createSortHandler = (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
     //     // onRequestSort(event, property);
     // };
 
     const [value, setValue] = React.useState<number[]>([20, 37]);
+
+    const cardPacks = useAppSelector(selectCardPacks);
+    const cardPacksTotalCount = useAppSelector(selectCardPacksTotalCount);
+    const pageCount = useAppSelector(selectPageCount);
+    const page = useAppSelector(selectPage);
 
     const handleChange = (event: Event, newValue: number | number[]) => {
         setValue(newValue as number[]);
@@ -111,12 +122,12 @@ export const TablePacks = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {true ? Array.from('1234567890').map((_, i) => (
-                            <StyledTableRow key={i}>
-                                <StyledTableCell component="th" scope="row">New cards packs</StyledTableCell>
-                                <StyledTableCell align="center">2</StyledTableCell>
-                                <StyledTableCell align="center">02.07.2022</StyledTableCell>
-                                <StyledTableCell align="center">Aleksandr</StyledTableCell>
+                        {cardPacks ? cardPacks.map(({_id, name, cardsCount, updated, user_name}) => (
+                            <StyledTableRow key={_id}>
+                                <StyledTableCell component="th" scope="row">{name}</StyledTableCell>
+                                <StyledTableCell align="center">{cardsCount}</StyledTableCell>
+                                <StyledTableCell align="center">{new Date(updated).toLocaleDateString()}</StyledTableCell>
+                                <StyledTableCell align="center">{user_name}</StyledTableCell>
                                 <StyledTableCell align="center" className={styles.table_button_group}>
                                     <Button id="button_delete">Delete</Button>
                                     <Button>Edit</Button>
@@ -127,7 +138,7 @@ export const TablePacks = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <PaginationGroup/>
+            <PaginationGroup cardPacksTotalCount={cardPacksTotalCount} pageCount={pageCount} page={page}/>
         </div>
     )
 };
