@@ -9,7 +9,7 @@ const initialState: RegistrationStateType = {
 
 export const registrationReducer = (state: RegistrationStateType = initialState, action: RegistrationActionsType): RegistrationStateType => {
     switch (action.type) {
-        case 'REGISTER/SET-MESSAGE':
+        case 'REGISTRATION/SET-MESSAGE':
             return {...state, message: action.message};
         default:
             return state;
@@ -17,7 +17,7 @@ export const registrationReducer = (state: RegistrationStateType = initialState,
 };
 
 //actions
-export const setRegisterMessageAC = (message: string | null) => ({type: 'REGISTER/SET-MESSAGE', message} as const);
+export const setRegisterMessageAC = (message: string | null) => ({type: 'REGISTRATION/SET-MESSAGE', message} as const);
 
 //thunks
 export const userRegisterTC = (email: string, password: string): AppThunk => (dispatch) => {

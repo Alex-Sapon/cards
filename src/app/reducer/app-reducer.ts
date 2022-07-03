@@ -1,5 +1,5 @@
 import {AppThunk} from '../store';
-import {setIsLoggedIn, setLoginData} from '../../features/login/reducer/login-reducer';
+import {setIsLoggedIn, setLoginData} from '../../features/login/reducer/loginReducer';
 import {AxiosError} from 'axios';
 import {authAPI} from '../../api/auth-api';
 

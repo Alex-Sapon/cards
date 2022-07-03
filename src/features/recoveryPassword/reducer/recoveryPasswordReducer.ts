@@ -9,9 +9,9 @@ const initialState: RecoveryPasswordStateType = {
 
 export const recoveryPasswordReducer = (state: RecoveryPasswordStateType = initialState, action: RecoveryPasswordActionsType): RecoveryPasswordStateType => {
 	switch (action.type) {
-		case 'RECOVERY-PASS/SET-IS-SEND-EMAIL':
+		case 'RECOVERY-PASSWORD/SET-IS-SEND-EMAIL':
 			return {...state, isSendEmail: action.isSend};;
-		case 'RECOVERY-PASS/SET-EMAIL':
+		case 'RECOVERY-PASSWORD/SET-EMAIL':
 			return {...state, email: action.email};
 		default:
 			return state;
@@ -19,8 +19,8 @@ export const recoveryPasswordReducer = (state: RecoveryPasswordStateType = initi
 };
 
 //actions
-const setIsSendEmail = (isSend: boolean) => ({type: 'RECOVERY-PASS/SET-IS-SEND-EMAIL', isSend,} as const);
-const setEmail = (email: string) => ({type: 'RECOVERY-PASS/SET-EMAIL', email,} as const);
+export const setIsSendEmail = (isSend: boolean) => ({type: 'RECOVERY-PASSWORD/SET-IS-SEND-EMAIL', isSend,} as const);
+export const setEmail = (email: string) => ({type: 'RECOVERY-PASSWORD/SET-EMAIL', email,} as const);
 
 //thunks
 export const forgotPass = (email: string): AppThunk => dispatch => {

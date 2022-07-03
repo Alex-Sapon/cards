@@ -1,17 +1,17 @@
 import {applyMiddleware, combineReducers, legacy_createStore as createStore} from 'redux';
 import {ProfileActionsType, profileReducer} from '../features/profile/reducer/profileReducer';
 import thunk, {ThunkAction, ThunkDispatch} from 'redux-thunk';
-import {LoginActionsType, loginReducer} from '../features/login/reducer/login-reducer';
+import {LoginActionsType, loginReducer} from '../features/login/reducer/loginReducer';
 import {RegistrationActionsType, registrationReducer} from '../features/registration/reducer/registrationReducer';
-import {SetNewPasswordActionsType, setPasswordReducer} from '../features/setPass/reducer/set-pass-reducer';
+import {SetNewPasswordActionsType, setPasswordReducer} from '../features/setPassword/reducer/setPasswordReducer';
 import {
     RecoveryPasswordActionsType,
     recoveryPasswordReducer
-} from '../features/recoveryPass/reducer/recoveryPassReducer';
+} from '../features/recoveryPassword/reducer/recoveryPasswordReducer';
 import {AppActionsType, appReducer} from './reducer/app-reducer';
 import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
-import {PacksListActionsType, packsListReducer} from '../features/packsList/packs-list-reducer';
-import {TablePacksActionsType, tablePacksReducer } from '../features/packsList/tablePacks/table-packs-reducer';
+import {PacksListActionsType, packsListReducer} from '../features/packsList/reducer/packsListReducer';
+import {TablePacksActionsType, tablePacksReducer } from '../features/packsList/tablePacks/reducer/tablePacksReducer';
 
 
 const rootReducer = combineReducers({

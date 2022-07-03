@@ -4,8 +4,8 @@ import styles from './App.module.css';
 import {Login} from '../features/login/Login';
 import {Registration} from '../features/registration/Registration';
 import {Profile} from '../features/profile/Profile';
-import {SetPassword} from '../features/setPass/SetPassword';
-import {RecoveryPass} from '../features/recoveryPass/RecoveryPass';
+import {SetPassword} from '../features/setPassword/SetPassword';
+import {RecoveryPassword} from '../features/recoveryPassword/RecoveryPassword';
 import {Error404} from '../components/error404/Error404';
 import {PATH} from '../enums/path';
 import {useEffect} from 'react';
@@ -53,7 +53,7 @@ export const App = () => {
 					<Route path={PATH.CARDS} element={<PackName/>}/>
                     <Route path={PATH.PROFILE} element={<Profile/>}/>
                     <Route path={PATH.SET_PASS} element={<SetPassword/>}/>
-                    <Route path={PATH.RECOVERY_PASS} element={<RecoveryPass/>}/>
+                    <Route path={PATH.RECOVERY_PASS} element={<RecoveryPassword/>}/>
                     <Route path={PATH.PAGE_NOT_FOUND} element={<Error404/>}/>
                 </Routes>
             </div>

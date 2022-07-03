@@ -1,4 +1,4 @@
-import {PacksParamsType} from '../packs-list-api';
+import {PacksParamsType} from '../../packs-list-api';
 
 const initialState: TablePacksType = {
     page: 1,
@@ -27,4 +27,4 @@ export const setPageCount = (page: number) => ({
 
 export type TablePacksActionsType = ReturnType<typeof setPage>;
 
-type TablePacksType = PacksParamsType &  {}
+export type TablePacksType = PacksParamsType &  {}

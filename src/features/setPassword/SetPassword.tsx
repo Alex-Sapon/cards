@@ -14,7 +14,7 @@ import {Navigate, useParams} from 'react-router';
 import LoadingButton from '@mui/lab/LoadingButton/LoadingButton';
 import styles from './SetPassword.module.css';
 import {initializeApp, RequestStatusType, setAppErrorAC} from '../../app/reducer/app-reducer';
-import {updateNewPassword} from './reducer/set-pass-reducer';
+import {updateNewPassword} from './reducer/setPasswordReducer';
 
 type SetPasswordErrorType = {
     password?: string

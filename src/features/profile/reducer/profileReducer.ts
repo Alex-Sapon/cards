@@ -1,9 +1,9 @@
-import {authAPI, UpdateProfileResponseType, UserResponseType} from '../../../api/auth-api';
+import {authAPI, UserResponseType} from '../../../api/auth-api';
 import {AppThunk} from '../../../app/store';
-import {setIsLoggedIn} from '../../login/reducer/login-reducer';
+import {setIsLoggedIn} from '../../login/reducer/loginReducer';
 import {setAppErrorAC, setAppStatusAC} from '../../../app/reducer/app-reducer';
 
-const initialState: ProfileStateType = {
+const initialState: UserResponseType = {
 	_id: '',
 	email: '',
 	name: '',
@@ -18,10 +18,9 @@ const initialState: ProfileStateType = {
 	__v: 0,
 	token: '',
 	tokenDeathTime: 0,
-	status: false,
 }
 
-export const profileReducer = (state: ProfileStateType = initialState, action: ProfileActionsType): ProfileStateType => {
+export const profileReducer = (state: UserResponseType = initialState, action: ProfileActionsType): UserResponseType => {
 	switch (action.type) {
 		case 'PROFILE/SET-UPDATE-PROFILE':
 			return {...state, ...action.data}
@@ -31,7 +30,7 @@ export const profileReducer = (state: ProfileStateType = initialState, action: P
 }
 
 //actions
-export const setUpdateProfileAC = (data: UpdateProfileResponseType) => ({type: 'PROFILE/SET-UPDATE-PROFILE', data} as const);
+export const setUpdateProfileAC = (data: UserResponseType) => ({type: 'PROFILE/SET-UPDATE-PROFILE', data} as const);
 
 //thunks
 export const logoutTC = (): AppThunk => dispatch => {
@@ -52,7 +51,7 @@ export const updateProfileTC = (name: string, avatar: string): AppThunk => dispa
 	dispatch(setAppStatusAC('loading'))
 	authAPI.updateProfile({name, avatar})
 		.then(res => {
-			dispatch(setUpdateProfileAC(res.data))
+			dispatch(setUpdateProfileAC(res.data.updatedUser))
 		})
 		.catch((e: any) => {
 			const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
@@ -64,8 +63,5 @@ export const updateProfileTC = (name: string, avatar: string): AppThunk => dispa
 }
 
 //types
-export type ProfileStateType = UserResponseType & {
-	status: boolean
-}
 export type ProfileActionsType =
 	| ReturnType<typeof setUpdateProfileAC>

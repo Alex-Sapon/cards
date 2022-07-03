@@ -10,7 +10,7 @@ import {AppStateType, useAppDispatch, useAppSelector} from '../../app/store';
 import {PATH} from '../../enums/path';
 import styles from './RecoveryPass.module.css';
 import {AlertBar} from '../login/AlertBar';
-import {forgotPass} from './reducer/recoveryPassReducer';
+import {forgotPass} from './reducer/recoveryPasswordReducer';
 import React from 'react';
 import {SendEmail} from './sendEmail/SendEmail';
 import {RequestStatusType, setAppErrorAC} from '../../app/reducer/app-reducer';
@@ -23,7 +23,7 @@ const selectIsSendEmail = (state: AppStateType): boolean => state.recoveryPasswo
 const selectResponseMessage = (state: AppStateType): string | null => state.app.error;
 const selectStatus = (state: AppStateType): RequestStatusType => state.app.status;
 
-export const RecoveryPass = () => {
+export const RecoveryPassword = () => {
     const dispatch = useAppDispatch();
 
     const isSendEmail = useAppSelector(selectIsSendEmail);

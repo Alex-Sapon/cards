@@ -18,7 +18,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Input from '@mui/material/Input';
 import React, {useState} from 'react';
 import {AppStateType, useAppDispatch, useAppSelector} from '../../app/store';
-import {login} from './reducer/login-reducer';
+import {login} from './reducer/loginReducer';
 import FormHelperText from '@mui/material/FormHelperText';
 import {AlertBar} from './AlertBar';
 import LoadingButton from '@mui/lab/LoadingButton/LoadingButton';

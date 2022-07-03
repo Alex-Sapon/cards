@@ -4,7 +4,7 @@ import {ShowPacks} from './showPacks/ShowPacks';
 import {TablePacks} from './tablePacks/TablePacks';
 import {AlertBar} from '../login/AlertBar';
 import {useEffect} from 'react';
-import {fetchCardPacks} from './packs-list-reducer';
+import {fetchCardPacks} from './reducer/packsListReducer';
 import {PATH} from '../../enums/path';
 import { Navigate } from 'react-router-dom';
 import { AppStateType, useAppDispatch, useAppSelector } from '../../app/store';

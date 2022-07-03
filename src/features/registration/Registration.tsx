@@ -12,7 +12,7 @@ import styles from './Registration.module.css';
 import * as React from 'react';
 import {PATH} from '../../enums/path';
 import {useFormik} from 'formik';
-import {NavLink} from 'react-router-dom';
+import {Navigate, NavLink} from 'react-router-dom';
 import {userRegisterTC} from './reducer/registrationReducer';
 import {useAppDispatch, useAppSelector} from '../../app/store';
 
@@ -20,6 +20,7 @@ export const Registration = () => {
 
     const dispatch = useAppDispatch();
     const status = useAppSelector(state => state.app.status);
+    const isLoggedIn = useAppSelector(state => state.login.isLoggedIn)
 
     const formik = useFormik({
         initialValues: {
@@ -62,6 +63,9 @@ export const Registration = () => {
         setShowConfirmPassword(!showConfirmPassword);
     };
 
+    if (isLoggedIn) {
+        return <Navigate to={PATH.PROFILE}/>
+    }
     return (
         <>
             <Form onSubmit={formik.handleSubmit} title={'Registration'}>

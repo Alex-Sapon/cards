@@ -1,5 +1,5 @@
 import {authAPI, UpdatePasswordPayloadType} from '../../../api/auth-api';
-import {RequestStatusType, setAppErrorAC, setAppStatusAC} from '../../../app/reducer/app-reducer';
+import {setAppErrorAC, setAppStatusAC} from '../../../app/reducer/app-reducer';
 import {AppThunk} from '../../../app/store';
 
 const initialState: SetPasswordStateType = {
@@ -16,7 +16,7 @@ export const setPasswordReducer = (state: SetPasswordStateType = initialState, a
 }
 
 //actions
-const setNewPassword = (isUpdatePass: boolean) => ({type: 'SET-PASSWORD/UPDATE-PASSWORD', isUpdatePass,} as const);
+export const setNewPassword = (isUpdatePass: boolean) => ({type: 'SET-PASSWORD/UPDATE-PASSWORD', isUpdatePass,} as const);
 
 //thunks
 export const updateNewPassword = (data: UpdatePasswordPayloadType): AppThunk => dispatch => {
