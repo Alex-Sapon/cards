@@ -13,7 +13,7 @@ export const tablePacksAPI = {
     },
 }
 
-type ResponseType<D = {}> = {
+type ResponseType = {
     cardPacks: PackType[]
     page: number
     pageCount: number

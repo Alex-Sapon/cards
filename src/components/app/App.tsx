@@ -17,12 +17,13 @@ import {AppStateType, useAppDispatch, useAppSelector} from './store';
 import {PacksList} from '../../features/packsList/PacksList';
 
 const selectIsInitialized = (state: AppStateType): boolean => state.app.isInitialized;
+const selectIsLoggedIn = (state: AppStateType): boolean => state.login.isLoggedIn;
 
 export const App = () => {
     const dispatch = useAppDispatch();
 
     const isInitialized = useAppSelector(selectIsInitialized);
-    const isLoggedIn = useAppSelector(state => state.login.isLoggedIn)
+    const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
     useEffect(() => {
         dispatch(initializeApp());
@@ -42,7 +43,6 @@ export const App = () => {
             <div className={styles.app_container}>
                 <ErrorSnackbar/>
                 <Routes>
-                    {/*<Route index element={<PacksList />}/>*/}
                     <Route path={PATH.HOME} element={<Navigate to={PATH.LOGIN}/>}/>
                     <Route path={PATH.LOGIN} element={<Login/>}/>
                     <Route path={PATH.REGISTRATION} element={<Registration/>}/>
@@ -54,5 +54,5 @@ export const App = () => {
                 </Routes>
             </div>
         </div>
-    );
+    )
 };

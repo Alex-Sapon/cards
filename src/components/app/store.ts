@@ -7,6 +7,7 @@ import {SetNewPassActions, setPassReducer} from '../../features/setPass/set-pass
 import {recoveryPassReducer, RecPassActions} from '../../features/recoveryPass/recoveryPassReducer';
 import {AppActionsType, appReducer} from './app-reducer';
 import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
+import {PacksListActions, packsListReducer} from '../../features/packsList/packs-list-reducer';
 
 
 const rootReducer = combineReducers({
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
     setPass: setPassReducer,
     recoveryPass: recoveryPassReducer,
     register: registrationReducer,
+    packList: packsListReducer,
 });
 
 export const store = createStore(rootReducer, applyMiddleware(thunk));
@@ -28,7 +30,8 @@ export type ActionsType =
     | ProfileActionsType
     | RecPassActions
     | SetNewPassActions
-    | RegisterActionsType;
+    | RegisterActionsType
+    | PacksListActions;
 
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppStateType, unknown, ActionsType>;
 
