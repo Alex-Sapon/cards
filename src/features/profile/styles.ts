@@ -4,8 +4,8 @@ import {Avatar} from "@mui/material";
 export const useStyles = makeStyles((theme) => ({
 	profileContainer: {
 		width: '650px',
-		maxHeight: '500px',
-		background: '#F9F9FE',
+		maxHeight: '460px',
+		background: '#f9f9fe',
 		margin: '20px auto 0',
 		padding: '20px 20px 20px 20px',
 		borderRadius: ' 8px',
@@ -16,6 +16,7 @@ export const useStyles = makeStyles((theme) => ({
 		padding: '20px 20px 0px 20px',
 		background: '#D9D9F1',
 		borderRadius: '8px',
+		minHeight: '300px',
 	},
 	profileItems: {
 		display: 'flex',

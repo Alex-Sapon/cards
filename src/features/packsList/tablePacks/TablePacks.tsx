@@ -133,7 +133,7 @@ export const TablePacks = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <PaginationGroup/>
+            <PaginationGroup title='Packs per Page'/>
         </div>
     )
 };

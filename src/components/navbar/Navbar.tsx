@@ -9,6 +9,7 @@ export const Navbar = () => {
         <div className={styles.navbar_container}>
             <nav className={styles.navbar_list}>
                 <NavLink to={PATH.PROFILE} className={setActiveClass}>Profile</NavLink>
+                <NavLink to={PATH.CARDS} className={setActiveClass}>Cards</NavLink>
                 <NavLink to={PATH.LOGIN} className={setActiveClass}>Login</NavLink>
                 <NavLink to={PATH.REGISTRATION} className={setActiveClass}>Registration</NavLink>
                 <NavLink to={PATH.SET_PASS} className={setActiveClass}>Set password</NavLink>

@@ -5,17 +5,21 @@ import Stack from '@mui/material/Stack';
 import MenuItem from '@mui/material/MenuItem';
 import Select, {SelectChangeEvent} from '@mui/material/Select';
 
-export const PaginationGroup = () => {
-    const [age, setAge] = React.useState('');
+type TablePackPropsType = {
+  title:string
+}
+
+export const PaginationGroup = (props:TablePackPropsType) => {
+    const [page, setPage] = React.useState('');
 
     const handleChangeCheckbox = (event: SelectChangeEvent) => {
-        setAge(event.target.value);
+      setPage(event.target.value);
     };
 
     return (
         <div className={styles.pagination_group}>
             <Stack spacing={2} sx={{mr: '2rem'}}>
-                <Pagination count={10} shape="rounded"/>
+                <Pagination count={10} shape="rounded" color="secondary"/>
             </Stack>
             <div className={styles.select_wrapper}>
                 <span>Show</span>
@@ -29,7 +33,7 @@ export const PaginationGroup = () => {
                     <MenuItem value="10">{'10'}</MenuItem>
                     <MenuItem value="15">{'15'}</MenuItem>
                 </Select>
-                <span>cards per page</span>
+                <span>{props.title}</span>
             </div>
         </div>
     )
