@@ -4,19 +4,20 @@ import {ShowPacks} from './showPacks/ShowPacks';
 import {TablePacks} from './tablePacks/TablePacks';
 import {AlertBar} from '../login/AlertBar';
 import {useEffect} from 'react';
-import {AppStateType, useAppDispatch, useAppSelector} from '../../components/app/store';
-import {fetchCardPacks, setResponseMessage} from './packs-list-reducer';
+import {fetchCardPacks} from './packs-list-reducer';
 import {PATH} from '../../enums/path';
 import { Navigate } from 'react-router-dom';
+import { AppStateType, useAppDispatch, useAppSelector } from '../../app/store';
+import { setAppErrorAC } from '../../app/reducer/app-reducer';
 
-const selectResponseMessage = (state: AppStateType): string | null => state.packList.responseMessage;
+const selectError = (state: AppStateType): string | null => state.app.error;
 const selectIsLoggedIn = (state: AppStateType): boolean => state.login.isLoggedIn;
 const selectPage = (state: AppStateType): number => state.tablePacks.page;
 
 export const PacksList = () => {
     const dispatch = useAppDispatch();
 
-    const responseMessage = useAppSelector(selectResponseMessage);
+    const responseMessage = useAppSelector(selectError);
     const isLoggedIn = useAppSelector(selectIsLoggedIn);
     const page = useAppSelector(selectPage);
 
@@ -32,7 +33,7 @@ export const PacksList = () => {
         <div className={styles.container}>
             <ShowPacks/>
             <TablePacks/>
-            {responseMessage && <AlertBar message={responseMessage} closeAlert={() => setResponseMessage(null)}/>}
+            {responseMessage && <AlertBar message={responseMessage} closeAlert={() => setAppErrorAC(null)}/>}
         </div>
     )
 }

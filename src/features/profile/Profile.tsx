@@ -23,7 +23,7 @@ export const Profile = () => {
 	const styles = useStyles()
 	const dispatch = useAppDispatch()
 
-	const status = useAppSelector(state => state.profile.status)
+	const status = useAppSelector(state => state.app.status)
 	const avatar = useAppSelector(state => state.login.avatar)
 	const name = useAppSelector(state => state.login.name)
 	const email = useAppSelector(state => state.login.email)
@@ -67,7 +67,7 @@ export const Profile = () => {
 
 	return (
 		<div>
-			{status
+			{status === 'loading'
 				? (<div><Stack className={styles.profilePreloader} spacing={2} direction="row">
 					<CircularProgress color="secondary"/>
 				</Stack></div>)

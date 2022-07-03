@@ -1,4 +1,5 @@
-import {instance} from "../../../assets/settings/instance-api";
+import { instance } from "../../../api/instance-api";
+
 
 export const packNameAPI = {
 	getCards() {

@@ -147,7 +147,7 @@ export const Login = () => {
                 <div className={styles.text}>Don't have an account?</div>
                 <NavLink className={styles.link} to={PATH.REGISTRATION} onClick={handleClick}>Sign Up</NavLink>
             </Form>
-            {responseMessage && <AlertBar message={responseMessage} closeAlert={() => setAppErrorAC(null)}/>}
+            {/*{responseMessage && <AlertBar message={responseMessage} closeAlert={() => setAppErrorAC(null)}/>}*/}
         </>
     )
 };

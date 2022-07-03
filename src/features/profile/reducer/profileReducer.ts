@@ -23,7 +23,7 @@ const initialState: ProfileStateType = {
 
 export const profileReducer = (state: ProfileStateType = initialState, action: ProfileActionsType): ProfileStateType => {
 	switch (action.type) {
-		case 'profile/SET-UPDATE-PROFILE':
+		case 'PROFILE/SET-UPDATE-PROFILE':
 			return {...state, ...action.data}
 		default:
 			return state
@@ -31,10 +31,7 @@ export const profileReducer = (state: ProfileStateType = initialState, action: P
 }
 
 //actions
-export const setUpdateProfileAC = (data: UpdateProfileResponseType) => ({type: 'profile/SET-UPDATE-PROFILE', data} as const);
-//actions
-export const setUpdateProfileAC = (data: IProfileResponse) => ({type: 'profile/SET-UPDATE-PROFILE',	data} as const);
-export const setProfileStatusAC = (status: boolean) => ({type: 'profile/SET-STATUS', status} as const)
+export const setUpdateProfileAC = (data: UpdateProfileResponseType) => ({type: 'PROFILE/SET-UPDATE-PROFILE', data} as const);
 
 //thunks
 export const logoutTC = (): AppThunk => dispatch => {

@@ -10,8 +10,8 @@ import {
 } from '../features/recoveryPass/reducer/recoveryPassReducer';
 import {AppActionsType, appReducer} from './reducer/app-reducer';
 import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
-import {PacksListActions, packsListReducer} from '../../features/packsList/packs-list-reducer';
-import {TablePacksActions, tablePacksReducer} from '../../features/packsList/tablePacks/table-packs-reducer';
+import {PacksListActionsType, packsListReducer} from '../features/packsList/packs-list-reducer';
+import {TablePacksActionsType, tablePacksReducer } from '../features/packsList/tablePacks/table-packs-reducer';
 
 
 const rootReducer = combineReducers({
@@ -21,9 +21,6 @@ const rootReducer = combineReducers({
     setPassword: setPasswordReducer,
     recoveryPassword: recoveryPasswordReducer,
     registration: registrationReducer,
-    setPass: setPassReducer,
-    recoveryPass: recoveryPassReducer,
-    register: registrationReducer,
     packList: packsListReducer,
     tablePacks: tablePacksReducer,
 });
@@ -38,12 +35,9 @@ export type ActionsType =
     | ProfileActionsType
     | RecoveryPasswordActionsType
     | SetNewPasswordActionsType
-    | RegistrationActionsType;
-    | RecPassActions
-    | SetNewPassActions
-    | RegisterActionsType
-    | PacksListActions
-    | TablePacksActions;
+    | RegistrationActionsType
+    | PacksListActionsType
+    | TablePacksActionsType
 
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppStateType, unknown, ActionsType>;
 

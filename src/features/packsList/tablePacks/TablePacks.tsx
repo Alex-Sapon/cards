@@ -14,7 +14,7 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import Button from '../../../common/button/Button';
 import {TextField} from '@mui/material';
 import {PaginationGroup} from '../paginationGroup/PaginationGroup';
-import {AppStateType, useAppSelector} from '../../../components/app/store';
+import {AppStateType, useAppSelector} from '../../../app/store';
 
 const StyledTableCell = styled(TableCell)(({theme}) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -40,7 +40,7 @@ const selectCardPacks = (state: AppStateType) => state.packList.cardPacks;
 const selectCardPacksTotalCount = (state: AppStateType) => state.packList.cardPacksTotalCount;
 const selectPageCount = (state: AppStateType) => state.packList.pageCount;
 const selectPage = (state: AppStateType) => state.packList.page;
-const selectStatus = (state: AppStateType) => state.packList.status;
+const selectStatus = (state: AppStateType) => state.app.status;
 const selectProfileUserId = (state: AppStateType) => state.profile._id;
 
 export const TablePacks = () => {
@@ -145,7 +145,6 @@ export const TablePacks = () => {
                 </Table>
             </TableContainer>
             <PaginationGroup cardPacksTotalCount={cardPacksTotalCount} pageCount={pageCount} page={page}/>
-            <PaginationGroup title='Packs per Page'/>
         </div>
     )
 };

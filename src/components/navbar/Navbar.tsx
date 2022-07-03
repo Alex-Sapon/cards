@@ -2,10 +2,10 @@ import {NavLink} from 'react-router-dom';
 import styles from './Navbar.module.css';
 import {PATH} from '../../enums/path';
 import LinearProgress from '@mui/material/LinearProgress/LinearProgress';
-import {AppStateType, useAppSelector} from '../app/store';
-import {RequestStatusType} from '../../features/registration/registrationReducer';
+import { RequestStatusType } from '../../app/reducer/app-reducer';
+import {AppStateType, useAppSelector } from '../../app/store';
 
-const selectStatus = (state: AppStateType): RequestStatusType => state.register.status;
+const selectStatus = (state: AppStateType): RequestStatusType => state.app.status;
 
 export const Navbar = () => {
     const setActiveClass = (navData: { isActive: boolean }): string => {
@@ -20,11 +20,6 @@ export const Navbar = () => {
                 <NavLink to={PATH.PACKS_LIST} className={setActiveClass}>Packs List</NavLink>
                 <NavLink to={PATH.PROFILE} className={setActiveClass}>Profile</NavLink>
                 <NavLink to={PATH.CARDS} className={setActiveClass}>Cards</NavLink>
-                <NavLink to={PATH.LOGIN} className={setActiveClass}>Login</NavLink>
-                <NavLink to={PATH.REGISTRATION} className={setActiveClass}>Registration</NavLink>
-                <NavLink to={PATH.SET_PASS} className={setActiveClass}>Set password</NavLink>
-                <NavLink to={PATH.RECOVERY_PASS} className={setActiveClass}>Recovery password</NavLink>
-                <NavLink to={PATH.TEST} className={setActiveClass}>Test</NavLink>
             </nav>
             {status === 'loading' && <LinearProgress color="secondary"/>}
         </div>

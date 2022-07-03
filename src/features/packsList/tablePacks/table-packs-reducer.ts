@@ -5,7 +5,7 @@ const initialState: TablePacksType = {
     pageCount: 5,
 };
 
-export const tablePacksReducer = (state: TablePacksType = initialState, action: TablePacksActions) => {
+export const tablePacksReducer = (state: TablePacksType = initialState, action: TablePacksActionsType) => {
     switch (action.type) {
         case 'TABLE-PACKS/SET-PAGE':
             return {...state, page: action.page};
@@ -25,6 +25,6 @@ export const setPageCount = (page: number) => ({
     page,
 } as const);
 
-export type TablePacksActions = ReturnType<typeof setPage>;
+export type TablePacksActionsType = ReturnType<typeof setPage>;
 
 type TablePacksType = PacksParamsType &  {}

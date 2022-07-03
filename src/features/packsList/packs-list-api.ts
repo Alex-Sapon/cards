@@ -1,5 +1,6 @@
-import {instance} from '../../assets/settings/instance-api';
+
 import {AxiosResponse} from 'axios';
+import { instance } from '../../api/instance-api';
 
 export const packsListApi = {
     getPacks(data: PacksParamsType) {
@@ -7,6 +8,7 @@ export const packsListApi = {
     }
 }
 
+//types
 export type PacksParamsType = {
     packName?: string
     min?: number
