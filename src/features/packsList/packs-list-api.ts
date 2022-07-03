@@ -10,7 +10,7 @@ export const packsListApi = {
 
 //types
 export type PacksParamsType = {
-    packName?: string
+    packName: string
     min?: number
     max?: number
     sortPacks?: string

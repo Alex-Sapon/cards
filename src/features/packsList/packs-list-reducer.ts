@@ -28,22 +28,22 @@ const setPacksListData = (data: PacksParamsResponseType) => ({type: 'PACKS-LIST/
 
 //thunks
 export const fetchCardPacks = (): AppThunk => (dispatch, getState: () => AppStateType) => {
-    const {pageCount, page} = getState().tablePacks;
+    const {pageCount, page, packName} = getState().tablePacks;
 
-    const data = {
+    const params = {
+        packName,
         page,
         pageCount,
     }
 
     dispatch(setAppStatusAC('loading'));
 
-    packsListApi.getPacks(data)
+    packsListApi.getPacks(params)
         .then(res => {
             dispatch(setPacksListData(res.data));
         })
         .catch((e: AxiosError<{ error: string }>) => {
-            const error = e.response ? e.response.data.error : e.message;
-            dispatch(setAppErrorAC(error));
+            dispatch(setAppErrorAC(e.response ? e.response.data.error : e.message));
         })
         .finally(() => {
             dispatch(setAppStatusAC('idle'));

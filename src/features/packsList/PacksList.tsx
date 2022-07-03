@@ -12,6 +12,7 @@ const selectError = (state: AppStateType): string | null => state.app.error;
 const selectIsLoggedIn = (state: AppStateType): boolean => state.login.isLoggedIn;
 const selectPage = (state: AppStateType): number => state.tablePacks.page;
 const selectPageCount = (state: AppStateType): number => state.tablePacks.pageCount;
+const selectPackName = (state: AppStateType): string => state.tablePacks.packName;
 
 export const PacksList = () => {
     const dispatch = useAppDispatch();
@@ -20,10 +21,11 @@ export const PacksList = () => {
     const isLoggedIn = useAppSelector(selectIsLoggedIn);
     const page = useAppSelector(selectPage);
     const pageCount = useAppSelector(selectPageCount);
+    const packName = useAppSelector(selectPackName);
 
     useEffect(() => {
         dispatch(fetchCardPacks());
-    }, [page, pageCount]);
+    }, [page, pageCount, packName]);
 
     if (!isLoggedIn) {
         return <Navigate to={PATH.LOGIN}/>

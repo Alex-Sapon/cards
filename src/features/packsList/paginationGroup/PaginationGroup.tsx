@@ -6,8 +6,6 @@ import MenuItem from '@mui/material/MenuItem';
 import Select, {SelectChangeEvent} from '@mui/material/Select';
 import {setPage, setPageCount} from '../tablePacks/table-packs-reducer';
 import {useAppDispatch} from '../../../app/store';
-import {PATH} from '../../../enums/path';
-import {Navigate} from 'react-router-dom';
 
 type PaginationGroupType = {
     cardPacksTotalCount?: number
