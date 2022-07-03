@@ -1,4 +1,9 @@
 import {PacksParamsType} from '../packs-list-api';
+import {NewCardsPackType, tablePacksAPI} from './table-packs-api';
+import {AppThunk} from '../../../app/store';
+import {AxiosError} from 'axios';
+import {setAppErrorAC, setAppStatusAC} from '../../../app/reducer/app-reducer';
+import {fetchCardPacks} from '../packs-list-reducer';
 
 const initialState: TablePacksType = {
     packName: '',
@@ -33,11 +38,49 @@ export const setPageCount = (pageCount: number) => ({
 export const setPackName = (packName: string) => ({
     type: 'TABLE-PACKS/SET-PACK-NAME',
     packName,
-} as const);
+} as const);;
+
+export const createNewCardsPack = (name: string): AppThunk => dispatch => {
+    const data: NewCardsPackType = {
+        cardsPack: {
+            name: name,
+            deckCover: "",
+            private: false
+        }
+    }
+
+    dispatch(setAppStatusAC('loading'));
+
+    tablePacksAPI.createPack(data)
+        .then(() => {
+            dispatch(fetchCardPacks());
+        })
+        .catch((e: AxiosError<{error: string}>) => {
+            dispatch(setAppErrorAC(e.response ? e.response.data.error : e.message));
+        })
+        .finally(() => {
+            dispatch(setAppStatusAC('idle'));
+        })
+}
+
+export const deleteCardsPack = (id: string): AppThunk => dispatch => {
+    dispatch(setAppStatusAC('loading'));
+
+    tablePacksAPI.deletePack(id)
+        .then(() => {
+            dispatch(fetchCardPacks());
+        })
+        .catch((e: AxiosError<{error: string}>) => {
+            dispatch(setAppErrorAC(e.response ? e.response.data.error : e.message));
+        })
+        .finally(() => {
+            dispatch(setAppStatusAC('idle'));
+        })
+}
 
 export type TablePacksActionsType =
     | ReturnType<typeof setPage>
     | ReturnType<typeof setPageCount>
-    | ReturnType<typeof setPackName>;
+    | ReturnType<typeof setPackName>
 
 type TablePacksType = PacksParamsType & {}

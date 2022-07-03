@@ -3,10 +3,8 @@ import {ChangeEvent, useEffect, useState} from 'react';
 import styles from './TablePacks.module.css';
 import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
-import {styled} from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import TableCell, {tableCellClasses} from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
@@ -20,7 +18,7 @@ import useDebounce from './useDebounce';
 import {shortWord} from './shortWord';
 import {useNavigate} from 'react-router-dom';
 import {PATH} from '../../../enums/path';
-import {setPackName} from './table-packs-reducer';
+import {createNewCardsPack, deleteCardsPack, setPackName} from './table-packs-reducer';
 import {StyledTableCell, StyledTableRow} from './styledTablePack';
 
 const selectCardPacks = (state: AppStateType) => state.packList.cardPacks;
@@ -28,7 +26,7 @@ const selectCardPacksTotalCount = (state: AppStateType) => state.packList.cardPa
 const selectPageCount = (state: AppStateType) => state.packList.pageCount;
 const selectPage = (state: AppStateType) => state.packList.page;
 const selectStatus = (state: AppStateType) => state.app.status;
-const selectProfileUserId = (state: AppStateType) => state.profile._id;
+const selectLoginUserId = (state: AppStateType) => state.login._id;
 
 export const TablePacks = () => {
     const [value, setValue] = useState<string>('');
@@ -44,7 +42,7 @@ export const TablePacks = () => {
     const pageCount = useAppSelector(selectPageCount);
     const page = useAppSelector(selectPage);
     const status = useAppSelector(selectStatus);
-    const profileUserId = useAppSelector(selectProfileUserId);
+    const userId = useAppSelector(selectLoginUserId);
 
     const handleChangeValue = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setValue(e.currentTarget.value);
@@ -56,6 +54,10 @@ export const TablePacks = () => {
 
     const handleChangeCheckbox = (e: SelectChangeEvent) => {
 
+    };
+
+    const handleNewCardsPack = () => {
+        dispatch(createNewCardsPack('My new PACK'));
     };
 
     return (
@@ -72,7 +74,7 @@ export const TablePacks = () => {
                     onChange={handleChangeValue}
                     InputProps={{startAdornment: <InputAdornment position="start"><SearchIcon/></InputAdornment>}}
                 />
-                <Button disabled={status === 'loading'}>Add new pack</Button>
+                <Button disabled={status === 'loading'} onClick={handleNewCardsPack}>Add new pack</Button>
             </div>
             <TableContainer className={styles.table_container}>
                 <Table>
@@ -118,35 +120,49 @@ export const TablePacks = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {cardPacks ? cardPacks.map(({_id, name, cardsCount, updated, user_name}) => (
-                            <StyledTableRow key={_id}>
-                                <StyledTableCell
-                                    sx={{width: '20%', cursor: 'pointer'}}
-                                    component="th"
-                                    scope="row"
-                                    onClick={() => navigate(PATH.CARDS)}
-                                >
-                                    {shortWord(name)}
-                                </StyledTableCell>
-                                <StyledTableCell sx={{width: '13%'}} align="center">{cardsCount}</StyledTableCell>
-                                <StyledTableCell sx={{width: '20%'}} align="center">
-                                    {new Date(updated).toLocaleDateString()}
-                                </StyledTableCell>
-                                <StyledTableCell sx={{width: '20%'}} align="center">
-                                    {shortWord(user_name)}
-                                </StyledTableCell>
-                                <StyledTableCell
-                                    sx={{width: '27%'}}
-                                    align="center"
-                                    className={styles.table_button_group}
-                                >
-                                    {profileUserId === _id && <>
-                                        <Button id="button_delete" disabled={status === 'loading'}>Delete</Button>
-                                        <Button disabled={status === 'loading'}>Edit</Button></>}
-                                    <Button disabled={status === 'loading'}>Learn</Button>
-                                </StyledTableCell>
-                            </StyledTableRow>
-                        )) : <div>Now packs</div>}
+                        {cardPacks
+                            ? cardPacks.map(({_id, name, cardsCount, updated, user_name, user_id}) => {
+                                    const handleDeletePack = () => dispatch(deleteCardsPack(_id));
+
+                                    return (
+                                        <StyledTableRow key={_id}>
+                                            <StyledTableCell
+                                                sx={{width: '20%', cursor: 'pointer', padding: '14px 10px 14px 14px'}}
+                                                component="th"
+                                                scope="row"
+                                                onClick={() => navigate(PATH.CARDS)}
+                                            >
+                                                {shortWord(name)}
+                                            </StyledTableCell>
+                                            <StyledTableCell sx={{width: '13%', padding: '14px 10px'}} align="center">
+                                                {cardsCount}
+                                            </StyledTableCell>
+                                            <StyledTableCell sx={{width: '20%', padding: '14px 10px'}} align="center">
+                                                {new Date(updated).toLocaleDateString()}
+                                            </StyledTableCell>
+                                            <StyledTableCell sx={{width: '20%', padding: '14px 10px'}} align="center">
+                                                {shortWord(user_name)}
+                                            </StyledTableCell>
+                                            <StyledTableCell
+                                                sx={{width: '30%', padding: '14px 14px 14px 10px'}}
+                                                align="center"
+                                                className={styles.table_button_group}
+                                            >
+                                                {userId === user_id ? <>
+                                                    <Button
+                                                        id="button_delete"
+                                                        disabled={status === 'loading'}
+                                                        onClick={handleDeletePack}
+                                                    >Delete</Button>
+                                                    <Button disabled={status === 'loading'}>Edit</Button></> : null}
+                                                <Button disabled={status === 'loading'}>Learn</Button>
+                                            </StyledTableCell>
+                                        </StyledTableRow>
+                                    )
+                                }
+                            ) : (
+                                <div>Now packs</div>
+                            )}
                     </TableBody>
                 </Table>
             </TableContainer>

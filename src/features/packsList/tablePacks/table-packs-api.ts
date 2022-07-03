@@ -6,7 +6,7 @@ export const tablePacksAPI = {
         return instance.post<any, AxiosResponse<NewCardsResponseType>, NewCardsPackType>(`cards/pack`, data);
     },
     deletePack(id: string) {
-        return instance.delete<any, AxiosResponse<DeleteCardsPackResponseType>, { id: string }>(`cards/pack?${id}`);
+        return instance.delete<any, AxiosResponse<DeleteCardsPackResponseType>, { id: string }>(`cards/pack?id=${id}`);
     },
     updatePack(data: UpdateCardsPackType) {
         return instance.put<any, AxiosResponse<UpdateCardsPackResponseType>, UpdateCardsPackType>(`cards/pack`, data);
@@ -42,7 +42,7 @@ type PackType = {
     __v: number
 }
 
-type NewCardsPackType = {
+export type NewCardsPackType = {
     cardsPack: {
         name: string
         deckCover: string

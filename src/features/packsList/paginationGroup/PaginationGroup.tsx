@@ -6,6 +6,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select, {SelectChangeEvent} from '@mui/material/Select';
 import {setPage, setPageCount} from '../tablePacks/table-packs-reducer';
 import {useAppDispatch} from '../../../app/store';
+import {memo} from 'react';
 
 type PaginationGroupType = {
     cardPacksTotalCount?: number
@@ -14,8 +15,7 @@ type PaginationGroupType = {
     title?: string
 }
 
-export const PaginationGroup = (props: PaginationGroupType) => {
-
+export const PaginationGroup = memo((props: PaginationGroupType) => {
     const {cardPacksTotalCount, pageCount, page, title} = props;
 
     const dispatch = useAppDispatch();
@@ -27,7 +27,7 @@ export const PaginationGroup = (props: PaginationGroupType) => {
     }
 
     const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
-        dispatch(setPage(value))
+        dispatch(setPage(value));
     }
 
     return (
@@ -52,4 +52,4 @@ export const PaginationGroup = (props: PaginationGroupType) => {
             </div>
         </div>
     )
-}
+});
