@@ -85,6 +85,15 @@
     background-color: #F1453D;
 }
 
+.table_button_group button[id='button_delete']:disabled,
+.table_button_group button[id='button_delete'][disabled] {
+    background-color: #de6c69;
+}
+
 .table_button_group button[id='button_delete']:active {
     color: rgba(0, 0, 0, 0.73);
+}
+
+.table_button_group button[id='button_delete']:hover {
+    color: #24292E;
 }

@@ -1,13 +1,30 @@
-const initialState: TablePacksType = {};
+import {PacksParamsType} from '../packs-list-api';
 
-export const tablePacksReducer = (state: TablePacksType = initialState, action: any) => {
+const initialState: TablePacksType = {
+    page: 1,
+    pageCount: 5,
+};
+
+export const tablePacksReducer = (state: TablePacksType = initialState, action: TablePacksActions) => {
     switch (action.type) {
+        case 'TABLE-PACKS/SET-PAGE':
+            return {...state, page: action.page};
         default:
             return state;
 
     }
 };
 
-type TablePacksType = {
+export const setPage = (page: number) => ({
+    type: 'TABLE-PACKS/SET-PAGE',
+    page,
+} as const);
 
-}
+export const setPageCount = (page: number) => ({
+    type: 'TABLE-PACKS/SET-PAGE',
+    page,
+} as const);
+
+export type TablePacksActions = ReturnType<typeof setPage>;
+
+type TablePacksType = PacksParamsType &  {}

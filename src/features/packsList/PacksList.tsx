@@ -9,18 +9,20 @@ import {fetchCardPacks, setResponseMessage} from './packs-list-reducer';
 import {PATH} from '../../enums/path';
 import { Navigate } from 'react-router-dom';
 
-const selectResponseMessage = (state: AppStateType) => state.packList.responseMessage;
-const selectIsLoggedIn = (state: AppStateType) => state.login.isLoggedIn;
+const selectResponseMessage = (state: AppStateType): string | null => state.packList.responseMessage;
+const selectIsLoggedIn = (state: AppStateType): boolean => state.login.isLoggedIn;
+const selectPage = (state: AppStateType): number => state.tablePacks.page;
 
 export const PacksList = () => {
     const dispatch = useAppDispatch();
 
     const responseMessage = useAppSelector(selectResponseMessage);
     const isLoggedIn = useAppSelector(selectIsLoggedIn);
+    const page = useAppSelector(selectPage);
 
     useEffect(() => {
         dispatch(fetchCardPacks());
-    }, []);
+    }, [page]);
 
     if (!isLoggedIn) {
         return <Navigate to={PATH.LOGIN}/>

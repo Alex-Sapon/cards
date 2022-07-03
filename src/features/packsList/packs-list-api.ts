@@ -7,13 +7,13 @@ export const packsListApi = {
     }
 }
 
-type PacksParamsType = {
+export type PacksParamsType = {
     packName?: string
     min?: number
     max?: number
     sortPacks?: string
-    page?: number
-    pageCount?: number
+    page: number
+    pageCount: number
     user_id?: string
 }
 

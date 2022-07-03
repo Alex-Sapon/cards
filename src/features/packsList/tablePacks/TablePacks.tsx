@@ -40,6 +40,8 @@ const selectCardPacks = (state: AppStateType) => state.packList.cardPacks;
 const selectCardPacksTotalCount = (state: AppStateType) => state.packList.cardPacksTotalCount;
 const selectPageCount = (state: AppStateType) => state.packList.pageCount;
 const selectPage = (state: AppStateType) => state.packList.page;
+const selectStatus = (state: AppStateType) => state.packList.status;
+const selectProfileUserId = (state: AppStateType) => state.profile._id;
 
 export const TablePacks = () => {
     // const createSortHandler = (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
@@ -52,6 +54,8 @@ export const TablePacks = () => {
     const cardPacksTotalCount = useAppSelector(selectCardPacksTotalCount);
     const pageCount = useAppSelector(selectPageCount);
     const page = useAppSelector(selectPage);
+    const status = useAppSelector(selectStatus);
+    const profileUserId = useAppSelector(selectProfileUserId);
 
     const handleChange = (event: Event, newValue: number | number[]) => {
         setValue(newValue as number[]);
@@ -72,11 +76,12 @@ export const TablePacks = () => {
                     sx={{backgroundColor: '#ECECF9', mr: '2rem'}}
                     size="small"
                     placeholder="Enter new pack"
+                    disabled={status === 'loading'}
                     // value='Hello'
                     // onChange={() => {}}
                     InputProps={{startAdornment: <InputAdornment position="start"><SearchIcon/></InputAdornment>}}
                 />
-                <Button>Add new pack</Button>
+                <Button disabled={status === 'loading'}>Add new pack</Button>
             </div>
             <TableContainer className={styles.table_container}>
                 <Table>
@@ -129,9 +134,10 @@ export const TablePacks = () => {
                                 <StyledTableCell align="center">{new Date(updated).toLocaleDateString()}</StyledTableCell>
                                 <StyledTableCell align="center">{user_name}</StyledTableCell>
                                 <StyledTableCell align="center" className={styles.table_button_group}>
-                                    <Button id="button_delete">Delete</Button>
-                                    <Button>Edit</Button>
-                                    <Button>Learn</Button>
+                                    {profileUserId === _id &&
+                                        <><Button id="button_delete" disabled={status === 'loading'}>Delete</Button>
+                                           <Button disabled={status === 'loading'}>Edit</Button></>}
+                                    <Button disabled={status === 'loading'}>Learn</Button>
                                 </StyledTableCell>
                             </StyledTableRow>
                         )) : <div>Now packs</div>}

@@ -45,9 +45,13 @@ export const setLoadingStatus = (status: LoadingStatus) => ({
 } as const);
 
 export const fetchCardPacks = (): AppThunk => (dispatch, getState: () => AppStateType) => {
-    const {minCardsCount, maxCardsCount,} = getState().packList;
+    const {pageCount, page} = getState().tablePacks;
 
-    const data = {}
+    const data = {
+        page,
+        pageCount,
+
+    }
 
     dispatch(setLoadingStatus('loading'));
 
@@ -60,7 +64,7 @@ export const fetchCardPacks = (): AppThunk => (dispatch, getState: () => AppStat
             dispatch(setResponseMessage(error));
         })
         .finally(() => {
-            dispatch(setLoadingStatus('loading'));
+            dispatch(setLoadingStatus('idle'));
         })
 }
 
