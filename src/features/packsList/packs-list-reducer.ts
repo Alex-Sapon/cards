@@ -21,14 +21,15 @@ export const packsListReducer = (state: PacksListStateType = initialState, actio
         default:
             return state;
     }
-}
+};
+
 //actions
-const setPacksListData = (data: PacksParamsResponseType) => ({type: 'PACKS-LIST/SET-PACKS-LIST-PARAMS', data,} as const);
+const setPacksListData = (data: PacksParamsResponseType) => ({type: 'PACKS-LIST/SET-PACKS-LIST-PARAMS', data} as const);
 
 //thunks
 export const fetchCardPacks = (): AppThunk => (dispatch, getState: () => AppStateType) => {
-
     const {pageCount, page} = getState().tablePacks;
+
     const data = {
         page,
         pageCount,

@@ -1,6 +1,5 @@
-
 import {AxiosResponse} from 'axios';
-import { instance } from '../../../api/instance-api';
+import {instance} from '../../../api/instance-api';
 
 export const tablePacksAPI = {
     createPack(data: NewCardsPackType) {

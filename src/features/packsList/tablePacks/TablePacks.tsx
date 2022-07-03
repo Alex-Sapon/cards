@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {ChangeEvent, useEffect, useState} from 'react';
 import styles from './TablePacks.module.css';
 import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
@@ -14,7 +15,11 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import Button from '../../../common/button/Button';
 import {TextField} from '@mui/material';
 import {PaginationGroup} from '../paginationGroup/PaginationGroup';
-import {AppStateType, useAppSelector} from '../../../app/store';
+import {AppStateType, useAppDispatch, useAppSelector} from '../../../app/store';
+import useDebounce from './useDebounce';
+import {shortWord} from './shortWord';
+import {Navigate, useNavigate} from 'react-router-dom';
+import {PATH} from '../../../enums/path';
 
 const StyledTableCell = styled(TableCell)(({theme}) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -44,11 +49,13 @@ const selectStatus = (state: AppStateType) => state.app.status;
 const selectProfileUserId = (state: AppStateType) => state.profile._id;
 
 export const TablePacks = () => {
-    // const createSortHandler = (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
-    //     // onRequestSort(event, property);
-    // };
+    const [value, setValue] = useState<string>('');
 
-    const [value, setValue] = React.useState<number[]>([20, 37]);
+    const navigate = useNavigate();
+
+    const dispatch = useAppDispatch();
+
+    const debouncedValue = useDebounce<string>(value, 500);
 
     const cardPacks = useAppSelector(selectCardPacks);
     const cardPacksTotalCount = useAppSelector(selectCardPacksTotalCount);
@@ -57,15 +64,26 @@ export const TablePacks = () => {
     const status = useAppSelector(selectStatus);
     const profileUserId = useAppSelector(selectProfileUserId);
 
-    const handleChange = (event: Event, newValue: number | number[]) => {
-        setValue(newValue as number[]);
+    const handleChangeValue = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setValue(e.currentTarget.value);
     };
 
-    const [age, setAge] = React.useState('');
+    useEffect(() => {
+        // dispatch();
+    }, [debouncedValue])
 
     const handleChangeCheckbox = (event: SelectChangeEvent) => {
-        setAge(event.target.value);
+
     };
+
+    const handleCardsRedirect = (e: React.MouseEvent<HTMLTableCellElement>) => {
+        // if (e.currentTarget.matches('name-redirect')) {
+        //     return <Navigate to={PATH.CARDS}/>
+        // }
+
+        return <Navigate to={PATH.CARDS}/>
+
+    }
 
     return (
         <div className={styles.table_wrapper}>
@@ -75,10 +93,10 @@ export const TablePacks = () => {
                     fullWidth
                     sx={{backgroundColor: '#ECECF9', mr: '2rem'}}
                     size="small"
-                    placeholder="Enter new pack"
+                    placeholder="Search"
                     disabled={status === 'loading'}
                     // value='Hello'
-                    // onChange={() => {}}
+                    onChange={handleChangeValue}
                     InputProps={{startAdornment: <InputAdornment position="start"><SearchIcon/></InputAdornment>}}
                 />
                 <Button disabled={status === 'loading'}>Add new pack</Button>
@@ -129,14 +147,23 @@ export const TablePacks = () => {
                     <TableBody>
                         {cardPacks ? cardPacks.map(({_id, name, cardsCount, updated, user_name}) => (
                             <StyledTableRow key={_id}>
-                                <StyledTableCell component="th" scope="row">{name}</StyledTableCell>
-                                <StyledTableCell align="center">{cardsCount}</StyledTableCell>
-                                <StyledTableCell align="center">{new Date(updated).toLocaleDateString()}</StyledTableCell>
-                                <StyledTableCell align="center">{user_name}</StyledTableCell>
-                                <StyledTableCell align="center" className={styles.table_button_group}>
+                                <StyledTableCell
+                                    sx={{width: '20%', cursor: 'pointer'}}
+                                    component="th"
+                                    scope="row"
+                                    onClick={() => navigate(PATH.CARDS)}
+                                >
+                                    {shortWord(name)}
+                                </StyledTableCell>
+                                <StyledTableCell sx={{width: '13%'}} align="center">{cardsCount}</StyledTableCell>
+                                <StyledTableCell sx={{width: '20%'}} align="center">
+                                    {new Date(updated).toLocaleDateString()}
+                                </StyledTableCell>
+                                <StyledTableCell sx={{width: '20%'}} align="center">{shortWord(user_name)}</StyledTableCell>
+                                <StyledTableCell sx={{width: '27%'}} align="center" className={styles.table_button_group}>
                                     {profileUserId === _id &&
                                         <><Button id="button_delete" disabled={status === 'loading'}>Delete</Button>
-                                           <Button disabled={status === 'loading'}>Edit</Button></>}
+                                            <Button disabled={status === 'loading'}>Edit</Button></>}
                                     <Button disabled={status === 'loading'}>Learn</Button>
                                 </StyledTableCell>
                             </StyledTableRow>
@@ -144,7 +171,12 @@ export const TablePacks = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <PaginationGroup cardPacksTotalCount={cardPacksTotalCount} pageCount={pageCount} page={page}/>
+            <PaginationGroup
+                cardPacksTotalCount={cardPacksTotalCount}
+                pageCount={pageCount}
+                page={page}
+                title="Cards per Page"
+            />
         </div>
     )
 };
