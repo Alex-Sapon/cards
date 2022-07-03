@@ -1,27 +1,27 @@
+import {FormControl, FormGroup, InputAdornment, InputLabel} from '@mui/material';
+import Input from '@mui/material/Input';
+import FormHelperText from '@mui/material/FormHelperText';
+import LoadingButton from '@mui/lab/LoadingButton/LoadingButton';
 import {useFormik} from 'formik';
 import {NavLink} from 'react-router-dom';
 import Button from '../../common/button/Button';
 import {Form} from '../../common/form/Form';
-import {AppStateType, useAppDispatch, useAppSelector} from '../../components/app/store';
+import {AppStateType, useAppDispatch, useAppSelector} from '../../app/store';
 import {PATH} from '../../enums/path';
 import styles from './RecoveryPass.module.css';
-import {FormControl, FormGroup, InputAdornment, InputLabel} from '@mui/material';
-import Input from '@mui/material/Input';
-import FormHelperText from '@mui/material/FormHelperText';
 import {AlertBar} from '../login/AlertBar';
-import {forgotPass, setResponseMessage} from './recoveryPassReducer';
+import {forgotPass} from './reducer/recoveryPassReducer';
 import React from 'react';
 import {SendEmail} from './sendEmail/SendEmail';
-import {LoadingStatus} from '../setPass/set-pass-reducer';
-import LoadingButton from '@mui/lab/LoadingButton/LoadingButton';
+import {RequestStatusType, setAppErrorAC} from '../../app/reducer/app-reducer';
 
 type RecoveryPasswordErrorType = {
     email?: string
 }
 
-const selectIsSendEmail = (state: AppStateType): boolean => state.recoveryPass.isSendEmail;
-const selectResponseMessage = (state: AppStateType): string | null => state.recoveryPass.responseMessage;
-const selectStatus = (state: AppStateType): LoadingStatus => state.recoveryPass.status;
+const selectIsSendEmail = (state: AppStateType): boolean => state.recoveryPassword.isSendEmail;
+const selectResponseMessage = (state: AppStateType): string | null => state.app.error;
+const selectStatus = (state: AppStateType): RequestStatusType => state.app.status;
 
 export const RecoveryPass = () => {
     const dispatch = useAppDispatch();
@@ -89,7 +89,7 @@ export const RecoveryPass = () => {
                 <div className={styles.subtitle}>Did you remember your password?</div>
                 <NavLink className={styles.link} to={PATH.LOGIN} onClick={handleDisableClick}>Try logging in</NavLink>
             </Form>
-            {responseMessage && <AlertBar message={responseMessage} closeAlert={() => setResponseMessage(null)}/>}
+            {responseMessage && <AlertBar message={responseMessage} closeAlert={() => setAppErrorAC(null)}/>}
         </>
     )
 };

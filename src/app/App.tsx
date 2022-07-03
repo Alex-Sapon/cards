@@ -1,24 +1,22 @@
 import styles from './App.module.css';
 import {Routes, Route, Navigate} from 'react-router-dom';
-import {Navbar} from '../navbar/Navbar';
-import {Login} from '../../features/login/Login';
-import {Registration} from '../../features/registration/Registration';
-import {Profile} from '../../features/profile/Profile';
-import {SetPassword} from '../../features/setPass/SetPassword';
-import {RecoveryPass} from '../../features/recoveryPass/RecoveryPass';
-import {Error404} from '../error404/Error404';
-import {PATH} from '../../enums/path';
-import {ErrorSnackbar} from '../ErrorSnackbar/ErrorSnackbar';
+import {Navbar} from '../components/navbar/Navbar';
+import {Login} from '../features/login/Login';
+import {Registration} from '../features/registration/Registration';
+import {Profile} from '../features/profile/Profile';
+import {SetPassword} from '../features/setPass/SetPassword';
+import {RecoveryPass} from '../features/recoveryPass/RecoveryPass';
+import {Error404} from '../components/error404/Error404';
+import {PATH} from '../enums/path';
+import {ErrorSnackbar} from '../components/ErrorSnackbar/ErrorSnackbar';
 import LinearProgress from '@mui/material/LinearProgress/LinearProgress';
 import {useEffect} from 'react';
-import {initializeApp} from './app-reducer';
+import {initializeApp, RequestStatusType} from './reducer/app-reducer';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import {AppStateType, useAppDispatch, useAppSelector} from './store';
-import {RequestStatusType} from '../../features/registration/registrationReducer';
-import {PacksList} from '../../features/packsList/PacksList';
 
-const selectStatus = (state: AppStateType): RequestStatusType => state.register.status;
+const selectStatus = (state: AppStateType): RequestStatusType => state.app.status;
 const selectIsInitialized = (state: AppStateType): boolean => state.app.isInitialized;
 
 export const App = () => {
@@ -36,7 +34,7 @@ export const App = () => {
             <Box sx={{display: 'flex', justifyContent: 'center', marginTop: '30%'}}>
                 <CircularProgress/>
             </Box>
-        )
+        );
     }
 
     return (

@@ -2,7 +2,7 @@ import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Stack from '@mui/material/Stack';
 import {CSSProperties, useEffect} from 'react';
-import {ActionsType, useAppDispatch} from '../../components/app/store';
+import {ActionsType, useAppDispatch} from '../../app/store';
 
 type AlertBarType = {
     message: string | null

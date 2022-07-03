@@ -1,11 +1,14 @@
 import {applyMiddleware, combineReducers, legacy_createStore as createStore} from 'redux';
-import {ProfileActionsType, profileReducer} from '../../features/profile/profileReducer';
+import {ProfileActionsType, profileReducer} from '../features/profile/reducer/profileReducer';
 import thunk, {ThunkAction, ThunkDispatch} from 'redux-thunk';
-import {LoginActions, loginReducer} from '../../features/login/login-reducer';
-import {RegisterActionsType, registrationReducer} from '../../features/registration/registrationReducer';
-import {SetNewPassActions, setPassReducer} from '../../features/setPass/set-pass-reducer';
-import {recoveryPassReducer, RecPassActions} from '../../features/recoveryPass/recoveryPassReducer';
-import {AppActionsType, appReducer} from './app-reducer';
+import {LoginActionsType, loginReducer} from '../features/login/reducer/login-reducer';
+import {RegistrationActionsType, registrationReducer} from '../features/registration/reducer/registrationReducer';
+import {SetNewPasswordActionsType, setPasswordReducer} from '../features/setPass/reducer/set-pass-reducer';
+import {
+    RecoveryPasswordActionsType,
+    recoveryPasswordReducer
+} from '../features/recoveryPass/reducer/recoveryPassReducer';
+import {AppActionsType, appReducer} from './reducer/app-reducer';
 import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
 
 
@@ -13,9 +16,9 @@ const rootReducer = combineReducers({
     app: appReducer,
     profile: profileReducer,
     login: loginReducer,
-    setPass: setPassReducer,
-    recoveryPass: recoveryPassReducer,
-    register: registrationReducer,
+    setPassword: setPasswordReducer,
+    recoveryPassword: recoveryPasswordReducer,
+    registration: registrationReducer,
 });
 
 export const store = createStore(rootReducer, applyMiddleware(thunk));
@@ -23,12 +26,12 @@ export const store = createStore(rootReducer, applyMiddleware(thunk));
 export type AppStateType = ReturnType<typeof rootReducer>;
 
 export type ActionsType =
-    | LoginActions
+    | LoginActionsType
     | AppActionsType
     | ProfileActionsType
-    | RecPassActions
-    | SetNewPassActions
-    | RegisterActionsType;
+    | RecoveryPasswordActionsType
+    | SetNewPasswordActionsType
+    | RegistrationActionsType;
 
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppStateType, unknown, ActionsType>;
 
