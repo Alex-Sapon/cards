@@ -18,11 +18,12 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Input from '@mui/material/Input';
 import React, {useState} from 'react';
 import {AppStateType, useAppDispatch, useAppSelector} from '../../app/store';
-import {login, setResponseMessage} from './login-reducer';
+import {login} from './reducer/login-reducer';
 import FormHelperText from '@mui/material/FormHelperText';
 import {AlertBar} from './AlertBar';
 import LoadingButton from '@mui/lab/LoadingButton/LoadingButton';
-import {LoadingStatus} from '../setPass/set-pass-reducer';
+import {RequestStatusType, setAppErrorAC} from '../../app/reducer/app-reducer';
+
 
 type LoginErrorType = {
     email?: string
@@ -31,8 +32,8 @@ type LoginErrorType = {
 }
 
 const selectIsLoggedIn = (state: AppStateType): boolean => state.login.isLoggedIn;
-const selectResponseMessage = (state: AppStateType): string | null => state.login.responseMessage;
-const selectStatus = (state: AppStateType): LoadingStatus => state.login.status;
+const selectResponseMessage = (state: AppStateType): string | null => state.app.error;
+const selectStatus = (state: AppStateType): RequestStatusType => state.app.status;
 
 export const Login = () => {
     const dispatch = useAppDispatch();
@@ -41,7 +42,7 @@ export const Login = () => {
     const responseMessage = useAppSelector(selectResponseMessage);
     const status = useAppSelector(selectStatus);
 
-    const [showPassword, setShowPassword] = useState<boolean>(false);
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         if (status === 'loading') {
@@ -146,7 +147,7 @@ export const Login = () => {
                 <div className={styles.text}>Don't have an account?</div>
                 <NavLink className={styles.link} to={PATH.REGISTRATION} onClick={handleClick}>Sign Up</NavLink>
             </Form>
-            {responseMessage && <AlertBar message={responseMessage} closeAlert={() => setResponseMessage(null)}/>}
+            {responseMessage && <AlertBar message={responseMessage} closeAlert={() => setAppErrorAC(null)}/>}
         </>
     )
 };

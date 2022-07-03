@@ -3,7 +3,7 @@ import {AppStateType} from '../../../app/store';
 import styles from './SendEmail.module.css';
 
 export const SendEmail = () => {
-    const email = useSelector<AppStateType, string>(state => state.recoveryPass.email);
+    const email = useSelector<AppStateType, string>(state => state.recoveryPassword.email);
 
     return (
         <div className={styles.wrapper}>

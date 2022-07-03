@@ -12,17 +12,17 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import React, {useEffect, useState} from 'react';
 import {Navigate, useParams} from 'react-router';
 import LoadingButton from '@mui/lab/LoadingButton/LoadingButton';
-import {LoadingStatus, setResponseMessage, updateNewPassword} from './set-pass-reducer';
 import styles from './SetPassword.module.css';
-import {initializeApp} from '../../app/app-reducer';
+import {initializeApp, RequestStatusType, setAppErrorAC} from '../../app/reducer/app-reducer';
+import {updateNewPassword} from './reducer/set-pass-reducer';
 
 type SetPasswordErrorType = {
     password?: string
 }
 
-const selectIsUpdatePassword = (state: AppStateType): boolean => state.setPass.isUpdatePassword;
-const selectStatus = (state: AppStateType): LoadingStatus => state.setPass.status;
-const selectResponseMessage = (state: AppStateType): string | null => state.setPass.responseMessage;
+const selectIsUpdatePassword = (state: AppStateType): boolean => state.setPassword.isUpdatePassword;
+const selectStatus = (state: AppStateType): RequestStatusType => state.app.status;
+const selectResponseMessage = (state: AppStateType): string | null => state.app.error;
 
 export const SetPassword = () => {
     const dispatch = useAppDispatch();
@@ -104,7 +104,7 @@ export const SetPassword = () => {
                 <div className={styles.title}>Create new password and we will send you further instructions to email</div>
                 <Button type="submit" className={styles.button} disabled={status === 'loading'}>Create new password</Button>
             </Form>
-            {responseMessage && <AlertBar message={responseMessage} closeAlert={() => setResponseMessage(null)}/>}
+            {responseMessage && <AlertBar message={responseMessage} closeAlert={() => setAppErrorAC(null)}/>}
         </>
     )
 }

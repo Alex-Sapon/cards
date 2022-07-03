@@ -1,8 +1,9 @@
 import React from 'react';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, {AlertProps} from '@mui/material/Alert';
-import {setAppErrorAC, setRegisterMessageAC} from '../../features/registration/registrationReducer';
+import {setRegisterMessageAC} from '../../features/registration/reducer/registrationReducer';
 import {useAppDispatch, useAppSelector } from '../../app/store';
+import { setAppErrorAC } from '../../app/reducer/app-reducer';
 
 
 
@@ -13,8 +14,8 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 
 export const ErrorSnackbar = () => {
 
-    const error = useAppSelector(state => state.register.error)
-    const message = useAppSelector(state => state.register.message)
+    const error = useAppSelector(state => state.app.error)
+    const message = useAppSelector(state => state.registration.message)
     const dispatch = useAppDispatch()
 
     const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {

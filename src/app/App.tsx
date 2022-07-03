@@ -11,13 +11,12 @@ import {PATH} from '../enums/path';
 import {ErrorSnackbar} from '../components/ErrorSnackbar/ErrorSnackbar';
 import LinearProgress from '@mui/material/LinearProgress/LinearProgress';
 import {useEffect} from 'react';
-import {initializeApp} from './app-reducer';
+import {initializeApp, RequestStatusType} from './reducer/app-reducer';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import {AppStateType, useAppDispatch, useAppSelector} from './store';
-import {RequestStatusType} from '../features/registration/registrationReducer';
 
-const selectStatus = (state: AppStateType): RequestStatusType => state.register.status;
+const selectStatus = (state: AppStateType): RequestStatusType => state.app.status;
 const selectIsInitialized = (state: AppStateType): boolean => state.app.isInitialized;
 
 export const App = () => {
@@ -35,7 +34,7 @@ export const App = () => {
             <Box sx={{display: 'flex', justifyContent: 'center', marginTop: '30%'}}>
                 <CircularProgress/>
             </Box>
-        )
+        );
     }
 
     return (

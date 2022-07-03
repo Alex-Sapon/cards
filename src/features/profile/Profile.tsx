@@ -13,7 +13,7 @@ import Button from '../../common/button/Button';
 import iconPhoto from '../../assets/images/cam-icon-png-2.jpg';
 import userPhoto from '../../assets/images/avatar.jpg';
 import {useAppDispatch, useAppSelector} from '../../app/store';
-import {logoutTC, updateProfileTC} from './profileReducer';
+import {logoutTC, updateProfileTC} from './reducer/profileReducer';
 import {SmallAvatar, useStyles} from './styles';
 import {PATH} from '../../enums/path';
 import Badge from "@mui/material/Badge";

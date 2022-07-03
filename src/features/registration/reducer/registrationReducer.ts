@@ -1,21 +1,16 @@
-import {AppThunk} from '../../app/store';
+import {AppThunk} from '../../../app/store';
 import {AxiosError} from 'axios';
-import {authAPI} from '../../api/auth-api';
+import {authAPI} from '../../../api/auth-api';
+import {setAppErrorAC, setAppStatusAC} from '../../../app/reducer/app-reducer';
 
-const initialState: RegisterStateType = {
+const initialState: RegistrationStateType = {
     message: null,
-    status: 'idle' as RequestStatusType,
-    error: null
 };
 
-export const registrationReducer = (state: RegisterStateType = initialState, action: RegisterActionsType): RegisterStateType => {
+export const registrationReducer = (state: RegistrationStateType = initialState, action: RegistrationActionsType): RegistrationStateType => {
     switch (action.type) {
         case 'REGISTER/SET-MESSAGE':
             return {...state, message: action.message};
-        case 'REGISTER/SET-APP-STATUS':
-            return {...state, status: action.status};
-        case 'REGISTER/SET-APP-ERROR':
-            return {...state, error: action.error};
         default:
             return state;
     }
@@ -23,8 +18,6 @@ export const registrationReducer = (state: RegisterStateType = initialState, act
 
 //actions
 export const setRegisterMessageAC = (message: string | null) => ({type: 'REGISTER/SET-MESSAGE', message} as const);
-export const setAppStatusAC = (status: RequestStatusType) => ({type: 'REGISTER/SET-APP-STATUS', status} as const);
-export const setAppErrorAC = (error: string | null) => ({type: 'REGISTER/SET-APP-ERROR', error} as const);
 
 //thunks
 export const userRegisterTC = (email: string, password: string): AppThunk => (dispatch) => {
@@ -33,13 +26,10 @@ export const userRegisterTC = (email: string, password: string): AppThunk => (di
         .then((res) => {
             if (res.data.addedUser) {
                 dispatch(setRegisterMessageAC('You have successfully registered'));
-                dispatch(setAppStatusAC('succeeded'));
             } else if (res.data.error) {
                 dispatch(setAppErrorAC(res.data.error));
-                dispatch(setAppStatusAC('failed'));
             } else {
                 dispatch(setRegisterMessageAC('Some error occurred'));
-                dispatch(setAppStatusAC('failed'));
             }
         })
         .catch((error: AxiosError<{ error: string }>) => {
@@ -53,22 +43,17 @@ export const userRegisterTC = (email: string, password: string): AppThunk => (di
                 }
             }
         })
-       /* .finally(() => {
-            dispatch(setAppStatusAC('idle'))
-        })*/
-
+        .finally(() => {
+            dispatch(setAppStatusAC('idle'));
+        });
 };
 
 //types
-export type RegisterStateType = {
+export type RegistrationStateType = {
     message: string | null
-    status: RequestStatusType
-    error: string | null
 }
-export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
-export type RegisterActionsType =
+export type RegistrationActionsType =
     | ReturnType<typeof setRegisterMessageAC>
-    | ReturnType<typeof setAppStatusAC>
-    | ReturnType<typeof setAppErrorAC>
+
 
 

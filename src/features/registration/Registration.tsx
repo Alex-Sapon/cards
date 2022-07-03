@@ -1,7 +1,3 @@
-import Button from '../../common/button/Button';
-import {Form} from '../../common/form/Form';
-import styles from './Registration.module.css';
-import * as React from 'react';
 import IconButton from '@mui/material/IconButton';
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
@@ -9,18 +5,21 @@ import InputAdornment from '@mui/material/InputAdornment';
 import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import {useFormik} from 'formik';
 import {FormGroup} from '@mui/material';
-import {NavLink} from 'react-router-dom';
+import Button from '../../common/button/Button';
+import {Form} from '../../common/form/Form';
+import styles from './Registration.module.css';
+import * as React from 'react';
 import {PATH} from '../../enums/path';
-import {userRegisterTC} from './registrationReducer';
+import {useFormik} from 'formik';
+import {NavLink} from 'react-router-dom';
+import {userRegisterTC} from './reducer/registrationReducer';
 import {useAppDispatch, useAppSelector} from '../../app/store';
-
 
 export const Registration = () => {
 
     const dispatch = useAppDispatch();
-    const status = useAppSelector(state => state.register.status);
+    const status = useAppSelector(state => state.app.status);
 
     const formik = useFormik({
         initialValues: {
@@ -49,13 +48,12 @@ export const Registration = () => {
         },
         onSubmit: values => {
             dispatch(userRegisterTC(values.email, values.password));
-            formik.resetForm()
+            formik.resetForm({values: {email: values.email, password: '', confirmPassword: ''}});
         },
     });
 
-    const [showPassword, setShowPassword] = React.useState<boolean>(false);
-    const [showConfirmPassword, setShowConfirmPassword] = React.useState<boolean>(false);
-
+    const [showPassword, setShowPassword] = React.useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
 
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword);
@@ -122,13 +120,11 @@ export const Registration = () => {
                         <Button type={'submit'} disabled={status === 'loading'}>Registration</Button>
                     </div>
                 </FormGroup>
-
                 <NavLink style={{pointerEvents: status === 'loading' ? 'none' : undefined}} className={styles.login}
                          to={PATH.LOGIN}>Are you already registered?</NavLink>
             </Form>
 
         </>
-
     );
 };
 
