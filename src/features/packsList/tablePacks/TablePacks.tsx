@@ -76,7 +76,7 @@ export const TablePacks = () => {
                 <Button disabled={status === 'loading'} onClick={handleNewCardsPack}>Add new pack</Button>
             </div>
             <TableContainer className={styles.table_container}>
-                <Table >
+                <Table>
                     <TableHead>
                         <TableRow sx={{display: 'grid', gridTemplateColumns: '21% 15% 19% 17% 28%'}}>
                             <StyledTableCell>

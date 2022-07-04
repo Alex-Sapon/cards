@@ -78,6 +78,8 @@ export const deleteUpdateCardsPack = (id: string, name?: string): AppThunk => di
         ? tablePacksAPI.updatePack({cardsPack: {_id: id, name: name}})
         : tablePacksAPI.deletePack(id);
 
+    console.log(id)
+
     dispatch(setAppStatusAC('loading'));
 
     apiMethod

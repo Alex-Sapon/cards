@@ -11,8 +11,6 @@ import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
 import IconButton from '@mui/material/IconButton';
 import {deleteUpdateCardsPack} from '../tablePacksReducer';
 
-const selectLoginUserId = (state: AppStateType): string => state.login._id;
-
 type TableRowPackType = {
     _id: string
     name: string
@@ -22,6 +20,8 @@ type TableRowPackType = {
     user_id: string
     status: RequestStatusType
 }
+
+const selectLoginUserId = (state: AppStateType): string => state.login._id;
 
 export const TableRowPack = memo((props: TableRowPackType) => {
     const {_id, name, cardsCount, updated, user_id, user_name, status} = props;
@@ -35,7 +35,7 @@ export const TableRowPack = memo((props: TableRowPackType) => {
     const handleDeletePack = () => dispatch(deleteUpdateCardsPack(_id));
     const handleUpdatePack = () => dispatch(deleteUpdateCardsPack(_id, 'Update my new PACK'));
     const handleSendPackId = () => {
-        // dispatch(sendPackId());
+        // dispatch(sendPackId(user_id));
         navigate(PATH.CARDS)
     }
 
@@ -57,7 +57,7 @@ export const TableRowPack = memo((props: TableRowPackType) => {
                 {new Date(updated).toLocaleDateString()}
             </StyledTableCell>
             <StyledTableCell className={styles.sell}>
-                {shortWord(user_name, 10)}
+                {shortWord(user_name, 8)}
             </StyledTableCell>
             <StyledTableCell align="center" className={styles.table_button_group}>
                 {userId === user_id
