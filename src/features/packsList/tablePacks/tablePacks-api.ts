@@ -11,6 +11,9 @@ export const tablePacksAPI = {
     updatePack(data: UpdateCardsPackType) {
         return instance.put<any, AxiosResponse<UpdateCardsPackResponseType>, UpdateCardsPackType>(`cards/pack`, data);
     },
+    sortPacks(sortPacks: string) {
+        return instance.get<any, AxiosResponse<ResponseType>, { sortPacks: string }>(`cards/pack?sortPacks=${sortPacks}`);
+    },
 }
 
 type ResponseType = {

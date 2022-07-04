@@ -1,4 +1,4 @@
-import {packsListApi, PacksParamsResponseType, PackType} from './packs-list-api';
+import {packsListApi, PacksParamsResponseType, PackType} from './packsList-api';
 import {AxiosError} from 'axios';
 import {setAppErrorAC, setAppStatusAC} from '../../app/reducer/app-reducer';
 import {AppStateType, AppThunk} from '../../app/store';
@@ -28,10 +28,11 @@ const setPacksListData = (data: PacksParamsResponseType) => ({type: 'PACKS-LIST/
 
 //thunks
 export const fetchCardPacks = (): AppThunk => (dispatch, getState: () => AppStateType) => {
-    const {pageCount, page, packName} = getState().tablePacks;
+    const {pageCount, page, packName, sortPacks} = getState().tablePacks;
 
     const params = {
         packName,
+        sortPacks,
         page,
         pageCount,
     }
@@ -53,5 +54,4 @@ export const fetchCardPacks = (): AppThunk => (dispatch, getState: () => AppStat
 //types
 export type PacksListActionsType =
     | ReturnType<typeof setPacksListData>
-type PacksListStateType = PacksParamsResponseType & {
-}
+type PacksListStateType = PacksParamsResponseType & {}

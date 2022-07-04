@@ -1,6 +1,6 @@
 import {authAPI, UpdateProfileResponseType, UserResponseType} from '../../../api/auth-api';
 import {AppThunk} from '../../../app/store';
-import {setIsLoggedIn} from '../../login/reducer/login-reducer';
+import {setIsLoggedIn, setLoginData} from '../../login/reducer/login-reducer';
 import {setAppErrorAC, setAppStatusAC} from '../../../app/reducer/app-reducer';
 
 const initialState: ProfileStateType = {
@@ -52,7 +52,7 @@ export const updateProfileTC = (name: string, avatar: string): AppThunk => dispa
 	dispatch(setAppStatusAC('loading'))
 	authAPI.updateProfile({name, avatar})
 		.then(res => {
-			dispatch(setUpdateProfileAC(res.data))
+			dispatch(setLoginData(res.data.updatedUser))
 		})
 		.catch((e: any) => {
 			const error = e.response ? e.response.data.error : (e.message + ', more details in the console')

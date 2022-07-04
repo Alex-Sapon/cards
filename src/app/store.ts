@@ -10,8 +10,8 @@ import {
 } from '../features/recoveryPass/reducer/recoveryPassReducer';
 import {AppActionsType, appReducer} from './reducer/app-reducer';
 import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
-import {PacksListActionsType, packsListReducer} from '../features/packsList/packs-list-reducer';
-import {TablePacksActionsType, tablePacksReducer } from '../features/packsList/tablePacks/table-packs-reducer';
+import {PacksListActionsType, packsListReducer} from '../features/packsList/packsListReducer';
+import {TablePacksActionsType, tablePacksReducer} from '../features/packsList/tablePacks/tablePacksReducer';
 
 
 const rootReducer = combineReducers({
