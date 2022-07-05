@@ -48,7 +48,6 @@ export const fetchCardPacks = (): AppThunk => (dispatch, getState: () => AppStat
             dispatch(setAppStatusAC('idle'));
         })
 }
-
 //types
 export type PacksListActionsType =
     | ReturnType<typeof setPacksListData>

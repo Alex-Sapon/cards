@@ -11,7 +11,9 @@ import {
 import {AppActionsType, appReducer} from './reducer/app-reducer';
 import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
 import {PacksListActionsType, packsListReducer} from '../features/packsList/reducer/packsListReducer';
-import {TablePacksActionsType, tablePacksReducer } from '../features/packsList/tablePacks/reducer/tablePacksReducer';
+import {TablePacksActionsType, tablePacksReducer} from '../features/packsList/tablePacks/reducer/tablePacksReducer';
+import {packsListDimaApi} from '../features/packsList/Dima/api/DimaAPI';
+import {PacksListDimaActionsType, packsListDimaReducer} from '../features/packsList/Dima/reducer/packsListDimaReducer';
 
 
 const rootReducer = combineReducers({
@@ -23,6 +25,7 @@ const rootReducer = combineReducers({
     registration: registrationReducer,
     packList: packsListReducer,
     tablePacks: tablePacksReducer,
+    packListDima: packsListDimaReducer
 });
 
 export const store = createStore(rootReducer, applyMiddleware(thunk));
@@ -38,6 +41,7 @@ export type ActionsType =
     | RegistrationActionsType
     | PacksListActionsType
     | TablePacksActionsType
+    | PacksListDimaActionsType
 
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppStateType, unknown, ActionsType>;
 

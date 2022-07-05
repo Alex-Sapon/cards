@@ -20,16 +20,9 @@ import React, {useState} from 'react';
 import {AppStateType, useAppDispatch, useAppSelector} from '../../app/store';
 import {login} from './reducer/loginReducer';
 import FormHelperText from '@mui/material/FormHelperText';
-import {AlertBar} from './AlertBar';
 import LoadingButton from '@mui/lab/LoadingButton/LoadingButton';
-import {RequestStatusType, setAppErrorAC} from '../../app/reducer/app-reducer';
+import {RequestStatusType} from '../../app/reducer/app-reducer';
 
-
-type LoginErrorType = {
-    email?: string
-    password?: string
-    rememberMe?: boolean
-}
 
 const selectIsLoggedIn = (state: AppStateType): boolean => state.login.isLoggedIn;
 const selectResponseMessage = (state: AppStateType): string | null => state.app.error;
@@ -75,7 +68,7 @@ export const Login = () => {
         },
         onSubmit: values => {
             dispatch(login(values));
-            formik.resetForm();
+            formik.resetForm({values: {email: values.email, password: '', rememberMe: false}});
         }
     });
 
@@ -151,3 +144,10 @@ export const Login = () => {
         </>
     )
 };
+
+//types
+type LoginErrorType = {
+    email?: string
+    password?: string
+    rememberMe?: boolean
+}
