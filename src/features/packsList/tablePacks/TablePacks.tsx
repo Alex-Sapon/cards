@@ -25,10 +25,14 @@ const selectPageCount = (state: AppStateType): number => state.packList.pageCoun
 const selectPage = (state: AppStateType): number => state.packList.page;
 const selectStatus = (state: AppStateType): RequestStatusType => state.app.status;
 
+type DirectionNameType = 'name' | 'cardsCount' | 'updated' | 'created' | 'user_name';
+
+type OrderType = 'asc' | 'desc';
 
 export const TablePacks = () => {
     const [value, setValue] = useState<string>('');
-    const [direction, setDirection] = useState<0 | 1>();
+
+    const [direction, setDirection] = useState<[OrderType, DirectionNameType]>(['asc', 'created']);
 
     const dispatch = useAppDispatch();
 
@@ -52,11 +56,15 @@ export const TablePacks = () => {
         dispatch(createNewCardsPack('My new PACK'));
     };
 
-    const handleSortList = (name: string) => {
-        const sortName = `${direction}${name}`;
+    const handleSortList = (name: DirectionNameType) => {
+        const finalySortName = `${direction[0]}${direction[1]}`;
 
-        setDirection(direction ? 0 : 1);
-        dispatch(sortCardPacks(sortName));
+        // setOrder(order === 'asc' ? 'desc' : 'asc');
+        // setCellName(finalySortName);
+
+        setDirection([direction[0] === 'asc' ? 'desc' : 'asc', name]);
+
+        dispatch(sortCardPacks(finalySortName));
     };
 
     return (
@@ -82,7 +90,7 @@ export const TablePacks = () => {
                             <StyledTableCell>
                                 <TableSortLabel
                                     active={true}
-                                    direction={direction ? 'asc' : 'desc'}
+                                    direction={direction[1] === 'name' ? 'asc' : 'desc'}
                                     onClick={() => handleSortList('name')}
                                 >
                                 </TableSortLabel>
@@ -91,7 +99,7 @@ export const TablePacks = () => {
                             <StyledTableCell align="center">
                                 <TableSortLabel
                                     active={true}
-                                    direction={direction ? 'asc' : 'desc'}
+                                    direction={direction[1] === 'cardsCount' ? 'asc' : 'desc'}
                                     onClick={() => handleSortList('cardsCount')}
                                 >
                                 </TableSortLabel>
@@ -100,7 +108,7 @@ export const TablePacks = () => {
                             <StyledTableCell align="center">
                                 <TableSortLabel
                                     active={true}
-                                    direction={direction ? 'asc' : 'desc'}
+                                    direction={direction[1] === 'updated' ? 'asc' : 'desc'}
                                     onClick={() => handleSortList('updated')}
                                 >
                                 </TableSortLabel>
@@ -109,7 +117,7 @@ export const TablePacks = () => {
                             <StyledTableCell align="center">
                                 <TableSortLabel
                                     active={true}
-                                    direction={direction ? 'asc' : 'desc'}
+                                    direction={direction[1] === 'user_name' ? 'asc' : 'desc'}
                                     onClick={() => handleSortList('user_name')}
                                 >
                                 </TableSortLabel>

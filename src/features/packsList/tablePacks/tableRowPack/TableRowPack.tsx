@@ -35,7 +35,7 @@ export const TableRowPack = memo((props: TableRowPackType) => {
     const handleDeletePack = () => dispatch(deleteUpdateCardsPack(_id));
     const handleUpdatePack = () => dispatch(deleteUpdateCardsPack(_id, 'Update my new PACK'));
     const handleSendPackId = () => {
-        // dispatch(sendPackId(user_id));
+        // dispatch(sendPackId(_id));
         navigate(PATH.CARDS)
     }
 

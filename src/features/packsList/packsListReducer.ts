@@ -28,13 +28,16 @@ const setPacksListData = (data: PacksParamsResponseType) => ({type: 'PACKS-LIST/
 
 //thunks
 export const fetchCardPacks = (): AppThunk => (dispatch, getState: () => AppStateType) => {
-    const {pageCount, page, packName, sortPacks} = getState().tablePacks;
+    const {pageCount, page, packName, sortPacks, min, max, user_id} = getState().tablePacks;
 
     const params = {
         packName,
+        min,
+        max,
         sortPacks,
         page,
         pageCount,
+        user_id,
     }
 
     dispatch(setAppStatusAC('loading'));
@@ -52,6 +55,6 @@ export const fetchCardPacks = (): AppThunk => (dispatch, getState: () => AppStat
 }
 
 //types
-export type PacksListActionsType =
-    | ReturnType<typeof setPacksListData>
+export type PacksListActionsType = ReturnType<typeof setPacksListData>
+
 type PacksListStateType = PacksParamsResponseType & {}

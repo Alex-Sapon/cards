@@ -7,9 +7,12 @@ import {NewCardsPackType, tablePacksAPI} from './tablePacks-api';
 
 const initialState: TablePacksType = {
     packName: '',
+    min: 0,
+    max: 0,
     sortPacks: '',
     page: 1,
     pageCount: 5,
+    user_id: '',
 };
 
 export const tablePacksReducer = (state: TablePacksType = initialState, action: TablePacksActionsType): TablePacksType => {
@@ -54,7 +57,7 @@ export const createNewCardsPack = (name: string): AppThunk => dispatch => {
     const data: NewCardsPackType = {
         cardsPack: {
             name: name,
-            deckCover: "",
+            deckCover: '',
             private: false,
         },
     };
@@ -65,20 +68,22 @@ export const createNewCardsPack = (name: string): AppThunk => dispatch => {
         .then(() => {
             dispatch(fetchCardPacks());
         })
-        .catch((e: AxiosError<{error: string}>) => {
+        .catch((e: AxiosError<{ error: string }>) => {
             dispatch(setAppErrorAC(e.response ? e.response.data.error : e.message));
         })
         .finally(() => {
             dispatch(setAppStatusAC('idle'));
         })
-}
+};
 
-export const deleteUpdateCardsPack = (id: string, name?: string): AppThunk => dispatch => {
+export const deleteUpdateCardsPack = (_id: string, name?: string): AppThunk => dispatch => {
+    // const apiMethod = name
+    //     ? tablePacksAPI.updatePack({cardsPack: {_id: id, name: name}})
+    //     : tablePacksAPI.deletePack(id);
+
     const apiMethod = name
-        ? tablePacksAPI.updatePack({cardsPack: {_id: id, name: name}})
-        : tablePacksAPI.deletePack(id);
-
-    console.log(id)
+        ? tablePacksAPI.updatePack.apply(tablePacksAPI, [{cardsPack: {_id, name}}])
+        : tablePacksAPI.deletePack.apply(tablePacksAPI, [_id]);
 
     dispatch(setAppStatusAC('loading'));
 
@@ -86,7 +91,7 @@ export const deleteUpdateCardsPack = (id: string, name?: string): AppThunk => di
         .then(() => {
             dispatch(fetchCardPacks());
         })
-        .catch((e: AxiosError<{error: string}>) => {
+        .catch((e: AxiosError<{ error: string }>) => {
             dispatch(setAppErrorAC(e.response ? e.response.data.error : e.message));
         })
         .finally(() => {

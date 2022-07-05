@@ -71,6 +71,5 @@ type UpdateCardsPackType = {
     cardsPack: {
         _id: string
         name: string
-        // ... не обязательно
     }
 }
