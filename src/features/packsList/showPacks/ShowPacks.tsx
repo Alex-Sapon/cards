@@ -56,7 +56,7 @@ export const ShowPacks = () => {
                     value={value}
                     onChange={handleChange}
                     valueLabelDisplay="on"
-                    defaultValue={[0, 110]}
+                    max={110}
                 />
             </div>
         </div>
