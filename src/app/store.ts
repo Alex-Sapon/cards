@@ -1,5 +1,4 @@
 import {applyMiddleware, combineReducers, legacy_createStore as createStore} from 'redux';
-import {ProfileActionsType, profileReducer} from '../features/profile/reducer/profileReducer';
 import thunk, {ThunkAction, ThunkDispatch} from 'redux-thunk';
 import {LoginActionsType, loginReducer} from '../features/login/reducer/loginReducer';
 import {RegistrationActionsType, registrationReducer} from '../features/registration/reducer/registrationReducer';
@@ -8,12 +7,18 @@ import {
     RecoveryPasswordActionsType,
     recoveryPasswordReducer
 } from '../features/recoveryPassword/reducer/recoveryPasswordReducer';
+	RecoveryPasswordActionsType,
+	recoveryPasswordReducer
+} from '../features/recoveryPass/reducer/recoveryPassReducer';
 import {AppActionsType, appReducer} from './reducer/app-reducer';
 import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
 import {PacksListActionsType, packsListReducer} from '../features/packsList/reducer/packsListReducer';
 import {TablePacksActionsType, tablePacksReducer} from '../features/packsList/tablePacks/reducer/tablePacksReducer';
 import {packsListDimaApi} from '../features/packsList/Dima/api/DimaAPI';
 import {PacksListDimaActionsType, packsListDimaReducer} from '../features/packsList/Dima/reducer/packsListDimaReducer';
+import {PacksListActionsType, packsListReducer} from '../features/packsList/packs-list-reducer';
+import {TablePacksActionsType, tablePacksReducer} from '../features/packsList/tablePacks/table-packs-reducer';
+import {CardsNameActionsType, cardsNameReducer} from "../features/packName/reducer/packCardReducer";
 
 
 const rootReducer = combineReducers({
@@ -26,6 +31,14 @@ const rootReducer = combineReducers({
     packList: packsListReducer,
     tablePacks: tablePacksReducer,
     packListDima: packsListDimaReducer
+	app: appReducer,
+	login: loginReducer,
+	setPassword: setPasswordReducer,
+	recoveryPassword: recoveryPasswordReducer,
+	registration: registrationReducer,
+	packList: packsListReducer,
+	cardPack: cardsNameReducer,
+	tablePacks: tablePacksReducer,
 });
 
 export const store = createStore(rootReducer, applyMiddleware(thunk));
@@ -42,6 +55,15 @@ export type ActionsType =
     | PacksListActionsType
     | TablePacksActionsType
     | PacksListDimaActionsType
+	| LoginActionsType
+	| AppActionsType
+	| RecoveryPasswordActionsType
+	| SetNewPasswordActionsType
+	| RegistrationActionsType
+	| PacksListActionsType
+	| TablePacksActionsType
+	| CardsNameActionsType
+
 
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppStateType, unknown, ActionsType>;
 

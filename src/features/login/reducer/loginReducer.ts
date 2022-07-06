@@ -1,5 +1,5 @@
 import {AxiosError} from 'axios';
-import {authAPI, LoginPayloadType, UserResponseType} from '../../../api/auth-api';
+import {authAPI, LoginPayloadType, UpdateProfileResponseType, UserResponseType} from '../../../api/auth-api';
 import {AppThunk} from '../../../app/store';
 import {setAppErrorAC, setAppStatusAC} from '../../../app/reducer/app-reducer';
 import {setUpdateProfileAC} from '../../profile/reducer/profileReducer';
@@ -58,10 +58,41 @@ export const login = (data: LoginPayloadType): AppThunk => dispatch => {
         })
 };
 
+export const logoutTC = (): AppThunk => dispatch => {
+	dispatch(setAppStatusAC('loading'))
+	authAPI.logout()
+		.then(res => {
+			dispatch(setIsLoggedIn(false))
+		})
+		.catch((e: AxiosError<{error: string}>) => {
+			dispatch(setAppErrorAC(e.message ? e.message : 'Some error occurred'))
+		})
+		.finally(() => {
+			dispatch(setAppStatusAC('idle'))
+		})
+}
+
+export const updateUserDataTC = (name: string, avatar: string): AppThunk => dispatch => {
+	dispatch(setAppStatusAC('loading'))
+	authAPI.updateProfile({name, avatar})
+		.then(res => {
+			dispatch(setLoginData({...res.data.updatedUser}))
+		})
+		.catch((e: AxiosError<{error: string}>) => {
+			const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
+			dispatch(setAppErrorAC(error))
+		})
+		.finally(() => {
+			dispatch(setAppStatusAC('idle'))
+		})
+}
+
 //types
 export type LoginActionsType =
     | ReturnType<typeof setLoginData>
     | ReturnType<typeof setIsLoggedIn>
 export type LoginDataUserType = UserResponseType & {
+
+type LoginDataUserType = UserResponseType & {
     isLoggedIn: boolean
 };

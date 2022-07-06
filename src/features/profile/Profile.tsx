@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import {Navigate} from 'react-router-dom';
 
 import {Avatar} from '@mui/material';
@@ -13,7 +13,7 @@ import Button from '../../common/button/Button';
 import iconPhoto from '../../assets/images/cam-icon-png-2.jpg';
 import userPhoto from '../../assets/images/avatar.jpg';
 import {useAppDispatch, useAppSelector} from '../../app/store';
-import {logoutTC, updateProfileTC} from './reducer/profileReducer';
+import {logoutTC, updateUserDataTC} from "../login/reducer/login-reducer";
 import {SmallAvatar, useStyles} from './styles';
 import {PATH} from '../../enums/path';
 import Badge from "@mui/material/Badge";
@@ -43,6 +43,7 @@ export const Profile = () => {
 	}
 
 	const changeTitle = (e: ChangeEvent<HTMLInputElement>) => {
+		if (e.currentTarget.value.length > 20) return
 		setTitle(e.currentTarget.value)
 	}
 
@@ -53,7 +54,7 @@ export const Profile = () => {
 	}
 
 	const updateName = () => {
-		dispatch(updateProfileTC(title, avatar || userPhoto))
+		dispatch(updateUserDataTC(title, avatar || userPhoto))
 		setEditMode(false)
 	}
 
@@ -61,7 +62,7 @@ export const Profile = () => {
 		dispatch(logoutTC())
 	};
 
-		if (!isLoggedIn) {
+	if (!isLoggedIn) {
 		return <Navigate to={PATH.LOGIN}/>
 	}
 
@@ -77,7 +78,7 @@ export const Profile = () => {
 								<Stack direction="row" spacing={2}>
 									<Badge
 										overlap="circular"
-										anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+										anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}
 										badgeContent={
 											<SmallAvatar alt="Remy Sharp" src={iconPhoto}/>}>
 										<Avatar alt="Travis Howard" src={avatar || userPhoto} sx={{width: 96, height: 96}}/>

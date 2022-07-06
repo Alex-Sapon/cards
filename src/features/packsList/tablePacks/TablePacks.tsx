@@ -41,7 +41,7 @@ const selectCardPacksTotalCount = (state: AppStateType) => state.packList.cardPa
 const selectPageCount = (state: AppStateType) => state.packList.pageCount;
 const selectPage = (state: AppStateType) => state.packList.page;
 const selectStatus = (state: AppStateType) => state.app.status;
-const selectProfileUserId = (state: AppStateType) => state.profile._id;
+const selectProfileUserId = (state: AppStateType) => state.login._id;
 
 export const TablePacks = () => {
     // const createSortHandler = (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
