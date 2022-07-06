@@ -23,7 +23,7 @@ export const cardsNameReducer = (state: CardsNameStateType = initialState, actio
 		case 'CARDS-NAME/SET-CARDS-PARAMS':
 			return {...state, ...action.data}
 		case 'CARDS-NAME/SET-CARDS-PACK-ID':
-			return {...state, cardsPack_id: action.cardsPack_id, packUserId: action.packUserId};
+			return {...state, cardsPack_id: action.cardsPack_id};
 		case 'CARDS-NAME/SET-CARDS-PAGE':
 			return {...state, page: action.page};
 		case 'CARDS-NAME/SET-CARDS-PAGE-COUNT':
@@ -38,10 +38,10 @@ export const cardsNameReducer = (state: CardsNameStateType = initialState, actio
 }
 
 //actions
-export const setCardsPackId = (cardsPack_id: string, packUserId: string) =>
-	({type: 'CARDS-NAME/SET-CARDS-PACK-ID', cardsPack_id, packUserId} as const);
+export const setCardsPackId = (cardsPack_id: string) =>
+	({type: 'CARDS-NAME/SET-CARDS-PACK-ID', cardsPack_id} as const);
 
-export const getUserId = (getUserId: 'idle') =>
+export const getUserId = (getUserId: string) =>
 	({type: 'CARDS-NAME/GET-USER-ID', getUserId} as const);
 
 export const getCardsNameData = (data: CardsTypeResponseType) =>

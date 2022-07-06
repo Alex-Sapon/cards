@@ -63,8 +63,8 @@ export const ShowPacks = () => {
                     onClick={allPacksClickHandler}
                     disabled={status === 'loading'}
                 >All</Button>
-                <Button className={myPacks}>My</Button>
-                <Button className={allPacks}>All</Button>
+                {/*<Button className={myPacks}>My</Button>
+                <Button className={allPacks}>All</Button>*/}
             </div>
             <h3 className={styles.left_bar_subtitle}>Number of cards</h3>
             <div className={styles.slider}>
