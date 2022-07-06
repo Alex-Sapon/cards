@@ -27,6 +27,7 @@ const selectLoginUserId = (state: AppStateType): string => state.login._id;
 export const TableRowPack = memo((props: TableRowPackType) => {
     const {_id, name, cardsCount, updated, user_id, user_name, status} = props;
 
+
     const dispatch = useAppDispatch();
 
     const navigate = useNavigate();
