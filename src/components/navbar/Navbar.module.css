@@ -3,6 +3,7 @@
     justify-content: center;
     align-items: center;
     background: #EBE0E9;
+    position: relative;
 }
 
 .navbar_list {

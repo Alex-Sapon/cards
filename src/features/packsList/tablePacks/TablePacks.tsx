@@ -17,22 +17,20 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import {TextField} from '@mui/material';
-import {createNewCardsPack, setSearchPackName, sortCardPacks} from './tablePacksReducer';
+import {createNewCardsPack, setSearchPackName, setSortPackName} from './tablePacksReducer';
 
 const selectCardPacks = (state: AppStateType): PackType[] => state.packList.cardPacks;
 const selectCardPacksTotalCount = (state: AppStateType): number => state.packList.cardPacksTotalCount;
-const selectPageCount = (state: AppStateType): number => state.packList.pageCount;
-const selectPage = (state: AppStateType): number => state.packList.page;
+const selectPageCount = (state: AppStateType): number => state.tablePacks.pageCount;
+const selectPage = (state: AppStateType): number => state.tablePacks.page;
 const selectStatus = (state: AppStateType): RequestStatusType => state.app.status;
 
 type DirectionNameType = 'name' | 'cardsCount' | 'updated' | 'created' | 'user_name';
 
-type OrderType = 'asc' | 'desc';
-
 export const TablePacks = () => {
-    const [value, setValue] = useState<string>('');
+    const [value, setValue] = useState('');
 
-    const [direction, setDirection] = useState<[OrderType, DirectionNameType]>(['asc', 'created']);
+    const [direction, setDirection] = useState<[0 | 1, DirectionNameType]>([0, 'created']);
 
     const dispatch = useAppDispatch();
 
@@ -48,6 +46,7 @@ export const TablePacks = () => {
         setValue(e.currentTarget.value);
     };
 
+
     useEffect(() => {
         dispatch(setSearchPackName(debouncedValue));
     }, [debouncedValue]);
@@ -56,15 +55,15 @@ export const TablePacks = () => {
         dispatch(createNewCardsPack('My new PACK'));
     };
 
+    let finalSortName = `${direction[0]}${direction[1]}`;
+    console.log(finalSortName)
+
     const handleSortList = (name: DirectionNameType) => {
-        const finalySortName = `${direction[0]}${direction[1]}`;
+        finalSortName = `${direction[0]}${direction[1]}`;
 
-        // setOrder(order === 'asc' ? 'desc' : 'asc');
-        // setCellName(finalySortName);
+        setDirection([direction[0] === 0 ? 1 : 0, name]);
 
-        setDirection([direction[0] === 'asc' ? 'desc' : 'asc', name]);
-
-        dispatch(sortCardPacks(finalySortName));
+        dispatch(setSortPackName(finalSortName));
     };
 
     return (
@@ -90,7 +89,8 @@ export const TablePacks = () => {
                             <StyledTableCell>
                                 <TableSortLabel
                                     active={true}
-                                    direction={direction[1] === 'name' ? 'asc' : 'desc'}
+                                    disabled={status === 'loading'}
+                                    direction={finalSortName === '0name' ? 'asc' : 'desc'}
                                     onClick={() => handleSortList('name')}
                                 >
                                 </TableSortLabel>
@@ -99,7 +99,8 @@ export const TablePacks = () => {
                             <StyledTableCell align="center">
                                 <TableSortLabel
                                     active={true}
-                                    direction={direction[1] === 'cardsCount' ? 'asc' : 'desc'}
+                                    disabled={status === 'loading'}
+                                    direction={finalSortName === '0cardsCount' ? 'asc' : 'desc'}
                                     onClick={() => handleSortList('cardsCount')}
                                 >
                                 </TableSortLabel>
@@ -108,7 +109,8 @@ export const TablePacks = () => {
                             <StyledTableCell align="center">
                                 <TableSortLabel
                                     active={true}
-                                    direction={direction[1] === 'updated' ? 'asc' : 'desc'}
+                                    disabled={status === 'loading'}
+                                    direction={finalSortName === '0updated' ? 'asc' : 'desc'}
                                     onClick={() => handleSortList('updated')}
                                 >
                                 </TableSortLabel>
@@ -117,7 +119,8 @@ export const TablePacks = () => {
                             <StyledTableCell align="center">
                                 <TableSortLabel
                                     active={true}
-                                    direction={direction[1] === 'user_name' ? 'asc' : 'desc'}
+                                    disabled={status === 'loading'}
+                                    direction={finalSortName === '0user_name' ? 'asc' : 'desc'}
                                     onClick={() => handleSortList('user_name')}
                                 >
                                 </TableSortLabel>
@@ -129,7 +132,7 @@ export const TablePacks = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {cardPacks ? cardPacks.map(({_id, name, cardsCount, updated, user_name, user_id}) => (
+                        {cardPacks.length ? cardPacks.map(({_id, name, cardsCount, updated, user_name, user_id}) => (
                             <TableRowPack
                                 key={_id}
                                 _id={_id}
@@ -140,7 +143,7 @@ export const TablePacks = () => {
                                 user_id={user_id}
                                 status={status}
                             />
-                        )) : <div>Now packs</div>}
+                        )) : <div className={styles.now_packs}>Now packs...</div>}
                     </TableBody>
                 </Table>
             </TableContainer>

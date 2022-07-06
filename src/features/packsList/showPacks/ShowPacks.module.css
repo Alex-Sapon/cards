@@ -58,3 +58,9 @@
     outline: 1px transparent;
 }
 
+.btn_active {
+    background: #9A91C8!important;
+    color: #FFFFFF!important;
+    box-shadow: none!important;
+}
+

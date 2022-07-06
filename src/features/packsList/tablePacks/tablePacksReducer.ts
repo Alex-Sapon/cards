@@ -1,4 +1,3 @@
-import {PacksParamsType} from '../packsList-api';
 import {AppThunk} from '../../../app/store';
 import {AxiosError} from 'axios';
 import {setAppErrorAC, setAppStatusAC} from '../../../app/reducer/app-reducer';
@@ -7,8 +6,6 @@ import {NewCardsPackType, tablePacksAPI} from './tablePacks-api';
 
 const initialState: TablePacksType = {
     packName: '',
-    min: 0,
-    max: 0,
     sortPacks: '',
     page: 1,
     pageCount: 5,
@@ -32,25 +29,13 @@ export const tablePacksReducer = (state: TablePacksType = initialState, action: 
 };
 
 // actions
-export const setPage = (page: number) => ({
-    type: 'TABLE-PACKS/SET-PAGE',
-    page,
-} as const);
+export const setPage = (page: number) => ({type: 'TABLE-PACKS/SET-PAGE', page} as const);
 
-export const setPageCount = (pageCount: number) => ({
-    type: 'TABLE-PACKS/SET-PAGE-COUNT',
-    pageCount,
-} as const);
+export const setPageCount = (pageCount: number) => ({type: 'TABLE-PACKS/SET-PAGE-COUNT', pageCount} as const);
 
-export const setSearchPackName = (searchPackName: string) => ({
-    type: 'TABLE-PACKS/SET-SEARCH-PACK-NAME',
-    searchPackName,
-} as const);
+export const setSearchPackName = (searchPackName: string) => ({type: 'TABLE-PACKS/SET-SEARCH-PACK-NAME', searchPackName} as const);
 
-export const setSortPackName = (sortPackName: string) => ({
-    type: 'TABLE-PACKS/SET-SORT-PACK-NAME',
-    sortPackName,
-} as const);
+export const setSortPackName = (sortPackName: string) => ({type: 'TABLE-PACKS/SET-SORT-PACK-NAME', sortPackName} as const);
 
 // thunks
 export const createNewCardsPack = (name: string): AppThunk => dispatch => {
@@ -76,35 +61,16 @@ export const createNewCardsPack = (name: string): AppThunk => dispatch => {
         })
 };
 
-export const deleteUpdateCardsPack = (_id: string, name?: string): AppThunk => dispatch => {
-    // const apiMethod = name
-    //     ? tablePacksAPI.updatePack({cardsPack: {_id: id, name: name}})
-    //     : tablePacksAPI.deletePack(id);
-
+export const deleteUpdateCardsPack = (id: string, name?: string): AppThunk => dispatch => {
     const apiMethod = name
-        ? tablePacksAPI.updatePack.apply(tablePacksAPI, [{cardsPack: {_id, name}}])
-        : tablePacksAPI.deletePack.apply(tablePacksAPI, [_id]);
+        ? tablePacksAPI.updatePack({cardsPack: {_id: id, name: name}})
+        : tablePacksAPI.deletePack(id);
 
     dispatch(setAppStatusAC('loading'));
 
     apiMethod
         .then(() => {
             dispatch(fetchCardPacks());
-        })
-        .catch((e: AxiosError<{ error: string }>) => {
-            dispatch(setAppErrorAC(e.response ? e.response.data.error : e.message));
-        })
-        .finally(() => {
-            dispatch(setAppStatusAC('idle'));
-        })
-};
-
-export const sortCardPacks = (namePack: string): AppThunk => dispatch => {
-    dispatch(setAppStatusAC('loading'));
-
-    tablePacksAPI.sortPacks(namePack)
-        .then(() => {
-            dispatch(setSortPackName(namePack));
         })
         .catch((e: AxiosError<{ error: string }>) => {
             dispatch(setAppErrorAC(e.response ? e.response.data.error : e.message));
@@ -121,4 +87,10 @@ export type TablePacksActionsType =
     | ReturnType<typeof setSearchPackName>
     | ReturnType<typeof setSortPackName>
 
-type TablePacksType = PacksParamsType & {}
+type TablePacksType = {
+    packName: string
+    sortPacks: string
+    page: number
+    pageCount: number
+    user_id: string
+}

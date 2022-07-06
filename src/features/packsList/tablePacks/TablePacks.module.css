@@ -4,9 +4,10 @@
 }
 
 .table_title {
-    font-weight: 600;
+    font-weight: 800;
     font-size: 22px;
     color: #2D2E46;
+    letter-spacing: 1px;
 }
 
 .table_wrapper {
@@ -31,4 +32,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.now_packs {
+    text-align: center;
+    padding: 20px;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 1px;
 }
