@@ -1,8 +1,7 @@
 import {AxiosError} from 'axios';
-import {authAPI, LoginPayloadType, UpdateProfileResponseType, UserResponseType} from '../../../api/auth-api';
+import {authAPI, LoginPayloadType, UserResponseType} from '../../../api/auth-api';
 import {AppThunk} from '../../../app/store';
 import {setAppErrorAC, setAppStatusAC} from '../../../app/reducer/app-reducer';
-import {setUpdateProfileAC} from '../../profile/reducer/profileReducer';
 
 const initialState: LoginDataUserType = {
     _id: '',
@@ -46,7 +45,6 @@ export const login = (data: LoginPayloadType): AppThunk => dispatch => {
     authAPI.login(data)
         .then(res => {
             dispatch(setLoginData(res.data));
-            dispatch(setUpdateProfileAC(res.data))
             dispatch(setIsLoggedIn(true));
         })
         .catch((e: AxiosError<{error: string}>) => {
@@ -91,8 +89,7 @@ export const updateUserDataTC = (name: string, avatar: string): AppThunk => disp
 export type LoginActionsType =
     | ReturnType<typeof setLoginData>
     | ReturnType<typeof setIsLoggedIn>
-export type LoginDataUserType = UserResponseType & {
 
-type LoginDataUserType = UserResponseType & {
+export type LoginDataUserType = UserResponseType & {
     isLoggedIn: boolean
-};
+}

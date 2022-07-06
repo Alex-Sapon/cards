@@ -1,5 +1,5 @@
 import {AxiosResponse} from 'axios';
-import { instance } from '../../api/instance-api';
+import {instance} from '../../api/instance-api';
 
 export const packsListApi = {
     getPacks(data: PacksParamsType) {
@@ -9,10 +9,10 @@ export const packsListApi = {
 
 //types
 export type PacksParamsType = {
-    packName?: string
+    packName: string
     min?: number
     max?: number
-    sortPacks?: string
+    sortPacks: string
     page: number
     pageCount: number
     user_id?: string

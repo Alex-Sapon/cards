@@ -1,73 +1,70 @@
-import * as React from 'react';
+import {ChangeEvent, useEffect, useState} from 'react';
+import {PaginationGroup} from '../paginationGroup/PaginationGroup';
+import {AppStateType, useAppDispatch, useAppSelector} from '../../../app/store';
+import useDebounce from './utils/useDebounce';
+import {PackType} from '../packsList-api';
+import {RequestStatusType} from '../../../app/reducer/app-reducer';
+import {TableRowPack} from './tableRowPack/TableRowPack';
+import {StyledTableCell} from './tableRowPack/styledTablePack';
+import Button from '../../../common/button/Button';
 import styles from './TablePacks.module.css';
 import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
-import {styled} from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import TableCell, {tableCellClasses} from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import {SelectChangeEvent} from '@mui/material/Select';
 import TableSortLabel from '@mui/material/TableSortLabel';
-import Button from '../../../common/button/Button';
 import {TextField} from '@mui/material';
-import {PaginationGroup} from '../paginationGroup/PaginationGroup';
-import {AppStateType, useAppSelector} from '../../../app/store';
+import {createNewCardsPack, setSearchPackName, setSortPackName} from './tablePacksReducer';
 
-const StyledTableCell = styled(TableCell)(({theme}) => ({
-    [`&.${tableCellClasses.head}`]: {
-        backgroundColor: '#ECECF9',
-        color: '#2D2E46',
-    },
-    [`&.${tableCellClasses.body}`]: {
-        fontSize: 14,
-    },
-}));
+const selectCardPacks = (state: AppStateType): PackType[] => state.packList.cardPacks;
+const selectCardPacksTotalCount = (state: AppStateType): number => state.packList.cardPacksTotalCount;
+const selectPageCount = (state: AppStateType): number => state.tablePacks.pageCount;
+const selectPage = (state: AppStateType): number => state.tablePacks.page;
+const selectStatus = (state: AppStateType): RequestStatusType => state.app.status;
 
-const StyledTableRow = styled(TableRow)(({theme}) => ({
-    '&:nth-of-type(even)': {
-        backgroundColor: '#F8F7FD',
-    },
-    // hide last border
-    '&:last-child td, &:last-child th': {
-        border: 0,
-    },
-}));
-
-const selectCardPacks = (state: AppStateType) => state.packList.cardPacks;
-const selectCardPacksTotalCount = (state: AppStateType) => state.packList.cardPacksTotalCount;
-const selectPageCount = (state: AppStateType) => state.packList.pageCount;
-const selectPage = (state: AppStateType) => state.packList.page;
-const selectStatus = (state: AppStateType) => state.app.status;
-const selectProfileUserId = (state: AppStateType) => state.login._id;
+type DirectionNameType = 'name' | 'cardsCount' | 'updated' | 'created' | 'user_name';
 
 export const TablePacks = () => {
-    // const createSortHandler = (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
-    //     // onRequestSort(event, property);
-    // };
+    const [value, setValue] = useState('');
 
-    const [value, setValue] = React.useState<number[]>([20, 37]);
+    const [direction, setDirection] = useState<[0 | 1, DirectionNameType]>([0, 'created']);
+
+    const dispatch = useAppDispatch();
+
+    const debouncedValue = useDebounce<string>(value, 500);
 
     const cardPacks = useAppSelector(selectCardPacks);
     const cardPacksTotalCount = useAppSelector(selectCardPacksTotalCount);
     const pageCount = useAppSelector(selectPageCount);
     const page = useAppSelector(selectPage);
     const status = useAppSelector(selectStatus);
-    const profileUserId = useAppSelector(selectProfileUserId);
 
-    const handleChange = (event: Event, newValue: number | number[]) => {
-        setValue(newValue as number[]);
+    const handleChangeValue = (e: ChangeEvent<HTMLInputElement>) => {
+        setValue(e.currentTarget.value);
     };
 
-    const [age, setAge] = React.useState('');
 
-    const handleChangeCheckbox = (event: SelectChangeEvent) => {
-        setAge(event.target.value);
+    useEffect(() => {
+        dispatch(setSearchPackName(debouncedValue));
+    }, [debouncedValue]);
+
+    const handleNewCardsPack = () => {
+        dispatch(createNewCardsPack('My new PACK'));
     };
 
-    return (
+    let finalSortName = `${direction[0]}${direction[1]}`;
+    console.log(finalSortName)
+
+    const handleSortList = (name: DirectionNameType) => {
+        finalSortName = `${direction[0]}${direction[1]}`;
+
+        setDirection([direction[0] === 0 ? 1 : 0, name]);
+
+        dispatch(setSortPackName(finalSortName));
+    };return (
         <div className={styles.table_wrapper}>
             <h3 className={styles.table_title}>Packs list</h3>
             <div className={styles.text_field_group}>
@@ -75,23 +72,24 @@ export const TablePacks = () => {
                     fullWidth
                     sx={{backgroundColor: '#ECECF9', mr: '2rem'}}
                     size="small"
-                    placeholder="Enter new pack"
+                    placeholder="Search"
                     disabled={status === 'loading'}
-                    // value='Hello'
-                    // onChange={() => {}}
+                    value={value}
+                    onChange={handleChangeValue}
                     InputProps={{startAdornment: <InputAdornment position="start"><SearchIcon/></InputAdornment>}}
                 />
-                <Button disabled={status === 'loading'}>Add new pack</Button>
+                <Button disabled={status === 'loading'} onClick={handleNewCardsPack}>Add new pack</Button>
             </div>
             <TableContainer className={styles.table_container}>
                 <Table>
                     <TableHead>
-                        <TableRow>
+                        <TableRow sx={{display: 'grid', gridTemplateColumns: '21% 15% 19% 17% 28%'}}>
                             <StyledTableCell>
                                 <TableSortLabel
                                     active={true}
-                                    direction={'asc'}
-                                    // onClick={createSortHandler(headCell.id)}
+                                    disabled={status === 'loading'}
+                                    direction={finalSortName === '0name' ? 'asc' : 'desc'}
+                                    onClick={() => handleSortList('name')}
                                 >
                                 </TableSortLabel>
                                 <b>Name</b>
@@ -99,8 +97,9 @@ export const TablePacks = () => {
                             <StyledTableCell align="center">
                                 <TableSortLabel
                                     active={true}
-                                    direction={'asc'}
-                                    // onClick={createSortHandler(headCell.id)}
+                                    disabled={status === 'loading'}
+                                    direction={finalSortName === '0cardsCount' ? 'asc' : 'desc'}
+                                    onClick={() => handleSortList('cardsCount')}
                                 >
                                 </TableSortLabel>
                                 <b>Cards</b>
@@ -108,8 +107,9 @@ export const TablePacks = () => {
                             <StyledTableCell align="center">
                                 <TableSortLabel
                                     active={true}
-                                    direction={'asc'}
-                                    // onClick={createSortHandler(headCell.id)}
+                                    disabled={status === 'loading'}
+                                    direction={finalSortName === '0updated' ? 'asc' : 'desc'}
+                                    onClick={() => handleSortList('updated')}
                                 >
                                 </TableSortLabel>
                                 <b>Last Updated</b>
@@ -117,34 +117,40 @@ export const TablePacks = () => {
                             <StyledTableCell align="center">
                                 <TableSortLabel
                                     active={true}
-                                    direction={'asc'}
-                                    // onClick={createSortHandler(headCell.id)}
+                                    disabled={status === 'loading'}
+                                    direction={finalSortName === '0user_name' ? 'asc' : 'desc'}
+                                    onClick={() => handleSortList('user_name')}
                                 >
                                 </TableSortLabel>
                                 <b>Created by</b>
                             </StyledTableCell>
-                            <StyledTableCell align="center"><b>Actions</b></StyledTableCell>
+                            <StyledTableCell align="center">
+                                <b>Actions</b>
+                            </StyledTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {cardPacks ? cardPacks.map(({_id, name, cardsCount, updated, user_name}) => (
-                            <StyledTableRow key={_id}>
-                                <StyledTableCell component="th" scope="row">{name}</StyledTableCell>
-                                <StyledTableCell align="center">{cardsCount}</StyledTableCell>
-                                <StyledTableCell align="center">{new Date(updated).toLocaleDateString()}</StyledTableCell>
-                                <StyledTableCell align="center">{user_name}</StyledTableCell>
-                                <StyledTableCell align="center" className={styles.table_button_group}>
-                                    {profileUserId === _id &&
-                                        <><Button id="button_delete" disabled={status === 'loading'}>Delete</Button>
-                                           <Button disabled={status === 'loading'}>Edit</Button></>}
-                                    <Button disabled={status === 'loading'}>Learn</Button>
-                                </StyledTableCell>
-                            </StyledTableRow>
-                        )) : <div>Now packs</div>}
+                        {cardPacks.length ? cardPacks.map(({_id, name, cardsCount, updated, user_name, user_id}) => (
+                            <TableRowPack
+                                key={_id}
+                                _id={_id}
+                                name={name}
+                                cardsCount={cardsCount}
+                                updated={updated}
+                                user_name={user_name}
+                                user_id={user_id}
+                                status={status}/>
+                        )) : <div className={styles.now_packs}>Now packs...</div>}
                     </TableBody>
                 </Table>
             </TableContainer>
-            <PaginationGroup cardPacksTotalCount={cardPacksTotalCount} pageCount={pageCount} page={page}/>
+            <PaginationGroup
+                cardPacksTotalCount={cardPacksTotalCount}
+                pageCount={pageCount}
+                page={page}
+                title="Cards per Page"
+                disable={status === 'loading'}
+            />
         </div>
     )
 };

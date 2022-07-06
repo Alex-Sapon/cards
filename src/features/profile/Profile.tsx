@@ -1,6 +1,5 @@
 import React, {ChangeEvent, useState} from 'react';
 import {Navigate} from 'react-router-dom';
-
 import {Avatar} from '@mui/material';
 import TextField from '@mui/material/TextField';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
@@ -8,15 +7,14 @@ import ClearIcon from '@mui/icons-material/Clear';
 import CircularProgress from '@mui/material/CircularProgress';
 import {AccountCircle} from '@mui/icons-material';
 import Stack from '@mui/material/Stack';
-
 import Button from '../../common/button/Button';
 import iconPhoto from '../../assets/images/cam-icon-png-2.jpg';
 import userPhoto from '../../assets/images/avatar.jpg';
 import {useAppDispatch, useAppSelector} from '../../app/store';
-import {logoutTC, updateUserDataTC} from "../login/reducer/login-reducer";
 import {SmallAvatar, useStyles} from './styles';
 import {PATH} from '../../enums/path';
 import Badge from "@mui/material/Badge";
+import {logoutTC, updateUserDataTC} from '../login/reducer/loginReducer';
 
 
 export const Profile = () => {

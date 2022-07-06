@@ -4,11 +4,10 @@ import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import MenuItem from '@mui/material/MenuItem';
 import Select, {SelectChangeEvent} from '@mui/material/Select';
-import {setPage, setPageCount} from '../tablePacks/reducer/tablePacksReducer';
-import { useAppDispatch } from '../../../app/store';
-import {setPage, setPageCount} from '../tablePacks/table-packs-reducer';
-import {useAppDispatch} from '../../../app/store';
 import {setCardsPage, setCardsPageCount} from "../../packName/reducer/packCardReducer";
+import {memo} from 'react';
+import { useAppDispatch } from '../../../app/store';
+import {setPage, setPageCount} from '../tablePacks/tablePacksReducer';
 
 type PaginationGroupType = {
 	cardPacksTotalCount?: number
@@ -16,11 +15,11 @@ type PaginationGroupType = {
 	pageCount?: number
 	page?: number
 	title?: string
+    disable?: boolean
 }
 
-export const PaginationGroup = (props: PaginationGroupType) => {
-
-	const {cardPacksTotalCount, cardsTotalCount, pageCount, page, title} = props;
+export const PaginationGroup = memo((props: PaginationGroupType) => {
+    const {cardPacksTotalCount, pageCount, page, title, disable} = props;
 
 	const dispatch = useAppDispatch();
 
@@ -36,7 +35,8 @@ export const PaginationGroup = (props: PaginationGroupType) => {
 		dispatch(setCardsPage(value))
 	}
 
-	return (
+
+	/*return (
 		<div className={styles.pagination_group}>
 			<Stack spacing={2} sx={{mr: '2rem'}}>
 
@@ -58,5 +58,35 @@ export const PaginationGroup = (props: PaginationGroupType) => {
 				<span>{title}</span>
 			</div>
 		</div>
-	)
-}
+	)*/
+
+    return (
+        <div className={styles.pagination_group}>
+            <Stack spacing={2} sx={{mr: '2rem'}}>
+                <Pagination
+                    disabled={disable}
+                    count={cardPacksTotalCount}
+                    page={page}
+                    shape="rounded"
+                    onChange={handleChange}
+                />
+            </Stack>
+            <div className={styles.select_wrapper}>
+                <span>Show</span>
+                <Select
+                    disabled={disable}
+                    size="small"
+                    value={String(pageCount)}
+                    onChange={handleChangeValue}
+                    sx={{minWidth: '65px', m: '0 0.5rem', height: '30px'}}
+                >
+                    <MenuItem value={pageCount}>{pageCount}</MenuItem>
+                    <MenuItem value="5">{'5'}</MenuItem>
+                    <MenuItem value="10">{'10'}</MenuItem>
+                    <MenuItem value="15">{'15'}</MenuItem>
+                </Select>
+                <span>{title}</span>
+            </div>
+        </div>
+    )
+});

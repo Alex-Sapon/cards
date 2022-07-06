@@ -1,7 +1,7 @@
-import {packsListApi, PacksParamsResponseType, PackType} from '../packs-list-api';
+import {packsListApi, PacksParamsResponseType, PackType} from './packsList-api';
 import {AxiosError} from 'axios';
-import {setAppErrorAC, setAppStatusAC} from '../../../app/reducer/app-reducer';
-import {AppStateType, AppThunk} from '../../../app/store';
+import {setAppErrorAC, setAppStatusAC} from '../../app/reducer/app-reducer';
+import {AppStateType, AppThunk} from '../../app/store';
 
 const initialState: PacksListStateType = {
     cardPacks: [] as PackType[],
@@ -21,36 +21,37 @@ export const packsListReducer = (state: PacksListStateType = initialState, actio
         default:
             return state;
     }
-}
+};
+
 //actions
-export const setPacksListData = (data: PacksParamsResponseType) => ({type: 'PACKS-LIST/SET-PACKS-LIST-PARAMS', data,} as const);
 const setPacksListData = (data: PacksParamsResponseType) => ({type: 'PACKS-LIST/SET-PACKS-LIST-PARAMS', data} as const);
 
 //thunks
 export const fetchCardPacks = (): AppThunk => (dispatch, getState: () => AppStateType) => {
+    const {pageCount, page, packName, sortPacks} = getState().tablePacks;
 
-    const {pageCount, page} = getState().tablePacks;
-    const data = {
+    const params = {
+        packName,
+        sortPacks,
         page,
         pageCount,
     }
 
     dispatch(setAppStatusAC('loading'));
 
-    packsListApi.getPacks(data)
+    packsListApi.getPacks(params)
         .then(res => {
             dispatch(setPacksListData(res.data));
         })
         .catch((e: AxiosError<{ error: string }>) => {
-            const error = e.response ? e.response.data.error : e.message;
-            dispatch(setAppErrorAC(error));
+            dispatch(setAppErrorAC(e.response ? e.response.data.error : e.message));
         })
         .finally(() => {
             dispatch(setAppStatusAC('idle'));
         })
 }
+
 //types
-export type PacksListActionsType =
-    | ReturnType<typeof setPacksListData>
-export type PacksListStateType = PacksParamsResponseType & {
-}
+export type PacksListActionsType = ReturnType<typeof setPacksListData>
+
+type PacksListStateType = PacksParamsResponseType & {}
