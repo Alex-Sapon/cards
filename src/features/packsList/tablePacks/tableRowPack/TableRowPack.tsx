@@ -24,28 +24,29 @@ type TableRowPackType = {
 }
 
 const selectLoginUserId = (state: AppStateType): string => state.login._id;
-// const selectUserDataStatus = (state: AppStateType): string => state.cardPack.userDataStatus;
+const selectUserDataStatus = (state: AppStateType): string => state.cardPack.userDataStatus;
 
 export const TableRowPack = memo((props: TableRowPackType) => {
     const {_id, name, cardsCount, updated, user_id, user_name, status} = props;
+
 
     const dispatch = useAppDispatch();
 
     const navigate = useNavigate();
 
     const userId = useAppSelector(selectLoginUserId);
-    // const userDataStatus = useAppSelector(selectUserDataStatus);
+    const userDataStatus = useAppSelector(selectUserDataStatus);
 
     const handleDeletePack = () => dispatch(deleteUpdateCardsPack(_id));
     const handleUpdatePack = () => dispatch(deleteUpdateCardsPack(_id, 'Update my new PACK'));
     const handleSendPackId = () => {
-        // dispatch(setUserCardId(_id));
-        // dispatch(setUserCardName(name));
+        dispatch(setUserCardId(_id));
+         dispatch(setUserCardName(name));
     };
 
-    // if (userDataStatus === 'success') {
-    //     return <Navigate to={PATH.CARDS}/>
-    // }
+     if (userDataStatus === 'success') {
+        return <Navigate to={PATH.CARDS}/>
+    }
 
     return (
         <StyledTableRow sx={{display: 'grid', gridTemplateColumns: '25% 8% 24% 15% 28%'}}>

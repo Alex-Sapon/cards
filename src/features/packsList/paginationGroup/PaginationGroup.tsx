@@ -1,10 +1,10 @@
 import * as React from 'react';
+import {memo} from 'react';
 import styles from './PaginationGroup.module.css';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import MenuItem from '@mui/material/MenuItem';
 import Select, {SelectChangeEvent} from '@mui/material/Select';
-import {memo} from 'react';
 import { ActionsType, useAppDispatch } from '../../../app/store';
 
 type PaginationGroupType = {
@@ -20,7 +20,7 @@ type PaginationGroupType = {
 export const PaginationGroup = memo((props: PaginationGroupType) => {
     const {cardsTotalCount, pageCount, page, title, disable, onChangeValue, onChangePage} = props;
 
-    const dispatch = useAppDispatch();
+	const dispatch = useAppDispatch();
 
     const handleChangePageCount = (e: SelectChangeEvent) => {
         if (pageCount && Number(e.target.value) !== pageCount) {

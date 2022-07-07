@@ -1,3 +1,4 @@
+import * as React from 'react';
 import {ChangeEvent, useEffect, useState} from 'react';
 import {PaginationGroup} from '../paginationGroup/PaginationGroup';
 import {AppStateType, useAppDispatch, useAppSelector} from '../../../app/store';
@@ -17,7 +18,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import {TextField} from '@mui/material';
-import {createNewCardsPack, setCardsPageCount, setPage, setSearchPackName, setSortPackName} from './tablePacksReducer';
+import {createNewCardsPack, setPage, setPageCount, setSearchPackName, setSortPackName} from './tablePacksReducer';
 
 const selectCardPacks = (state: AppStateType): PackType[] => state.packList.cardPacks;
 const selectCardPacksTotalCount = (state: AppStateType): number => state.packList.cardPacksTotalCount;
@@ -25,27 +26,28 @@ const selectPageCount = (state: AppStateType): number => state.tablePacks.pageCo
 const selectPage = (state: AppStateType): number => state.tablePacks.page;
 const selectStatus = (state: AppStateType): RequestStatusType => state.app.status;
 
+
 export const TablePacks = () => {
-    const [value, setValue] = useState('');
+	const [value, setValue] = useState('');
 
     const [name, setName] = useState<'0name' | '1name'>('0name');
     const [cardsCount, setCardsCount] = useState<'0cardsCount' | '1cardsCount'>('0cardsCount');
     const [updated, setUpdated] = useState<'0updated' | '1updated'>('0updated');
     const [userName, setUserName] = useState<'0user_name' | '1user_name'>('0user_name');
 
-    const dispatch = useAppDispatch();
+	const dispatch = useAppDispatch();
 
-    const debouncedValue = useDebounce<string>(value, 500);
+	const debouncedValue = useDebounce<string>(value, 500);
 
-    const cardPacks = useAppSelector(selectCardPacks);
-    const cardPacksTotalCount = useAppSelector(selectCardPacksTotalCount);
-    const pageCount = useAppSelector(selectPageCount);
-    const page = useAppSelector(selectPage);
-    const status = useAppSelector(selectStatus);
+	const cardPacks = useAppSelector(selectCardPacks);
+	const cardPacksTotalCount = useAppSelector(selectCardPacksTotalCount);
+	const pageCount = useAppSelector(selectPageCount);
+	const page = useAppSelector(selectPage);
+	const status = useAppSelector(selectStatus);
 
-    const handleChangeValue = (e: ChangeEvent<HTMLInputElement>) => {
-        setValue(e.currentTarget.value);
-    };
+	const handleChangeValue = (e: ChangeEvent<HTMLInputElement>) => {
+		setValue(e.currentTarget.value);
+	};
 
     useEffect(() => {
         dispatch(setSearchPackName(debouncedValue));

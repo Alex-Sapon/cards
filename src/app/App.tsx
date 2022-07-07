@@ -55,6 +55,7 @@ export const App = () => {
                     <Route path={PATH.SET_PASS} element={<SetPassword/>}/>
                     <Route path={PATH.RECOVERY_PASS} element={<RecoveryPassword/>}/>
                     <Route path={PATH.PAGE_NOT_FOUND} element={<Error404/>}/>
+
                 </Routes>
             </div>
         </div>
