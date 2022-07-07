@@ -3,7 +3,6 @@ import {applyMiddleware, combineReducers, legacy_createStore as createStore} fro
 import thunk, {ThunkAction, ThunkDispatch} from 'redux-thunk';
 import {LoginActionsType, loginReducer} from '../features/login/reducer/loginReducer';
 import { CardsNameActionsType, cardsNameReducer } from '../features/packName/reducer/packCardReducer';
-import {PacksListDimaActionsType, packsListDimaReducer } from '../features/packsList/Dima/reducer/packsListDimaReducer';
 import { PacksListActionsType, packsListReducer } from '../features/packsList/packsListReducer';
 import {TablePacksActionsType, tablePacksReducer } from '../features/packsList/tablePacks/tablePacksReducer';
 import {RecoveryPasswordActionsType, recoveryPasswordReducer } from '../features/recoveryPassword/reducer/recoveryPasswordReducer';
@@ -20,7 +19,6 @@ const rootReducer = combineReducers({
     registration: registrationReducer,
     packList: packsListReducer,
     tablePacks: tablePacksReducer,
-    packListDima: packsListDimaReducer,
     cardPack: cardsNameReducer,
 
 });
@@ -37,7 +35,6 @@ export type ActionsType =
     | RegistrationActionsType
     | PacksListActionsType
     | TablePacksActionsType
-    | PacksListDimaActionsType
 	| CardsNameActionsType
 
 

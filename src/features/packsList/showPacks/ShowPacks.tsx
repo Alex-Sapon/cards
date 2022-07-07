@@ -41,6 +41,7 @@ export const ShowPacks = () => {
 
     const handleClick = (e: MouseEvent<HTMLSpanElement>) => {
         if (e.type === 'mouseup') {
+            console.log(e);
             setDoUpdateSliderValue(true)
         }
     }
