@@ -19,6 +19,7 @@ export const TableCardName = () => {
 	const pageCount = useAppSelector(state => state.cardPack.pageCount)
 	const cardQuestion = useAppSelector(state => state.cardPack.cardQuestion)
 
+
 	useEffect(() => {
 		dispatch(fetchCardsTC())
 	},[cardsPack_id, page, pageCount, cardQuestion])

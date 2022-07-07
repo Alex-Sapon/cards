@@ -10,8 +10,7 @@ import styles from './TableRowPack.module.css';
 import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
 import IconButton from '@mui/material/IconButton';
 import {deleteUpdateCardsPack} from '../tablePacksReducer';
-import {setCardsPackId} from '../../../packName/reducer/packCardReducer';
-import {Navigate} from 'react-router-dom';
+import {setUserCardId, setUserCardName} from '../../../packName/reducer/packCardReducer';
 
 type TableRowPackType = {
     _id: string
@@ -24,7 +23,6 @@ type TableRowPackType = {
 }
 
 const selectLoginUserId = (state: AppStateType): string => state.login._id;
-const selectUserDataStatus = (state: AppStateType): string => state.cardPack.userDataStatus;
 
 export const TableRowPack = memo((props: TableRowPackType) => {
     const {_id, name, cardsCount, updated, user_id, user_name, status} = props;
@@ -35,18 +33,15 @@ export const TableRowPack = memo((props: TableRowPackType) => {
     const navigate = useNavigate();
 
     const userId = useAppSelector(selectLoginUserId);
-    const userDataStatus = useAppSelector(selectUserDataStatus);
 
     const handleDeletePack = () => dispatch(deleteUpdateCardsPack(_id));
     const handleUpdatePack = () => dispatch(deleteUpdateCardsPack(_id, 'Update my new PACK'));
     const handleSendPackId = () => {
         dispatch(setUserCardId(_id));
-         dispatch(setUserCardName(name));
+        dispatch(setUserCardName(name));
+        navigate(PATH.CARDS)
     };
 
-     if (userDataStatus === 'success') {
-        return <Navigate to={PATH.CARDS}/>
-    }
 
     return (
         <StyledTableRow sx={{display: 'grid', gridTemplateColumns: '25% 8% 24% 15% 28%'}}>
@@ -56,7 +51,7 @@ export const TableRowPack = memo((props: TableRowPackType) => {
                     disabled={status === 'loading'}
                     aria-label="expand row"
                     size="small"
-                    // onClick={handleSendPackId}
+                    onClick={handleSendPackId}
                 >
                     <DriveFolderUploadIcon/>
                 </IconButton>
@@ -81,5 +76,5 @@ export const TableRowPack = memo((props: TableRowPackType) => {
                 <Button disabled={status === 'loading'}>Learn</Button>
             </StyledTableCell>
         </StyledTableRow>
-    )
+    );
 });

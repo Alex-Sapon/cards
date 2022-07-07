@@ -34,7 +34,7 @@ export const cardsNameReducer = (state: CardsNameStateType = initialState, actio
 			return {...state, pageCount: action.pageCount};
 		case 'CARDS-NAME/SET-CARDS-TOTAL-COUNT':
 			return {...state, cardsTotalCount: action.cardsTotalCount};
-		case 'CARDS-NAME/GET-USER-ID':
+		case 'CARDS-NAME/SET-USER-ID':
 			return {...state, cardsPack_id: action.userId};
 		case 'CARDS-NAME/SET-USER-DATA-STATUS':
 			return {...state, cardsPack_id: action.userDataStatus};
@@ -48,8 +48,8 @@ export const cardsNameReducer = (state: CardsNameStateType = initialState, actio
 export const setSearchQuestion = (searchCardQuestion: string) =>
 	({type: 'CARDS-NAME/SET-CARDS-QUESTION', searchCardQuestion} as const);
 
-export const getUserCardId = (userId: string) =>
-	({type: 'CARDS-NAME/GET-USER-ID', userId} as const);
+export const setUserCardId = (userId: string) =>
+	({type: 'CARDS-NAME/SET-USER-ID', userId} as const);
 
 export const setUserCardName = (name: string) =>
 	({type: 'CARDS-NAME/SET-USER-CARD-NAME', name} as const);
@@ -155,7 +155,7 @@ export type CardsNameActionsType =
 	| ReturnType<typeof setCardsPage>
 	| ReturnType<typeof setCardsPageCount>
 	| ReturnType<typeof setCardsTotalCount>
-	| ReturnType<typeof getUserCardId>
+	| ReturnType<typeof setUserCardId>
 	| ReturnType<typeof setUserCardName>
 	| ReturnType<typeof setUserDataStatus>
 

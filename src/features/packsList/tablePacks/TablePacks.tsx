@@ -18,7 +18,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import {TextField} from '@mui/material';
-import {createNewCardsPack, setPage, setPageCount, setSearchPackName, setSortPackName} from './tablePacksReducer';
+import {createNewCardsPack, setCardsPageCount, setPage, setSearchPackName, setSortPackName} from './tablePacksReducer';
 
 const selectCardPacks = (state: AppStateType): PackType[] => state.packList.cardPacks;
 const selectCardPacksTotalCount = (state: AppStateType): number => state.packList.cardPacksTotalCount;

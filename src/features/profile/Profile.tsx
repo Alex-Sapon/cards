@@ -107,7 +107,7 @@ export const Profile = () => {
 							</div>
 							<div>
 								<div className={styles.profileTitle}>Email: {email}</div>
-								<div className={styles.profileTitle}>Количество создоваемых колод: {publicCardPacksCount}</div>
+								<div className={styles.profileTitle}>Количество создаваемых колод: {publicCardPacksCount}</div>
 							</div>
 							<Button onClick={updateName} className={styles.button}>Save</Button>
 						</div>

@@ -45,6 +45,7 @@ export const TableCard = () => {
 	const pageCount = useAppSelector(state => state.cardPack.pageCount)
 	const cards = useAppSelector(state => state.cardPack.cards)
 	const cardsPack_id = useAppSelector(state => state.cardPack.cardsPack_id)
+	const packName = useAppSelector(state => state.cardPack.name)
 
 
 	const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -77,7 +78,7 @@ export const TableCard = () => {
 					className={styles.arrowBackSharpIcon}
 					fontSize="medium"
 				/></span>
-				Pack Name</h2>
+				{packName}</h2>
 			<div className={styles.inputContainer}>
 				<TextField
 					onChange={onChangeHandler}
@@ -158,7 +159,7 @@ export const TableCard = () => {
 			<div className={styles.paginationContainer}>
 				<PaginationGroup page={page}
 												 pageCount={pageCount}
-												 cardPacksTotalCount={cardsTotalCount}
+												 cardsTotalCount={cardsTotalCount}
 												 onChangePage={(pageNumber) => setCardsPageCount(pageNumber)}
 												 onChangeValue={(value: number) => setCardsPage(value)}
 												 title='Cards per Page'/>
