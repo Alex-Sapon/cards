@@ -13,7 +13,7 @@ const initialState: CardsNameStateType = {
 	packUserId: "",
 	token: "",
 	tokenDeathTime: 0,
-	cardsPack_id: '62c528938432bb24c836b25b',
+	cardsPack_id: '',
 	cardQuestion: "",
 	getUserId: 'idle'
 }

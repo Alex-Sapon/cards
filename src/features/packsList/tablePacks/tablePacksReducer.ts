@@ -31,7 +31,7 @@ export const tablePacksReducer = (state: TablePacksType = initialState, action: 
 // actions
 export const setPage = (page: number) => ({type: 'TABLE-PACKS/SET-PAGE', page} as const);
 
-export const setPageCount = (pageCount: number) => ({type: 'TABLE-PACKS/SET-PAGE-COUNT', pageCount} as const);
+export const setCardsPageCount = (pageCount: number) => ({type: 'TABLE-PACKS/SET-PAGE-COUNT', pageCount} as const);
 
 export const setSearchPackName = (searchPackName: string) => ({type: 'TABLE-PACKS/SET-SEARCH-PACK-NAME', searchPackName} as const);
 
@@ -83,7 +83,7 @@ export const deleteUpdateCardsPack = (id: string, name?: string): AppThunk => di
 // types
 export type TablePacksActionsType =
     | ReturnType<typeof setPage>
-    | ReturnType<typeof setPageCount>
+    | ReturnType<typeof setCardsPageCount>
     | ReturnType<typeof setSearchPackName>
     | ReturnType<typeof setSortPackName>
 

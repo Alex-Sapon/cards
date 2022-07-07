@@ -17,7 +17,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import {TextField} from '@mui/material';
-import {createNewCardsPack, setSearchPackName, setSortPackName} from './tablePacksReducer';
+import {createNewCardsPack, setCardsPageCount, setPage, setSearchPackName, setSortPackName} from './tablePacksReducer';
 
 const selectCardPacks = (state: AppStateType): PackType[] => state.packList.cardPacks;
 const selectCardPacksTotalCount = (state: AppStateType): number => state.packList.cardPacksTotalCount;
@@ -25,12 +25,13 @@ const selectPageCount = (state: AppStateType): number => state.tablePacks.pageCo
 const selectPage = (state: AppStateType): number => state.tablePacks.page;
 const selectStatus = (state: AppStateType): RequestStatusType => state.app.status;
 
-type DirectionNameType = 'name' | 'cardsCount' | 'updated' | 'created' | 'user_name';
-
 export const TablePacks = () => {
     const [value, setValue] = useState('');
 
-    const [direction, setDirection] = useState<[0 | 1, DirectionNameType]>([0, 'created']);
+    const [name, setName] = useState<'0name' | '1name'>('0name');
+    const [cardsCount, setCardsCount] = useState<'0cardsCount' | '1cardsCount'>('0cardsCount');
+    const [updated, setUpdated] = useState<'0updated' | '1updated'>('0updated');
+    const [userName, setUserName] = useState<'0user_name' | '1user_name'>('0user_name');
 
     const dispatch = useAppDispatch();
 
@@ -46,7 +47,6 @@ export const TablePacks = () => {
         setValue(e.currentTarget.value);
     };
 
-
     useEffect(() => {
         dispatch(setSearchPackName(debouncedValue));
     }, [debouncedValue]);
@@ -55,16 +55,28 @@ export const TablePacks = () => {
         dispatch(createNewCardsPack('My new PACK'));
     };
 
-    let finalSortName = `${direction[0]}${direction[1]}`;
-    console.log(finalSortName)
+    const handleNameSort = () => {
+        setName(name === '0name' ? '1name' : '0name');
+        name && dispatch(setSortPackName(name));
+    }
 
-    const handleSortList = (name: DirectionNameType) => {
-        finalSortName = `${direction[0]}${direction[1]}`;
+    const handleCardsCount = () => {
+        setCardsCount(cardsCount === '0cardsCount' ? '1cardsCount' : '0cardsCount');
+        cardsCount && dispatch(setSortPackName(cardsCount));
+    }
 
-        setDirection([direction[0] === 0 ? 1 : 0, name]);
+    const handleSortUpdated = () => {
+        setUpdated(updated === '0updated' ? '1updated' : '0updated');
+        updated && dispatch(setSortPackName(updated));
+    }
 
-        dispatch(setSortPackName(finalSortName));
-    };return (
+    const handleSortUserName = () => {
+        setUserName(userName === '0user_name' ? '1user_name' : '0user_name');
+        userName && dispatch(setSortPackName(userName));
+    }
+
+
+    return (
         <div className={styles.table_wrapper}>
             <h3 className={styles.table_title}>Packs list</h3>
             <div className={styles.text_field_group}>
@@ -88,8 +100,8 @@ export const TablePacks = () => {
                                 <TableSortLabel
                                     active={true}
                                     disabled={status === 'loading'}
-                                    direction={finalSortName === '0name' ? 'asc' : 'desc'}
-                                    onClick={() => handleSortList('name')}
+                                    direction={name === '1name' ? 'asc' : 'desc'}
+                                    onClick={handleNameSort}
                                 >
                                 </TableSortLabel>
                                 <b>Name</b>
@@ -98,8 +110,8 @@ export const TablePacks = () => {
                                 <TableSortLabel
                                     active={true}
                                     disabled={status === 'loading'}
-                                    direction={finalSortName === '0cardsCount' ? 'asc' : 'desc'}
-                                    onClick={() => handleSortList('cardsCount')}
+                                    direction={cardsCount === '1cardsCount' ? 'asc' : 'desc'}
+                                    onClick={handleCardsCount}
                                 >
                                 </TableSortLabel>
                                 <b>Cards</b>
@@ -108,8 +120,8 @@ export const TablePacks = () => {
                                 <TableSortLabel
                                     active={true}
                                     disabled={status === 'loading'}
-                                    direction={finalSortName === '0updated' ? 'asc' : 'desc'}
-                                    onClick={() => handleSortList('updated')}
+                                    direction={updated === '1updated' ? 'asc' : 'desc'}
+                                    onClick={handleSortUpdated}
                                 >
                                 </TableSortLabel>
                                 <b>Last Updated</b>
@@ -118,8 +130,8 @@ export const TablePacks = () => {
                                 <TableSortLabel
                                     active={true}
                                     disabled={status === 'loading'}
-                                    direction={finalSortName === '0user_name' ? 'asc' : 'desc'}
-                                    onClick={() => handleSortList('user_name')}
+                                    direction={userName === '1user_name' ? 'asc' : 'desc'}
+                                    onClick={handleSortUserName}
                                 >
                                 </TableSortLabel>
                                 <b>Created by</b>
@@ -145,11 +157,13 @@ export const TablePacks = () => {
                 </Table>
             </TableContainer>
             <PaginationGroup
-                cardPacksTotalCount={cardPacksTotalCount}
+                cardsTotalCount={cardPacksTotalCount}
                 pageCount={pageCount}
                 page={page}
                 title="Cards per Page"
                 disable={status === 'loading'}
+                onChangePage={(page: number) => setPage(page)}
+                onChangeValue={(value: number) => setCardsPageCount(value)}
             />
         </div>
     )
