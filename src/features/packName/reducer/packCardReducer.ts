@@ -16,7 +16,6 @@ const initialState: CardsNameStateType = {
 	cardsPack_id: '',
 	cardQuestion: "",
 	name: '',
-	userDataStatus:'idle'
 
 }
 
@@ -36,9 +35,6 @@ export const cardsNameReducer = (state: CardsNameStateType = initialState, actio
 			return {...state, cardsTotalCount: action.cardsTotalCount};
 		case 'CARDS-NAME/SET-USER-ID':
 			return {...state, cardsPack_id: action.userId};
-		case 'CARDS-NAME/SET-USER-DATA-STATUS':
-			return {...state, cardsPack_id: action.userDataStatus};
-
 		default:
 			return state
 	}
@@ -66,8 +62,6 @@ export const setCardsPageCount = (pageCount: number) =>
 export const setCardsTotalCount = (cardsTotalCount: number) =>
 	({type: 'CARDS-NAME/SET-CARDS-TOTAL-COUNT', cardsTotalCount} as const)
 
-export const setUserDataStatus = (userDataStatus: 'idle' | 'success') =>
-	({type: 'CARDS-NAME/SET-USER-DATA-STATUS', userDataStatus} as const)
 
 
 //thunks
@@ -81,12 +75,10 @@ export const fetchCardsTC = (): AppThunk => (dispatch, getState: () => AppStateT
 	cardNameAPI.getCard(params)
 		.then(res => {
 			dispatch(getCardsNameData(res.data));
-			dispatch(setUserDataStatus('success'))
 		})
 		.catch((e: AxiosError<{ error: string }>) => {
 			const error = e.response ? e.response.data.error : e.message;
 			dispatch(setAppErrorAC(error));
-			dispatch(setUserDataStatus('idle'))
 		})
 		.finally(() => {
 			dispatch(setAppStatusAC('idle'));
@@ -146,7 +138,6 @@ export type CardsNameStateType = CardsTypeResponseType & {
 	cardsPack_id: string
 	cardQuestion?: string
 	name: string
-	userDataStatus: 'idle' | 'success'
 
 }
 export type CardsNameActionsType =
@@ -157,5 +148,4 @@ export type CardsNameActionsType =
 	| ReturnType<typeof setCardsTotalCount>
 	| ReturnType<typeof setUserCardId>
 	| ReturnType<typeof setUserCardName>
-	| ReturnType<typeof setUserDataStatus>
 
