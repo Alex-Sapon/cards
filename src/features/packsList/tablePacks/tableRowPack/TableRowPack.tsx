@@ -10,7 +10,7 @@ import styles from './TableRowPack.module.css';
 import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
 import IconButton from '@mui/material/IconButton';
 import {deleteUpdateCardsPack} from '../tablePacksReducer';
-import {setCardsPackId} from '../../../packName/reducer/packCardReducer';
+import {getUserCardId} from '../../../packName/reducer/packCardReducer';
 
 type TableRowPackType = {
     _id: string
@@ -23,7 +23,7 @@ type TableRowPackType = {
 }
 
 const selectLoginUserId = (state: AppStateType): string => state.login._id;
-const selectGetUserId = (state: AppStateType): string => state.cardPack.getUserId;
+const selectCardsPackId = (state: AppStateType): string => state.cardPack.cardsPack_id;
 
 export const TableRowPack = memo((props: TableRowPackType) => {
     const {_id, name, cardsCount, updated, user_id, user_name, status} = props;
@@ -34,15 +34,18 @@ export const TableRowPack = memo((props: TableRowPackType) => {
     const navigate = useNavigate();
 
     const userId = useAppSelector(selectLoginUserId);
-    const getUserId = useAppSelector(selectGetUserId);
+    const cardsPackId = useAppSelector(selectCardsPackId);
 
     const handleDeletePack = () => dispatch(deleteUpdateCardsPack(_id));
     const handleUpdatePack = () => dispatch(deleteUpdateCardsPack(_id, 'Update my new PACK'));
-    const handleSendPackId = () => dispatch(setCardsPackId(user_id));
+    const handleSendPackId = () => {
+      //debugger
+      return dispatch(getUserCardId('43535345'))};
 
-    if (getUserId === 'success') {
+ /*   if (cardsPackId === ) {
+      debugger
         navigate(PATH.CARDS)
-    }
+    }*/
 
     return (
         <StyledTableRow sx={{display: 'grid', gridTemplateColumns: '25% 8% 24% 15% 28%'}}>
@@ -52,7 +55,7 @@ export const TableRowPack = memo((props: TableRowPackType) => {
                     disabled={status === 'loading'}
                     aria-label="expand row"
                     size="small"
-                    // onClick={handleSendPackId}
+                    onClick={handleSendPackId}
                 >
                     <DriveFolderUploadIcon/>
                 </IconButton>

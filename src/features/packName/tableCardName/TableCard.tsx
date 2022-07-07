@@ -1,12 +1,10 @@
 import * as React from 'react';
-import {ChangeEvent, useCallback, useEffect, useState} from 'react';
+import {ChangeEvent, useEffect, useState} from 'react';
 import styles from './tableCardName.module.css';
 import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
-import {styled} from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import TableCell, {tableCellClasses} from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
@@ -20,31 +18,27 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import CreateIcon from '@mui/icons-material/Create';
 import Button from "../../../common/button/Button";
 import {useAppDispatch, useAppSelector} from "../../../app/store";
-import {addCardTC, fetchCardsTC, removeCardTC, updateCardTC} from "../reducer/packCardReducer";
+import {
+	addCardTC,
+	removeCardTC,
+	setCardsPage,
+	setCardsPageCount,
+	setSearchQuestion,
+	updateCardTC
+} from "../reducer/packCardReducer";
 import {useNavigate} from 'react-router-dom';
-
-const StyledTableCell = styled(TableCell)(({theme}) => ({
-	[`&.${tableCellClasses.head}`]: {
-		backgroundColor: '#ECECF9',
-		color: '#2D2E46',
-	},
-	[`&.${tableCellClasses.body}`]: {
-		fontSize: 14,
-	},
-}));
-
-const StyledTableRow = styled(TableRow)(({theme}) => ({
-	'&:nth-of-type(even)': {
-		backgroundColor: '#F8F7FD',
-	},
-	'&:last-child td, &:last-child th': {
-		border: 0,
-	},
-}));
+import useDebounce from "../../packsList/tablePacks/utils/useDebounce";
+import {shortWord} from "../../packsList/tablePacks/utils/shortWord";
+import {StyledTableCell, StyledTableRow} from "./styledTableCard/styledTableCard";
 
 export const TableCard = () => {
+
+	const [value, setValue] = useState('')
+
 	const navigate = useNavigate()
 	const dispatch = useAppDispatch()
+
+	const debouncedValue = useDebounce<string>(value, 500)
 
 	const page = useAppSelector(state => state.cardPack.page)
 	const cardsTotalCount = useAppSelector(state => state.cardPack.cardsTotalCount)
@@ -53,15 +47,14 @@ export const TableCard = () => {
 	const cardsPack_id = useAppSelector(state => state.cardPack.cardsPack_id)
 
 
-	const [search, setSearch] = useState([])
-
 	const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-
+		setValue(e.currentTarget.value)
 	}
 
 	useEffect(() => {
-		dispatch(fetchCardsTC())
-	}, [])
+		dispatch(setSearchQuestion(debouncedValue))
+	}, [debouncedValue])
+
 
 	const addNewCard = () => {
 		dispatch(addCardTC(cardsPack_id, "New card"))
@@ -87,7 +80,6 @@ export const TableCard = () => {
 				Pack Name</h2>
 			<div className={styles.inputContainer}>
 				<TextField
-					//value={search}
 					onChange={onChangeHandler}
 					fullWidth
 					sx={{backgroundColor: '#ECECF9', mr: '2rem'}}
@@ -137,9 +129,11 @@ export const TableCard = () => {
 							</TableRow>
 						</TableHead>
 						<TableBody>
-							{cards ? cards.map(({answer, question, updated, _id}) => (
+							{cards.length ? cards.map(({answer, question, updated, _id}) => (
 								<StyledTableRow key={_id}>
-									<StyledTableCell component="th" scope="row">{question}</StyledTableCell>
+									<StyledTableCell component="th" scope="row">
+										<span style={{display: 'inline-block', flex: '1 1 auto'}}>{shortWord(question, 15)}</span>
+									</StyledTableCell>
 									<StyledTableCell align="justify">{answer}</StyledTableCell>
 									<StyledTableCell align="justify">{new Date(updated).toLocaleDateString()}</StyledTableCell>
 									<StyledTableCell align="justify">
@@ -156,14 +150,18 @@ export const TableCard = () => {
 										</div>
 									</StyledTableCell>
 								</StyledTableRow>
-							)) : <div>Now pack</div>}
+							)) : <div className={styles.now_cards}>Now pack...</div>}
 						</TableBody>
 					</Table>
 				</TableContainer>
 			</Paper>
-			<div className={styles.paginationContainer}><PaginationGroup cardsTotalCount={cardsTotalCount}
-																																	 pageCount={pageCount} page={page}
-																																	 title='Cards per Page'/>
+			<div className={styles.paginationContainer}>
+				<PaginationGroup page={page}
+												 pageCount={pageCount}
+												 cardPacksTotalCount={cardsTotalCount}
+												 onChangePage={(pageNumber) => setCardsPageCount(pageNumber)}
+												 onChangeValue={(value: number) => setCardsPage(value)}
+												 title='Cards per Page'/>
 			</div>
 		</div>
 	)

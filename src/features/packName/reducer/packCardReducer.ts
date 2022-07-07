@@ -13,17 +13,21 @@ const initialState: CardsNameStateType = {
 	packUserId: "",
 	token: "",
 	tokenDeathTime: 0,
-	cardsPack_id: '62c528938432bb24c836b25b',
+	cardsPack_id: '',
 	cardQuestion: "",
-	getUserId: 'idle'
+	name: '',
+	userDataStatus:'idle'
+
 }
 
 export const cardsNameReducer = (state: CardsNameStateType = initialState, action: CardsNameActionsType): CardsNameStateType => {
 	switch (action.type) {
 		case 'CARDS-NAME/SET-CARDS-PARAMS':
 			return {...state, ...action.data}
-		case 'CARDS-NAME/SET-CARDS-PACK-ID':
-			return {...state, cardsPack_id: action.cardsPack_id};
+		case 'CARDS-NAME/SET-CARDS-QUESTION':
+			return {...state, cardQuestion: action.searchCardQuestion};
+		case 'CARDS-NAME/SET-USER-CARD-NAME':
+			return {...state, name: action.name};
 		case 'CARDS-NAME/SET-CARDS-PAGE':
 			return {...state, page: action.page};
 		case 'CARDS-NAME/SET-CARDS-PAGE-COUNT':
@@ -31,18 +35,24 @@ export const cardsNameReducer = (state: CardsNameStateType = initialState, actio
 		case 'CARDS-NAME/SET-CARDS-TOTAL-COUNT':
 			return {...state, cardsTotalCount: action.cardsTotalCount};
 		case 'CARDS-NAME/GET-USER-ID':
-			return {...state, getUserId: action.getUserId};
+			return {...state, cardsPack_id: action.userId};
+		case 'CARDS-NAME/SET-USER-DATA-STATUS':
+			return {...state, cardsPack_id: action.userDataStatus};
+
 		default:
 			return state
 	}
 }
 
 //actions
-export const setCardsPackId = (cardsPack_id: string) =>
-	({type: 'CARDS-NAME/SET-CARDS-PACK-ID', cardsPack_id} as const);
+export const setSearchQuestion = (searchCardQuestion: string) =>
+	({type: 'CARDS-NAME/SET-CARDS-QUESTION', searchCardQuestion} as const);
 
-export const getUserId = (getUserId: string) =>
-	({type: 'CARDS-NAME/GET-USER-ID', getUserId} as const);
+export const getUserCardId = (userId: string) =>
+	({type: 'CARDS-NAME/GET-USER-ID', userId} as const);
+
+export const setUserCardName = (name: string) =>
+	({type: 'CARDS-NAME/SET-USER-CARD-NAME', name} as const);
 
 export const getCardsNameData = (data: CardsTypeResponseType) =>
 	({type: 'CARDS-NAME/SET-CARDS-PARAMS', data} as const);
@@ -56,21 +66,27 @@ export const setCardsPageCount = (pageCount: number) =>
 export const setCardsTotalCount = (cardsTotalCount: number) =>
 	({type: 'CARDS-NAME/SET-CARDS-TOTAL-COUNT', cardsTotalCount} as const)
 
+export const setUserDataStatus = (userDataStatus: 'idle' | 'success') =>
+	({type: 'CARDS-NAME/SET-USER-DATA-STATUS', userDataStatus} as const)
+
+
 //thunks
 export const fetchCardsTC = (): AppThunk => (dispatch, getState: () => AppStateType) => {
-	const {cardsPack_id, page, pageCount, packUserId} = getState().cardPack
+	const {cardsPack_id, page, pageCount, packUserId, cardQuestion} = getState().cardPack
 	const params = {
-		cardsPack_id, page, pageCount, packUserId
+		cardsPack_id, page, pageCount, packUserId, cardQuestion
 	}
 
 	dispatch(setAppStatusAC('loading'));
 	cardNameAPI.getCard(params)
 		.then(res => {
 			dispatch(getCardsNameData(res.data));
+			dispatch(setUserDataStatus('success'))
 		})
 		.catch((e: AxiosError<{ error: string }>) => {
 			const error = e.response ? e.response.data.error : e.message;
 			dispatch(setAppErrorAC(error));
+			dispatch(setUserDataStatus('idle'))
 		})
 		.finally(() => {
 			dispatch(setAppStatusAC('idle'));
@@ -129,13 +145,17 @@ export const updateCardTC = (_id: string, question: string): AppThunk => dispatc
 export type CardsNameStateType = CardsTypeResponseType & {
 	cardsPack_id: string
 	cardQuestion?: string
-	getUserId: string
+	name: string
+	userDataStatus: 'idle' | 'success'
 
 }
 export type CardsNameActionsType =
 	| ReturnType<typeof getCardsNameData>
-	| ReturnType<typeof setCardsPackId>
+	| ReturnType<typeof setSearchQuestion>
 	| ReturnType<typeof setCardsPage>
 	| ReturnType<typeof setCardsPageCount>
 	| ReturnType<typeof setCardsTotalCount>
-	| ReturnType<typeof getUserId>
+	| ReturnType<typeof getUserCardId>
+	| ReturnType<typeof setUserCardName>
+	| ReturnType<typeof setUserDataStatus>
+

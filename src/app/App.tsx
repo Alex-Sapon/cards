@@ -50,10 +50,12 @@ export const App = () => {
                     <Route path={PATH.LOGIN} element={<Login/>}/>
                     <Route path={PATH.REGISTRATION} element={<Registration/>}/>
                     <Route path={PATH.PACKS_LIST} element={<PacksList/>}/>
+                    <Route path={PATH.CARDS} element={<TableCardName/>}/>
                     <Route path={PATH.PROFILE} element={<Profile/>}/>
                     <Route path={PATH.SET_PASS} element={<SetPassword/>}/>
                     <Route path={PATH.RECOVERY_PASS} element={<RecoveryPassword/>}/>
                     <Route path={PATH.PAGE_NOT_FOUND} element={<Error404/>}/>
+
                 </Routes>
             </div>
         </div>

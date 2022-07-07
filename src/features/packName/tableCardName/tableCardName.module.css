@@ -8,9 +8,10 @@
     margin: 24px auto 0;
 }
 .table_title {
-    font-weight: 600;
+    font-weight: 800;
     font-size: 22px;
     color: #2D2E46;
+    letter-spacing: 1px;
 }
 
 .arrowBackSharpIcon {
@@ -30,4 +31,12 @@
 .icon {
     display: flex;
     justify-content: space-between;
+}
+
+.now_cards {
+    text-align: center;
+    padding: 20px;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 1px;
 }
