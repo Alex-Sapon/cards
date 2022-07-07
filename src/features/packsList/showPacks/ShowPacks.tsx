@@ -3,7 +3,6 @@ import Slider from '@mui/material/Slider';
 import styles from './ShowPacks.module.css';
 import Button from '../../../common/button/Button';
 import {useAppDispatch, useAppSelector} from '../../../app/store';
-import {MouseEvent, useEffect, useState} from 'react';
 import {setMaxNumberCards, setMinNumberCards, setUserId} from '../tablePacks/tablePacksReducer';
 
 
@@ -15,18 +14,6 @@ export const ShowPacks = () => {
     const loginUserId = useAppSelector(state => state.login._id)
 
     const [value, setValue] = React.useState<number[]>([0, 110]);
-    const [doUpdateSliderValue, setDoUpdateSliderValue] = useState(false)
-
-    useEffect(
-        () => {
-            if (value && doUpdateSliderValue) {
-                dispatch(setMinNumberCards(value[0]))
-                dispatch(setMaxNumberCards(value[1]))
-                setDoUpdateSliderValue(false)
-            }
-        },
-        [doUpdateSliderValue]
-    );
 
     const handleSliderChange = (event: Event, newValue: number | number[])  => {
             setValue(newValue as number[])
@@ -39,11 +26,9 @@ export const ShowPacks = () => {
         dispatch(setUserId(''))
     }
 
-    const handleClick = (e: MouseEvent<HTMLSpanElement>) => {
-        if (e.type === 'mouseup') {
-            console.log(e);
-            setDoUpdateSliderValue(true)
-        }
+    const handleClick = () => {
+        dispatch(setMinNumberCards(value[0]))
+        dispatch(setMaxNumberCards(value[1]))
     }
 
 
