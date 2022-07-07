@@ -10,6 +10,8 @@ const initialState: TablePacksType = {
     page: 1,
     pageCount: 5,
     user_id: '',
+    min: 0,
+    max: 110
 };
 
 export const tablePacksReducer = (state: TablePacksType = initialState, action: TablePacksActionsType): TablePacksType => {
@@ -22,6 +24,12 @@ export const tablePacksReducer = (state: TablePacksType = initialState, action: 
             return {...state, packName: action.searchPackName};
         case 'TABLE-PACKS/SET-SORT-PACK-NAME':
             return {...state, sortPacks: action.sortPackName};
+        case 'TABLE-PACKS/SET-USER-ID':
+            return {...state, user_id: action.user_id}
+        case 'TABLE-PACKS/SET-MIN-NUMBER-CARDS':
+            return {...state, min: action.min}
+        case 'TABLE-PACKS/SET-MAX-NUMBER-CARDS':
+            return {...state, max: action.max}
         default:
             return state;
 
@@ -36,6 +44,9 @@ export const setPageCount = (pageCount: number) => ({type: 'TABLE-PACKS/SET-PAGE
 export const setSearchPackName = (searchPackName: string) => ({type: 'TABLE-PACKS/SET-SEARCH-PACK-NAME', searchPackName} as const);
 
 export const setSortPackName = (sortPackName: string) => ({type: 'TABLE-PACKS/SET-SORT-PACK-NAME', sortPackName} as const);
+export const setUserId = (user_id: string) => ({type: 'TABLE-PACKS/SET-USER-ID', user_id} as const)
+export const setMinNumberCards = (min: number) => ({type: 'TABLE-PACKS/SET-MIN-NUMBER-CARDS', min} as const)
+export const setMaxNumberCards = (max: number) => ({type: 'TABLE-PACKS/SET-MAX-NUMBER-CARDS', max} as const)
 
 // thunks
 export const createNewCardsPack = (name: string): AppThunk => dispatch => {
@@ -86,6 +97,9 @@ export type TablePacksActionsType =
     | ReturnType<typeof setPageCount>
     | ReturnType<typeof setSearchPackName>
     | ReturnType<typeof setSortPackName>
+    | ReturnType<typeof setUserId>
+    | ReturnType<typeof setMinNumberCards>
+    | ReturnType<typeof setMaxNumberCards>
 
 export type TablePacksType = {
     packName: string
@@ -93,4 +107,6 @@ export type TablePacksType = {
     page: number
     pageCount: number
     user_id: string
+    min: number
+    max: number
 }

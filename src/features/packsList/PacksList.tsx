@@ -8,24 +8,21 @@ import {Navigate} from 'react-router-dom';
 import {AppStateType, useAppDispatch, useAppSelector} from '../../app/store';
 import { fetchCardPacks } from './packsListReducer';
 
-const selectIsLoggedIn = (state: AppStateType): boolean => state.login.isLoggedIn;
-const selectPage = (state: AppStateType): number => state.tablePacks.page;
-const selectPageCount = (state: AppStateType): number => state.tablePacks.pageCount;
-const selectSearchPackName = (state: AppStateType): string => state.tablePacks.packName;
-const selectSortPackName = (state: AppStateType): string => state.tablePacks.sortPacks;
-
 export const PacksList = () => {
     const dispatch = useAppDispatch();
 
-    const isLoggedIn = useAppSelector(selectIsLoggedIn);
-    const page = useAppSelector(selectPage);
-    const pageCount = useAppSelector(selectPageCount);
-    const searchPackName = useAppSelector(selectSearchPackName);
-    const sortPackName = useAppSelector(selectSortPackName);
+    const isLoggedIn = useAppSelector(state => state.login.isLoggedIn);
+    const page = useAppSelector(state => state.tablePacks.page);
+    const pageCount = useAppSelector(state => state.tablePacks.pageCount);
+    const searchPackName = useAppSelector(state => state.tablePacks.packName);
+    const sortPackName = useAppSelector(state => state.tablePacks.sortPacks);
+    const commonUserId = useAppSelector(state => state.tablePacks.user_id)
+    const commonMin = useAppSelector(state => state.tablePacks.min)
+    const commonMax = useAppSelector(state => state.tablePacks.max)
 
     useEffect(() => {
         dispatch(fetchCardPacks());
-    }, [page, pageCount, sortPackName, searchPackName]);
+    }, [page, pageCount, sortPackName, searchPackName, commonUserId, commonMin, commonMax]);
 
     if (!isLoggedIn) {
         return <Navigate to={PATH.LOGIN}/>

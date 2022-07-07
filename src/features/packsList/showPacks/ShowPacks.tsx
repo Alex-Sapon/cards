@@ -2,76 +2,71 @@ import * as React from 'react';
 import Slider from '@mui/material/Slider';
 import styles from './ShowPacks.module.css';
 import Button from '../../../common/button/Button';
-import {AppStateType, useAppDispatch, useAppSelector} from '../../../app/store';
-import {fetchCardPacksDima} from '../Dima/reducer/packsListDimaReducer';
+import {useAppDispatch, useAppSelector} from '../../../app/store';
 import {MouseEvent, useEffect, useState} from 'react';
-import { useDebounce } from '../Dima/debounce/debounce';
+import {setMaxNumberCards, setMinNumberCards, setUserId} from '../tablePacks/tablePacksReducer';
 
-const selectUserId = (state: AppStateType) => state.tablePacks.user_id;
 
 export const ShowPacks = () => {
 
     const dispatch = useAppDispatch()
     const status = useAppSelector(state => state.app.status)
-    const user_id = useAppSelector(state => state.login._id)
+    const user_id = useAppSelector(state => state.tablePacks.user_id)
+    const loginUserId = useAppSelector(state => state.login._id)
 
     const [value, setValue] = React.useState<number[]>([0, 110]);
-    const [doRequest, setDoRequest] = useState(false)
-    const [switchOn, setSwitchOn] = useState(false)
+    const [doUpdateSliderValue, setDoUpdateSliderValue] = useState(false)
 
-    const debouncedSearchTerm = useDebounce(value, 500);
     useEffect(
         () => {
-            if (debouncedSearchTerm && doRequest) {
-                dispatch(fetchCardPacksDima({min: value[0], max: value[1]}))
-                setDoRequest(false)
+            if (value && doUpdateSliderValue) {
+                dispatch(setMinNumberCards(value[0]))
+                dispatch(setMaxNumberCards(value[1]))
+                setDoUpdateSliderValue(false)
             }
         },
-        [debouncedSearchTerm, doRequest]
+        [doUpdateSliderValue]
     );
 
-    const handleChange = (event: Event, newValue: number | number[])  => {
-        if (Array.isArray(newValue))
+    const handleSliderChange = (event: Event, newValue: number | number[])  => {
             setValue(newValue as number[])
     }
-    const myPacksClickHandler = () => {
-        dispatch(fetchCardPacksDima({user_id}))
+
+    const showMyPacksClickHandler = () => {
+        dispatch(setUserId(loginUserId))
     }
-    const allPacksClickHandler = () => {
-        dispatch(fetchCardPacksDima({}))
+    const showAllPacksClickHandler = () => {
+        dispatch(setUserId(''))
     }
 
     const handleClick = (e: MouseEvent<HTMLSpanElement>) => {
         if (e.type === 'mouseup') {
-            setDoRequest(true)
+            setDoUpdateSliderValue(true)
         }
     }
-    // const user_id = useAppSelector(selectUserId);
 
-    const myPacks = user_id ? `${styles.btn_active}` : '';
-    const allPacks = !user_id ? `${styles.btn_active}` : '';
 
     return (
         <div className={styles.left_bar}>
             <h3 className={styles.left_bar_title}>Show packs cards</h3>
             <div className={styles.button_group}>
                 <Button
-                    onClick={myPacksClickHandler}
+                    onClick={showMyPacksClickHandler}
                     disabled={status === 'loading'}
+                    className={user_id ? styles.btn_active : ''}
                     >My</Button>
                 <Button
-                    onClick={allPacksClickHandler}
+                    onClick={showAllPacksClickHandler}
                     disabled={status === 'loading'}
+                    className={!user_id ? styles.btn_active: ''}
                 >All</Button>
-                {/*<Button className={myPacks}>My</Button>
-                <Button className={allPacks}>All</Button>*/}
             </div>
             <h3 className={styles.left_bar_subtitle}>Number of cards</h3>
             <div className={styles.slider}>
                 <Slider
                     getAriaLabel={() => 'Temperature range'}
                     value={value}
-                    onChange={handleChange}
+                    onChange={handleSliderChange}
                     valueLabelDisplay="on"
                     max={110}
                     onMouseUp={handleClick}
