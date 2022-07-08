@@ -55,8 +55,8 @@ export const ShowPacks = () => {
                     onChange={handleSliderChange}
                     valueLabelDisplay="on"
                     max={110}
-                    onMouseUp={handleClick}
                     disabled={status === 'loading'}
+                    onChangeCommitted={handleClick}
                 />
             </div>
         </div>
