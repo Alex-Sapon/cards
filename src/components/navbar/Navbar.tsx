@@ -2,8 +2,8 @@ import {NavLink} from 'react-router-dom';
 import styles from './Navbar.module.css';
 import {PATH} from '../../enums/path';
 import LinearProgress from '@mui/material/LinearProgress/LinearProgress';
-import { RequestStatusType } from '../../app/reducer/app-reducer';
-import {AppStateType, useAppSelector } from '../../app/store';
+import {RequestStatusType} from '../../app/reducer/app-reducer';
+import {AppStateType, useAppSelector} from '../../app/store';
 
 const selectStatus = (state: AppStateType): RequestStatusType => state.app.status;
 

@@ -32,7 +32,6 @@ export const tablePacksReducer = (state: TablePacksType = initialState, action: 
             return {...state, max: action.max}
         default:
             return state;
-
     }
 };
 

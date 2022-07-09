@@ -27,7 +27,6 @@ const selectLoginUserId = (state: AppStateType): string => state.login._id;
 export const TableRowPack = memo((props: TableRowPackType) => {
     const {_id, name, cardsCount, updated, user_id, user_name, status} = props;
 
-
     const dispatch = useAppDispatch();
 
     const navigate = useNavigate();
@@ -39,14 +38,13 @@ export const TableRowPack = memo((props: TableRowPackType) => {
     const handleSendPackId = () => {
         dispatch(setUserCardId(_id));
         dispatch(setUserCardName(name));
-        navigate(PATH.CARDS)
+        navigate(PATH.CARDS);
     };
-
 
     return (
         <StyledTableRow sx={{display: 'grid', gridTemplateColumns: '25% 8% 24% 15% 28%'}}>
             <StyledTableCell component="th" scope="row" className={styles.sell}>
-                <span style={{display: 'inline-block', flex: '1 1 auto'}}>{shortWord(name, 15)}</span>
+                <span style={{display: 'inline-block', flex: '1 1 auto'}}>{shortWord(name, 12)}</span>
                 <IconButton
                     disabled={status === 'loading'}
                     aria-label="expand row"
@@ -76,5 +74,5 @@ export const TableRowPack = memo((props: TableRowPackType) => {
                 <Button disabled={status === 'loading'}>Learn</Button>
             </StyledTableCell>
         </StyledTableRow>
-    );
+    )
 });

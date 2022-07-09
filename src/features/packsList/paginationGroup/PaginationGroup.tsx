@@ -5,10 +5,10 @@ import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import MenuItem from '@mui/material/MenuItem';
 import Select, {SelectChangeEvent} from '@mui/material/Select';
-import { ActionsType, useAppDispatch } from '../../../app/store';
+import {ActionsType, useAppDispatch} from '../../../app/store';
 
 type PaginationGroupType = {
-    cardsTotalCount?:number
+    cardsTotalCount?: number
     pageCount?: number
     page?: number
     title?: string
@@ -20,7 +20,7 @@ type PaginationGroupType = {
 export const PaginationGroup = memo((props: PaginationGroupType) => {
     const {cardsTotalCount, pageCount, page, title, disable, onChangeValue, onChangePage} = props;
 
-	const dispatch = useAppDispatch();
+    const dispatch = useAppDispatch();
 
     const handleChangePageCount = (e: SelectChangeEvent) => {
         if (pageCount && Number(e.target.value) !== pageCount) {

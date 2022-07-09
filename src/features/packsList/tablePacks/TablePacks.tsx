@@ -17,8 +17,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
-import {TextField} from '@mui/material';
+import {TableCell, TextField} from '@mui/material';
 import {createNewCardsPack, setCardsPageCount, setPage, setSearchPackName, setSortPackName} from './tablePacksReducer';
+import {StyledTableRow} from '../../packName/tableCardName/styledTableCard/styledTableCard';
 
 const selectCardPacks = (state: AppStateType): PackType[] => state.packList.cardPacks;
 const selectCardPacksTotalCount = (state: AppStateType): number => state.packList.cardPacksTotalCount;
@@ -76,7 +77,6 @@ export const TablePacks = () => {
         setUserName(userName === '0user_name' ? '1user_name' : '0user_name');
         userName && dispatch(setSortPackName(userName));
     }
-
 
     return (
         <div className={styles.table_wrapper}>
@@ -154,7 +154,9 @@ export const TablePacks = () => {
                                 user_name={user_name}
                                 user_id={user_id}
                                 status={status}/>
-                        )) : <div className={styles.now_packs}>Now packs...</div>}
+                        )) : <TableRow >
+                                <TableCell className={styles.now_packs}>{'Now packs...'}</TableCell>
+                            </TableRow>}
                     </TableBody>
                 </Table>
             </TableContainer>
