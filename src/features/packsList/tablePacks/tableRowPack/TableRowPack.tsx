@@ -11,6 +11,7 @@ import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
 import IconButton from '@mui/material/IconButton';
 import {deleteUpdateCardsPack} from '../tablePacksReducer';
 import {setUserCardId, setUserCardName} from '../../../packName/reducer/packCardReducer';
+import {getCardsPack} from '../learnPack/learnPackReducer';
 
 type TableRowPackType = {
     _id: string
@@ -38,6 +39,7 @@ export const TableRowPack = memo((props: TableRowPackType) => {
     const handleUpdatePack = () => dispatch(deleteUpdateCardsPack(_id, 'Update my new PACK'));
 
     const handleLearnPack = () => {
+        dispatch(getCardsPack(_id));
         navigate(PATH.PACKS + '/' + PATH.LEARN_PACK);
     };
 

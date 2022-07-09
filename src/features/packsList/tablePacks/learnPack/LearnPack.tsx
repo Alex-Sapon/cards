@@ -6,7 +6,11 @@ import FormControl from '@mui/material/FormControl';
 import Button from '../../../../common/button/Button';
 import {useNavigate} from 'react-router-dom';
 import {PATH} from '../../../../enums/path';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
+import {useAppDispatch, useAppSelector} from '../../../../app/store';
+import {Typography} from '@mui/material';
+import {getCardsPack, setCardsPack} from './learnPackReducer';
+import {getCard} from '../../../../assets/utils/smartRandom';
 
 const grades = [
     {value: 'did_not_know', label: 'Did not know'},
@@ -19,6 +23,11 @@ const grades = [
 export const LearnPack = () => {
     const [showAnswer, setShowAnswer] = useState(false);
 
+    const dispatch = useAppDispatch();
+
+    const status = useAppSelector(state => state.app.status);
+    const cards = useAppSelector(state => state.learnPack.cards);
+
     const navigate = useNavigate();
 
     const handleToggleShowAnswer = () => {
@@ -30,41 +39,51 @@ export const LearnPack = () => {
     }
 
     const handleNext = () => {
-
+        // dispatch(setCardsPack(getCard(cards)));
     }
 
     return (
         <div className={styles.wrapper}>
-            <h3 className={styles.title}>Learn “Pack Name”</h3>
-            <p className={styles.text}><b>Question: </b>“How "This" works in JavaScript?”</p>
-            {showAnswer
-                ? (<div>
-                        <p className={styles.text}><b>Answer: </b>“This is how "This" works in JavaScript”</p>
-                        <div className={styles.rate}>
-                            <div className={styles.label}>Rate yourself:</div>
-                            <FormControl>
-                                <RadioGroup defaultValue="did_not_know">
-                                    {grades.map(({value, label}, i) => (
-                                        <FormControlLabel
-                                            key={value + i}
-                                            value={value}
-                                            control={<Radio size="small"/>}
-                                            label={label}
-                                        />))}
-                                </RadioGroup>
-                            </FormControl>
-                        </div>
-                        <div className={styles.buttons_answer}>
-                            <Button onClick={handleCancel}>Cancel</Button>
-                            <Button onClick={handleNext}>Next</Button>
-                        </div>
-                    </div>
+            {status === 'loading'
+                ? (
+                    <Typography mt={10} variant={'h4'} sx={{textAlign: 'center'}}>Wait a minute...</Typography>
                 ) : (
-                    <div className={styles.buttons_question}>
-                        <Button onClick={handleCancel}>Cancel</Button>
-                        <Button onClick={handleToggleShowAnswer}>Show answer</Button>
-                    </div>
+                    <><h3 className={styles.title}>Learn “Pack Name”</h3>
+                        <p className={styles.text}><b>Question: </b>{`“${cards[0].question}”`}</p>
+                        {showAnswer
+                            ? (
+                                <>
+                                    <p className={styles.text}><b>Answer: </b>{`“${cards[0].answer}”`}</p>
+                                    <div className={styles.rate}>
+                                        <div className={styles.label}>Rate yourself:</div>
+                                        <FormControl>
+                                            <RadioGroup defaultValue="did_not_know">
+                                                {grades.map(({value, label}, i) => (
+                                                    <FormControlLabel
+                                                        key={value + i}
+                                                        value={value}
+                                                        control={<Radio size="small"/>}
+                                                        label={label}
+                                                    />))}
+                                            </RadioGroup>
+                                        </FormControl>
+                                    </div>
+                                    <div className={styles.buttons_answer}>
+                                        <Button onClick={handleCancel}>Cancel</Button>
+                                        <Button onClick={handleNext}>Next</Button>
+                                    </div>
+                                </>
+                            ) : (
+                                <div className={styles.buttons_question}>
+                                    <Button onClick={handleCancel}>Cancel</Button>
+                                    <Button onClick={handleToggleShowAnswer}>Show answer</Button>
+                                </div>
+                            )}
+                    </>
                 )}
         </div>
+
     )
 };
+
+//<Typography mt={10} variant={'h4'} sx={{textAlign: 'center'}}>Wait a minute...</Typography>

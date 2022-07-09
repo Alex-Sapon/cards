@@ -4,7 +4,7 @@ export enum PATH {
     REGISTRATION = '/registration',
     PACKS = '/packs',
     CARDS = 'cards',
-    LEARN_PACK = 'learn-pack',
+    LEARN_PACK = 'learn-pack/:id',
     PACKS_LIST = 'packs-list',
     PROFILE = '/profile',
     SET_PASS = '/set-new-password/:token',

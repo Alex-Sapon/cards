@@ -17,7 +17,7 @@ type UpdateGradeType = {
     card_id: string
 }
 
-type UpdateGradeResponseType = {
+export type UpdateGradeResponseType = {
     updatedGrade: {
         _id: string
         cardsPack_id: string
