@@ -7,7 +7,6 @@ import Button from '../../../../common/button/Button';
 import {useNavigate} from 'react-router-dom';
 import {PATH} from '../../../../enums/path';
 import {useState} from 'react';
-import {CardType} from './learnPack-api';
 
 const grades = [
     {value: 'did_not_know', label: 'Did not know'},
@@ -16,19 +15,6 @@ const grades = [
     {value: 'confused', label: 'Сonfused'},
     {value: 'knew_the_answer', label: 'Knew the answer'}
 ];
-
-const getCard = (cards: CardType[]) => {
-    const sum = cards.reduce((acc, card) => acc + (6 - card.grade) * (6 - card.grade), 0);
-    const rand = Math.random() * sum;
-    const res = cards.reduce((acc: { sum: number, id: number }, card, i) => {
-            const newSum = acc.sum + (6 - card.grade) * (6 - card.grade);
-            return {sum: newSum, id: newSum < rand ? i : acc.id}
-        }
-        , {sum: 0, id: -1});
-    console.log('test: ', sum, rand, res)
-
-    return cards[res.id + 1];
-}
 
 export const LearnPack = () => {
     const [showAnswer, setShowAnswer] = useState(false);
