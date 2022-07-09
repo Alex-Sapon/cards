@@ -37,11 +37,8 @@ export const tablePacksReducer = (state: TablePacksType = initialState, action: 
 
 // actions
 export const setPage = (page: number) => ({type: 'TABLE-PACKS/SET-PAGE', page} as const);
-
 export const setCardsPageCount = (pageCount: number) => ({type: 'TABLE-PACKS/SET-PAGE-COUNT', pageCount} as const);
-
 export const setSearchPackName = (searchPackName: string) => ({type: 'TABLE-PACKS/SET-SEARCH-PACK-NAME', searchPackName} as const);
-
 export const setSortPackName = (sortPackName: string) => ({type: 'TABLE-PACKS/SET-SORT-PACK-NAME', sortPackName} as const);
 export const setUserId = (user_id: string) => ({type: 'TABLE-PACKS/SET-USER-ID', user_id} as const)
 export const setMinNumberCards = (min: number) => ({type: 'TABLE-PACKS/SET-MIN-NUMBER-CARDS', min} as const)
@@ -65,8 +62,6 @@ export const createNewCardsPack = (name: string): AppThunk => dispatch => {
         })
         .catch((e: AxiosError<{ error: string }>) => {
             dispatch(setAppErrorAC(e.response ? e.response.data.error : e.message));
-        })
-        .finally(() => {
             dispatch(setAppStatusAC('idle'));
         })
 };
@@ -84,8 +79,6 @@ export const deleteUpdateCardsPack = (id: string, name?: string): AppThunk => di
         })
         .catch((e: AxiosError<{ error: string }>) => {
             dispatch(setAppErrorAC(e.response ? e.response.data.error : e.message));
-        })
-        .finally(() => {
             dispatch(setAppStatusAC('idle'));
         })
 };

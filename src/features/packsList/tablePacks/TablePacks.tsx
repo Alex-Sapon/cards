@@ -19,7 +19,6 @@ import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import {TableCell, TextField} from '@mui/material';
 import {createNewCardsPack, setCardsPageCount, setPage, setSearchPackName, setSortPackName} from './tablePacksReducer';
-import {StyledTableRow} from '../../packName/tableCardName/styledTableCard/styledTableCard';
 
 const selectCardPacks = (state: AppStateType): PackType[] => state.packList.cardPacks;
 const selectCardPacksTotalCount = (state: AppStateType): number => state.packList.cardPacksTotalCount;
@@ -29,26 +28,26 @@ const selectStatus = (state: AppStateType): RequestStatusType => state.app.statu
 
 
 export const TablePacks = () => {
-	const [value, setValue] = useState('');
+    const [value, setValue] = useState('');
 
     const [name, setName] = useState<'0name' | '1name'>('0name');
     const [cardsCount, setCardsCount] = useState<'0cardsCount' | '1cardsCount'>('0cardsCount');
     const [updated, setUpdated] = useState<'0updated' | '1updated'>('0updated');
     const [userName, setUserName] = useState<'0user_name' | '1user_name'>('0user_name');
 
-	const dispatch = useAppDispatch();
+    const dispatch = useAppDispatch();
 
-	const debouncedValue = useDebounce<string>(value, 500);
+    const debouncedValue = useDebounce<string>(value, 500);
 
-	const cardPacks = useAppSelector(selectCardPacks);
-	const cardPacksTotalCount = useAppSelector(selectCardPacksTotalCount);
-	const pageCount = useAppSelector(selectPageCount);
-	const page = useAppSelector(selectPage);
-	const status = useAppSelector(selectStatus);
+    const cardPacks = useAppSelector(selectCardPacks);
+    const cardPacksTotalCount = useAppSelector(selectCardPacksTotalCount);
+    const pageCount = useAppSelector(selectPageCount);
+    const page = useAppSelector(selectPage);
+    const status = useAppSelector(selectStatus);
 
-	const handleChangeValue = (e: ChangeEvent<HTMLInputElement>) => {
-		setValue(e.currentTarget.value);
-	};
+    const handleChangeValue = (e: ChangeEvent<HTMLInputElement>) => {
+        setValue(e.currentTarget.value);
+    };
 
     useEffect(() => {
         dispatch(setSearchPackName(debouncedValue));
@@ -56,6 +55,14 @@ export const TablePacks = () => {
 
     const handleNewCardsPack = () => {
         dispatch(createNewCardsPack('My new PACK'));
+    };
+
+    const handleChangePage = (page: number) => {
+        dispatch(setPage(page));
+    };
+
+    const handleChangeValueSelect = (value: number) => {
+        dispatch(setCardsPageCount(value));
     };
 
     const handleNameSort = () => {
@@ -154,9 +161,10 @@ export const TablePacks = () => {
                                 user_name={user_name}
                                 user_id={user_id}
                                 status={status}/>
-                        )) : <TableRow >
+                        )) : (
+                            <TableRow>
                                 <TableCell className={styles.now_packs}>{'Now packs...'}</TableCell>
-                            </TableRow>}
+                            </TableRow>)}
                     </TableBody>
                 </Table>
             </TableContainer>
@@ -166,8 +174,8 @@ export const TablePacks = () => {
                 page={page}
                 title="Cards per Page"
                 disable={status === 'loading'}
-                onChangePage={(page: number) => setPage(page)}
-                onChangeValue={(value: number) => setCardsPageCount(value)}
+                onChangePage={handleChangePage}
+                onChangeValue={handleChangeValueSelect}
             />
         </div>
     )

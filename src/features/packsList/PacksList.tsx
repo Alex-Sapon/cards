@@ -16,9 +16,9 @@ export const PacksList = () => {
     const pageCount = useAppSelector(state => state.tablePacks.pageCount);
     const searchPackName = useAppSelector(state => state.tablePacks.packName);
     const sortPackName = useAppSelector(state => state.tablePacks.sortPacks);
-    const commonUserId = useAppSelector(state => state.tablePacks.user_id)
-    const commonMin = useAppSelector(state => state.tablePacks.min)
-    const commonMax = useAppSelector(state => state.tablePacks.max)
+    const commonUserId = useAppSelector(state => state.tablePacks.user_id);
+    const commonMin = useAppSelector(state => state.tablePacks.min);
+    const commonMax = useAppSelector(state => state.tablePacks.max);
 
     useEffect(() => {
         dispatch(fetchCardPacks());
@@ -34,4 +34,4 @@ export const PacksList = () => {
             <TablePacks/>
         </div>
     )
-}
+};

@@ -13,9 +13,10 @@ import {AppStateType, useAppDispatch, useAppSelector} from './store';
 import {initializeApp} from './reducer/app-reducer';
 import {Navbar} from '../components/navbar/Navbar';
 import {ErrorSnackbar} from '../components/ErrorSnackbar/ErrorSnackbar';
-import {Navigate, Route, Routes} from 'react-router-dom';
+import {Navigate, Outlet, Route, Routes} from 'react-router-dom';
 import {PacksList} from '../features/packsList/PacksList';
 import {TableCardName} from '../features/packName/tableCardName/tableCardName';
+import {LearnPack} from '../features/packsList/tablePacks/learnPack/LearnPack';
 
 const selectIsInitialized = (state: AppStateType): boolean => state.app.isInitialized;
 const selectIsLoggedIn = (state: AppStateType): boolean => state.login.isLoggedIn;
@@ -47,13 +48,16 @@ export const App = () => {
                     <Route path={PATH.HOME} element={<Navigate to={PATH.LOGIN}/>}/>
                     <Route path={PATH.LOGIN} element={<Login/>}/>
                     <Route path={PATH.REGISTRATION} element={<Registration/>}/>
-                    <Route path={PATH.PACKS_LIST} element={<PacksList/>}/>
-                    <Route path={PATH.CARDS} element={<TableCardName/>}/>
+                    <Route path={PATH.PACKS} element={<><Outlet/></>}>
+                        <Route index element={<Navigate to={PATH.PACKS + '/' + PATH.PACKS_LIST}/>}/>
+                        <Route path={PATH.PACKS_LIST} element={<PacksList/>}/>
+                        <Route path={PATH.LEARN_PACK} element={<LearnPack/>}/>
+                        <Route path={PATH.CARDS} element={<TableCardName/>}/>
+                    </Route>
                     <Route path={PATH.PROFILE} element={<Profile/>}/>
                     <Route path={PATH.SET_PASS} element={<SetPassword/>}/>
                     <Route path={PATH.RECOVERY_PASS} element={<RecoveryPassword/>}/>
                     <Route path={PATH.PAGE_NOT_FOUND} element={<Error404/>}/>
-
                 </Routes>
             </div>
         </div>

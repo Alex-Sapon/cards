@@ -17,7 +17,7 @@ export const Navbar = () => {
     return (
         <div className={styles.navbar_container}>
             <nav className={styles.navbar_list}>
-                <NavLink to={PATH.PACKS_LIST} className={setActiveClass}>Packs List</NavLink>
+                <NavLink to={PATH.PACKS} className={setActiveClass}>Packs List</NavLink>
                 <NavLink to={PATH.PROFILE} className={setActiveClass}>Profile</NavLink>
             </nav>
             {status === 'loading' && <LinearProgress sx={{position: 'absolute', width: '100%', top: '51px'}}/>}

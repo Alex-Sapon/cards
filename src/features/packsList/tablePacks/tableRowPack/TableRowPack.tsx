@@ -34,11 +34,17 @@ export const TableRowPack = memo((props: TableRowPackType) => {
     const userId = useAppSelector(selectLoginUserId);
 
     const handleDeletePack = () => dispatch(deleteUpdateCardsPack(_id));
+
     const handleUpdatePack = () => dispatch(deleteUpdateCardsPack(_id, 'Update my new PACK'));
+
+    const handleLearnPack = () => {
+        navigate(PATH.PACKS + '/' + PATH.LEARN_PACK);
+    };
+
     const handleSendPackId = () => {
         dispatch(setUserCardId(_id));
         dispatch(setUserCardName(name));
-        navigate(PATH.CARDS);
+        navigate(PATH.PACKS + '/' + PATH.CARDS);
     };
 
     return (
@@ -71,7 +77,7 @@ export const TableRowPack = memo((props: TableRowPackType) => {
                             Edit
                         </Button>
                     </> : null}
-                <Button disabled={status === 'loading'}>Learn</Button>
+                <Button disabled={status === 'loading'} onClick={handleLearnPack}>Learn</Button>
             </StyledTableCell>
         </StyledTableRow>
     )

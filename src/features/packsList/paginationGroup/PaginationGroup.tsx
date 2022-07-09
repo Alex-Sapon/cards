@@ -5,7 +5,6 @@ import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import MenuItem from '@mui/material/MenuItem';
 import Select, {SelectChangeEvent} from '@mui/material/Select';
-import {ActionsType, useAppDispatch} from '../../../app/store';
 
 type PaginationGroupType = {
     cardsTotalCount?: number
@@ -13,23 +12,21 @@ type PaginationGroupType = {
     page?: number
     title?: string
     disable?: boolean
-    onChangePage: (page: number) => ActionsType
-    onChangeValue: (value: number) => ActionsType
+    onChangePage: (page: number) => void
+    onChangeValue: (value: number) => void
 }
 
 export const PaginationGroup = memo((props: PaginationGroupType) => {
     const {cardsTotalCount, pageCount, page, title, disable, onChangeValue, onChangePage} = props;
 
-    const dispatch = useAppDispatch();
-
     const handleChangePageCount = (e: SelectChangeEvent) => {
         if (pageCount && Number(e.target.value) !== pageCount) {
-            dispatch(onChangeValue.call(onChangeValue, Number(e.target.value)));
+            onChangeValue(Number(e.target.value));
         }
     }
 
     const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
-        dispatch(onChangePage.call(onChangePage, value));
+        onChangePage(value);
     }
 
     const totalPageCount = cardsTotalCount && pageCount && Math.ceil(cardsTotalCount / pageCount);
@@ -54,7 +51,6 @@ export const PaginationGroup = memo((props: PaginationGroupType) => {
                     onChange={handleChangePageCount}
                     sx={{minWidth: '65px', m: '0 0.5rem', height: '30px'}}
                 >
-                    <MenuItem value={pageCount}>{pageCount}</MenuItem>
                     <MenuItem value="5">{'5'}</MenuItem>
                     <MenuItem value="10">{'10'}</MenuItem>
                     <MenuItem value="15">{'15'}</MenuItem>
