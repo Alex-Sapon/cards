@@ -7,18 +7,7 @@ import Button from '../../../../common/button/Button';
 import {useNavigate} from 'react-router-dom';
 import {PATH} from '../../../../enums/path';
 import {useState} from 'react';
-
-type CardType = {
-    answer: string
-    question: string
-    cardsPack_id: string
-    grade: number
-    shots: number
-    user_id: string
-    created: Date
-    updated: Date
-    _id: string
-}
+import {CardType} from './learnPack-api';
 
 const grades = [
     {value: 'did_not_know', label: 'Did not know'},

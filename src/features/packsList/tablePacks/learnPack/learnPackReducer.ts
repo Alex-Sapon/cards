@@ -5,15 +5,13 @@ const initState: LearnPackStateType = {
 }
 
 export const learnPackReducer = (state: LearnPackStateType = initState, action: LearnPackActions): LearnPackStateType => {
-  switch(action.type) {
-      default:
-          return state;
-  }
+    switch (action.type) {
+        default:
+            return state;
+    }
 }
 
 // types
 export type LearnPackActions = any
 
-type LearnPackStateType = {
-
-}
+type LearnPackStateType = {}
