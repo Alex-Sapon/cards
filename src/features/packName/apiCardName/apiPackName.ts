@@ -6,7 +6,7 @@ export const cardNameAPI = {
 		return instance.get<any, AxiosResponse<CardsTypeResponseType>, CardParamsType>('cards/card', {params: data});
 	},
 	createCard(params: CreateCardType) {
-		return instance.post<any, AxiosResponse<CardsTypeResponseType>, { card: CreateCardType }>(`cards/card`, {card: params});
+		return instance.post<any, AxiosResponse<CardsTypeResponseType>, CreateCardType >(`cards/card`, params);
 	},
 	deleteCard(_id: string) {
 		return instance.delete<any, AxiosResponse<CardsTypeResponseType>, { _id: string }>(`cards/card`, {params: {id: _id}});
@@ -14,6 +14,9 @@ export const cardNameAPI = {
 	updateCard(data: PutParamsType) {
 		return instance.put<any, AxiosResponse<CardsTypeResponseType>, { card: PutParamsType } >(`cards/card`, {card:data});
 	},
+	/*updateCardGrade(data:GradeDataType) {
+		return instance.put<any, AxiosResponse<GradeTypeResponseType>, GradeDataType  >(`cards/card`, data);
+	},*/
 }
 
 //types
@@ -70,4 +73,18 @@ export type PutParamsType = {
 	comments?: string
 }
 
+/*export type GradeDataType = {
+	grade: 1 | 2 | 3 | 4 | 5
+	card_id: string
+}
 
+export type GradeTypeResponseType = {
+	updatedGrade: {
+		_id: string
+		cardsPack_id: string
+		card_id: string
+		user_id: string
+		grade: number
+		shots: number
+	}
+}*/

@@ -72,8 +72,11 @@ export const Profile = () => {
 				</Stack></div>)
 				: (<div className={styles.profileContainer}>
 						<div className={styles.profileWrapper}>
-							<div className={styles.profileItems}>
-								<Stack direction="row" spacing={2}>
+							<div>
+								<div className={styles.profileLogOutButton}>
+									<Button onClick={logoutHandler}>Log out</Button>
+								</div>
+								<Stack direction="row" spacing={2} className={styles.profileAvatar}>
 									<Badge
 										overlap="circular"
 										anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}
@@ -82,7 +85,7 @@ export const Profile = () => {
 										<Avatar alt="Travis Howard" src={avatar || userPhoto} sx={{width: 96, height: 96}}/>
 									</Badge>
 								</Stack>
-								<Button onClick={logoutHandler}>Log out</Button>
+								{/*<Button onClick={logoutHandler}>Log out</Button>*/}
 							</div>
 							<div className={styles.name}>
 								{isEditMode
@@ -101,15 +104,18 @@ export const Profile = () => {
 												<ClearIcon/>)
 										}}/>
 									: <>Nickname:
-										<span className={styles.title}>{title}</span>
+										<div className={styles.title}>{title}</div>
 										{!!activateViewMode && <ModeEditIcon onClick={activateEditMode} fontSize={"small"}/>}
 									</>}
 							</div>
 							<div>
-								<div className={styles.profileTitle}>Email: {email}</div>
-								<div className={styles.profileTitle}>Количество создаваемых колод: {publicCardPacksCount}</div>
+								<div>Contact email: {email}</div>
+								<div>Number of decks created: {publicCardPacksCount}</div>
+								{/*<div className={styles.profileTitle}>Country/Region: Minsk, Belarus</div>*/}
 							</div>
-							<Button onClick={updateName} className={styles.button}>Save</Button>
+							<div className={styles.profileWrapperButtonSave}>
+								<Button onClick={updateName} className={styles.button}>Save</Button>
+							</div>
 						</div>
 					</div>
 				)
