@@ -39,7 +39,6 @@ export const App = () => {
 			</Box>
 		)
 	}
-
     return (
         <div>
             {isLoggedIn && <Navbar/>}

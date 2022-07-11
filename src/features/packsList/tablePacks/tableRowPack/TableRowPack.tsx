@@ -42,7 +42,6 @@ export const TableRowPack = memo((props: TableRowPackType) => {
         navigate(PATH.CARDS)
     };
 
-
     return (
         <StyledTableRow sx={{display: 'grid', gridTemplateColumns: '25% 8% 24% 15% 28%'}}>
             <StyledTableCell component="th" scope="row" className={styles.sell}>

@@ -5,8 +5,8 @@ import {ShowPacks} from './showPacks/ShowPacks';
 import {TablePacks} from './tablePacks/TablePacks';
 import {PATH} from '../../enums/path';
 import {Navigate} from 'react-router-dom';
-import {AppStateType, useAppDispatch, useAppSelector} from '../../app/store';
-import { fetchCardPacks } from './packsListReducer';
+import {useAppDispatch, useAppSelector} from '../../app/store';
+import {fetchCardPacks} from './packsListReducer';
 
 export const PacksList = () => {
     const dispatch = useAppDispatch();
@@ -23,7 +23,6 @@ export const PacksList = () => {
     useEffect(() => {
         dispatch(fetchCardPacks());
     }, [page, pageCount, sortPackName, searchPackName, commonUserId, commonMin, commonMax]);
-
     if (!isLoggedIn) {
         return <Navigate to={PATH.LOGIN}/>
     }
