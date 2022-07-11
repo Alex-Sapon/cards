@@ -3,8 +3,8 @@ import {AxiosResponse} from 'axios';
 
 export const learnPackAPI = {
     getCards(cardsPack_id: string) {
-        return instance.get<CardsTypeResponseType, AxiosResponse<CardsTypeResponseType>, {id: string}>('cards/card', {
-            params: {cardsPack_id}
+        return instance.get<CardsTypeResponseType, AxiosResponse<CardsTypeResponseType>, {cardsPack_id: string}>('cards/card', {
+            params: {cardsPack_id, pageCount: 1000}
         });
     },
     updateGrade(data: UpdateGradeType) {
@@ -12,8 +12,8 @@ export const learnPackAPI = {
     },
 }
 
-type UpdateGradeType = {
-    grade: 1 | 2 | 3 | 4 | 5
+export type UpdateGradeType = {
+    grade: number
     card_id: string
 }
 
