@@ -51,6 +51,7 @@ export const TablePacks = () => {
 
     useEffect(() => {
         dispatch(setSearchPackName(debouncedValue));
+        dispatch(setPage(1));
     }, [debouncedValue]);
 
     const handleNewCardsPack = () => {
