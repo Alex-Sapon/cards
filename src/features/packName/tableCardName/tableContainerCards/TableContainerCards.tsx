@@ -18,7 +18,6 @@ import TableBody from "@mui/material/TableBody";
 import Paper from "@mui/material/Paper";
 
 export const TableContainerCards = () => {
-
 	const userId = useAppSelector(state => state.login._id)
 	const cards = useAppSelector(state => state.cardPack.cards)
 
@@ -81,17 +80,17 @@ export const TableContainerCards = () => {
 									<StyledTableCell align="justify">{new Date(updated).toLocaleDateString()}</StyledTableCell>
 									<StyledTableCell align="justify">
 										<Rating
-											value={grade}
+											value={Number(grade.toFixed(1))}
 											precision={0.1}
 											icon={<FavoriteIcon fontSize="inherit" color="error"/>}
 											emptyIcon={<FavoriteBorderIcon fontSize="inherit"/>}
 											size="medium"
-											readOnly/>
+											readOnly
+										/>
 									</StyledTableCell>
 									<StyledTableCell align="center" className={styles.table_button_group}>
 										{userId === user_id
-											?
-											<div className={styles.icon}>
+											? <div className={styles.icon}>
 												<DeleteForeverIcon onClick={() => removeCard(_id)}/>
 												<CreateIcon onClick={() => changeCard(_id)}/>
 											</div> : null}

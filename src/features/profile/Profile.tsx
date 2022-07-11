@@ -73,10 +73,10 @@ export const Profile = () => {
 				: (<div className={styles.profileContainer}>
 						<div className={styles.profileWrapper}>
 							<div>
-								<div className={styles.profileLogOutButton}>
+								<div>
 									<Button onClick={logoutHandler}>Log out</Button>
 								</div>
-								<Stack direction="row" spacing={2} className={styles.profileAvatar}>
+								<Stack direction="row" spacing={2}>
 									<Badge
 										overlap="circular"
 										anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}
@@ -98,10 +98,8 @@ export const Profile = () => {
 										autoFocus
 										onBlur={activateViewMode}
 										InputProps={{
-											startAdornment: (
-												<AccountCircle/>),
-											endAdornment: (
-												<ClearIcon/>)
+											startAdornment: (<AccountCircle/>),
+											endAdornment: (<ClearIcon/>)
 										}}/>
 									: <>Nickname:
 										<div className={styles.title}>{title}</div>
@@ -113,7 +111,7 @@ export const Profile = () => {
 								<div>Number of decks created: {publicCardPacksCount}</div>
 								{/*<div className={styles.profileTitle}>Country/Region: Minsk, Belarus</div>*/}
 							</div>
-							<div className={styles.profileWrapperButtonSave}>
+							<div>
 								<Button onClick={updateName} className={styles.button}>Save</Button>
 							</div>
 						</div>

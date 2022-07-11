@@ -10,7 +10,7 @@ import styles from './TableRowPack.module.css';
 import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
 import IconButton from '@mui/material/IconButton';
 import {deleteUpdateCardsPack} from '../tablePacksReducer';
-import {setUserCardId, setUserCardName} from '../../../packName/reducer/packCardReducer';
+import {fetchCardsTC, setUserCardId, setUserCardName} from '../../../packName/reducer/packCardReducer';
 
 type TableRowPackType = {
     _id: string
