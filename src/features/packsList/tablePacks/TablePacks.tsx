@@ -61,7 +61,6 @@ export const TablePacks = () => {
 
     const handleNewCardsPack = () => {
         dispatch(setOpenModalAC(true))
-        //dispatch(createNewCardsPack('My new PACK'));
     };
 
     const handleNameSort = () => {
@@ -89,6 +88,7 @@ export const TablePacks = () => {
         <div className={styles.table_wrapper}>
             <h3 className={styles.table_title}>Packs list</h3>
             <div className={styles.text_field_group}>
+                <AddPackModal/>
                 <TextField
                     fullWidth
                     sx={{backgroundColor: '#ECECF9', mr: '2rem'}}
@@ -100,7 +100,6 @@ export const TablePacks = () => {
                     InputProps={{startAdornment: <InputAdornment position="start"><SearchIcon/></InputAdornment>}}
                 />
                 <Button disabled={status === 'loading'} onClick={handleNewCardsPack}>Add new pack</Button>
-                <AddPackModal/>
             </div>
             <TableContainer className={styles.table_container}>
                 <Table>

@@ -49,12 +49,12 @@ export const setMinNumberCards = (min: number) => ({type: 'TABLE-PACKS/SET-MIN-N
 export const setMaxNumberCards = (max: number) => ({type: 'TABLE-PACKS/SET-MAX-NUMBER-CARDS', max} as const)
 
 // thunks
-export const createNewCardsPack = (name: string): AppThunk => dispatch => {
+export const createNewCardsPack = (name: string, isPrivate: boolean): AppThunk => dispatch => {
     const data: NewCardsPackType = {
         cardsPack: {
             name: name,
             deckCover: '',
-            private: false,
+            private: isPrivate,
         },
     };
 
