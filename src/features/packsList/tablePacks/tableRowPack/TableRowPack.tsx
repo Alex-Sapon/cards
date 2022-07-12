@@ -12,6 +12,7 @@ import IconButton from '@mui/material/IconButton';
 import {deleteUpdateCardsPack} from '../tablePacksReducer';
 import {setUserCardId, setUserCardName} from '../../../packName/reducer/packCardReducer';
 
+
 type TableRowPackType = {
     _id: string
     name: string
@@ -44,7 +45,7 @@ export const TableRowPack = memo((props: TableRowPackType) => {
 
 
     return (
-        <StyledTableRow sx={{display: 'grid', gridTemplateColumns: '25% 8% 24% 15% 28%'}}>
+            <StyledTableRow sx={{display: 'grid', gridTemplateColumns: '25% 8% 24% 15% 28%'}}>
             <StyledTableCell component="th" scope="row" className={styles.sell}>
                 <span style={{display: 'inline-block', flex: '1 1 auto'}}>{shortWord(name, 15)}</span>
                 <IconButton

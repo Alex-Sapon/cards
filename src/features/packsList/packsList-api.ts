@@ -3,7 +3,7 @@ import {instance} from '../../api/instance-api';
 
 export const packsListApi = {
     getPacks(data: PacksParamsType) {
-        return instance.get<any, AxiosResponse<PacksParamsResponseType>, PacksParamsType>(`cards/pack`, {params: data});
+        return instance.get<PacksParamsResponseType, AxiosResponse<PacksParamsResponseType>, PacksParamsType>(`cards/pack`, {params: data});
     }
 }
 

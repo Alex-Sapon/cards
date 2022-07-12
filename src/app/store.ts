@@ -1,14 +1,18 @@
-import {TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
 import {applyMiddleware, combineReducers, legacy_createStore as createStore} from 'redux';
 import thunk, {ThunkAction, ThunkDispatch} from 'redux-thunk';
 import {LoginActionsType, loginReducer} from '../features/login/reducer/loginReducer';
-import { CardsNameActionsType, cardsNameReducer } from '../features/packName/reducer/packCardReducer';
-import { PacksListActionsType, packsListReducer } from '../features/packsList/packsListReducer';
-import {TablePacksActionsType, tablePacksReducer } from '../features/packsList/tablePacks/tablePacksReducer';
-import {RecoveryPasswordActionsType, recoveryPasswordReducer } from '../features/recoveryPassword/reducer/recoveryPasswordReducer';
+import {CardsNameActionsType, cardsNameReducer} from '../features/packName/reducer/packCardReducer';
+import {PacksListActionsType, packsListReducer} from '../features/packsList/packsListReducer';
+import {TablePacksActionsType, tablePacksReducer} from '../features/packsList/tablePacks/tablePacksReducer';
+import {
+    RecoveryPasswordActionsType,
+    recoveryPasswordReducer
+} from '../features/recoveryPassword/reducer/recoveryPasswordReducer';
 import {RegistrationActionsType, registrationReducer} from '../features/registration/reducer/registrationReducer';
 import {SetNewPasswordActionsType, setPasswordReducer} from '../features/setPassword/reducer/setPasswordReducer';
 import {AppActionsType, appReducer} from './reducer/app-reducer';
+import {ModalActionsType, modalReducer} from '../components/Modals/reducer/modalReducer';
 
 
 const rootReducer = combineReducers({
@@ -20,6 +24,7 @@ const rootReducer = combineReducers({
     packList: packsListReducer,
     tablePacks: tablePacksReducer,
     cardPack: cardsNameReducer,
+    modal: modalReducer
 
 });
 
@@ -35,7 +40,8 @@ export type ActionsType =
     | RegistrationActionsType
     | PacksListActionsType
     | TablePacksActionsType
-	| CardsNameActionsType
+    | CardsNameActionsType
+    | ModalActionsType
 
 
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppStateType, unknown, ActionsType>;

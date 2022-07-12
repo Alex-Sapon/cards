@@ -19,6 +19,12 @@ import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import {TextField} from '@mui/material';
 import {createNewCardsPack, setCardsPageCount, setPage, setSearchPackName, setSortPackName} from './tablePacksReducer';
+import {DeletePackModal} from '../../../components/Modals/packModals/DeletePackModal';
+import {AddPackModal} from '../../../components/Modals/packModals/AddPackModal';
+import {Edit} from '@mui/icons-material';
+import {EditPackModal} from '../../../components/Modals/packModals/EditPackModel';
+import {setCloseModalAC, setOpenModalAC} from '../../../components/Modals/reducer/modalReducer';
+
 
 const selectCardPacks = (state: AppStateType): PackType[] => state.packList.cardPacks;
 const selectCardPacksTotalCount = (state: AppStateType): number => state.packList.cardPacksTotalCount;
@@ -54,7 +60,8 @@ export const TablePacks = () => {
     }, [debouncedValue]);
 
     const handleNewCardsPack = () => {
-        dispatch(createNewCardsPack('My new PACK'));
+        dispatch(setOpenModalAC(true))
+        //dispatch(createNewCardsPack('My new PACK'));
     };
 
     const handleNameSort = () => {
@@ -93,6 +100,7 @@ export const TablePacks = () => {
                     InputProps={{startAdornment: <InputAdornment position="start"><SearchIcon/></InputAdornment>}}
                 />
                 <Button disabled={status === 'loading'} onClick={handleNewCardsPack}>Add new pack</Button>
+                <AddPackModal/>
             </div>
             <TableContainer className={styles.table_container}>
                 <Table>
