@@ -9,7 +9,7 @@ import {useAppDispatch, useAppSelector} from '../../../app/store';
 import InputLabel from '@mui/material/InputLabel';
 import Input from '@mui/material/Input';
 import FormControl from '@mui/material/FormControl';
-import {setCloseModalAC} from '../reducer/modalReducer';
+import {setOpenModalAC} from '../reducer/modalReducer';
 
 //styles
 const headerModalStyle = {
@@ -34,8 +34,13 @@ export const EditPackModal = () => {
 
     const dispatch = useAppDispatch()
 
+    const nameModal = useAppSelector(state => state.modal.name)
 
-    const handleClose = () => dispatch(setCloseModalAC(false))
+    const handleClose = () => dispatch(setOpenModalAC(false))
+
+    if (nameModal !== 'editPack') {
+        return null
+    }
 
     return (
         <div>

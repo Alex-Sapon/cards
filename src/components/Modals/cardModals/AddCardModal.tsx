@@ -9,7 +9,7 @@ import {useAppDispatch, useAppSelector} from '../../../app/store';
 import InputLabel from '@mui/material/InputLabel';
 import Input from '@mui/material/Input';
 import FormControl from '@mui/material/FormControl';
-import {setCloseModalAC} from '../reducer/modalReducer';
+import {handleCloseModal} from '../utilsModal';
 
 //styles
 const headerModalStyle = {
@@ -29,21 +29,25 @@ const buttonStyle = {
     minWidth: '100px'
 }
 
-
 export const AddCardModal = () => {
 
     const dispatch = useAppDispatch()
 
     const packName = useAppSelector(state => state.tablePacks.packName)
+    const nameModal = useAppSelector(state => state.modal.name)
 
-    const handleClose = () => dispatch(setCloseModalAC(false))
+    const handleClose = () => handleCloseModal(dispatch)
+
+    if (nameModal !== 'addCard') {
+        return null
+    }
 
     return (
         <div>
             <BasicModal>
                 <Box sx={headerModalStyle}>
                     <Typography id="modal-modal-title" variant="h6" component="h2">
-                        Add new pack
+                        Add new card
                     </Typography>
                     <IconButton size='small' onClick={handleClose}>
                         <CancelIcon sx={{color: 'black'}}/>

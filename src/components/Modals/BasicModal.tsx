@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import {ReactNode} from 'react';
 import {useAppDispatch, useAppSelector} from '../../app/store';
-import {setCloseModalAC, setOpenModalAC} from './reducer/modalReducer';
+import {handleCloseModal} from './utilsModal';
 
 //styles
 const modalStyle = {
@@ -25,8 +25,7 @@ export const BasicModal: React.FC<BasicModalPropsType> = ({children}) => {
 
     const isOpenModal = useAppSelector(state => state.modal.isOpenModal)
 
-    const handleOpen = () => dispatch(setCloseModalAC(true))
-    const handleClose = () => dispatch(setOpenModalAC(false))
+    const handleClose = () => handleCloseModal(dispatch)
 
     return (
         <div>

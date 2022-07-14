@@ -30,6 +30,8 @@ import {useNavigate} from 'react-router-dom';
 import useDebounce from "../../packsList/tablePacks/utils/useDebounce";
 import {shortWord} from "../../packsList/tablePacks/utils/shortWord";
 import {StyledTableCell, StyledTableRow} from "./styledTableCard/styledTableCard";
+import {setNameModalAC, setOpenModalAC} from '../../../components/Modals/reducer/modalReducer';
+import {AddCardModal} from '../../../components/Modals/cardModals/AddCardModal';
 
 export const TableCard = () => {
 
@@ -58,7 +60,9 @@ export const TableCard = () => {
 
 
     const addNewCard = () => {
-        dispatch(addCardTC(cardsPack_id, 'New card'))
+		dispatch(setOpenModalAC(true))
+		dispatch(setNameModalAC('addCard'))
+        // dispatch(addCardTC(cardsPack_id, 'New card'))
     }
 
     const removeCard = (_id: string) => {
@@ -71,6 +75,7 @@ export const TableCard = () => {
 
     return (
         <div>
+			<AddCardModal/>
             <h2 className={styles.table_title}>
 				<span onClick={() => {
 					navigate(-1)

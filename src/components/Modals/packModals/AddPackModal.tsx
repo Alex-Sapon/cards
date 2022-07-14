@@ -5,14 +5,14 @@ import Typography from '@mui/material/Typography';
 import {Checkbox, FormControlLabel, IconButton} from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import {BasicModal} from '../BasicModal';
-import {useAppDispatch} from '../../../app/store';
+import {useAppDispatch, useAppSelector} from '../../../app/store';
 import InputLabel from '@mui/material/InputLabel';
 import Input from '@mui/material/Input';
 import FormControl from '@mui/material/FormControl';
-import {setOpenModalAC} from '../reducer/modalReducer';
 import {ChangeEvent, useState} from 'react';
 import {createNewCardsPack} from '../../../features/packsList/tablePacks/tablePacksReducer';
 import {KeyboardEvent} from 'react'
+import {handleCloseModal} from '../utilsModal';
 
 //styles
 const headerModalStyle = {
@@ -37,10 +37,12 @@ export const AddPackModal = () => {
 
     const dispatch = useAppDispatch();
 
+    const nameModal = useAppSelector(state => state.modal.name)
+
     const [value, setValue] = useState<string>('');
     const [isPrivate, setIsPrivate] = useState(false)
 
-    const handleClose = () => dispatch(setOpenModalAC(false));
+    const handleClose = () => handleCloseModal(dispatch);
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => setValue(e.currentTarget.value);
     const handleChangePrivate = (e: ChangeEvent<HTMLInputElement>) => setIsPrivate(e.currentTarget.checked)
     const handleSave = () => {
@@ -59,6 +61,9 @@ export const AddPackModal = () => {
         }
     }
 
+    if (nameModal !== 'addPack') {
+        return null
+    }
 
     return (
         <div>
@@ -102,5 +107,5 @@ export const AddPackModal = () => {
                 </Box>
             </BasicModal>
         </div>
-    );
-};
+    )
+}

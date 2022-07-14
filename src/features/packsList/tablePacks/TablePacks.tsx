@@ -18,12 +18,11 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import {TextField} from '@mui/material';
-import {createNewCardsPack, setCardsPageCount, setPage, setSearchPackName, setSortPackName} from './tablePacksReducer';
+import {setCardsPageCount, setPage, setSearchPackName, setSortPackName} from './tablePacksReducer';
 import {DeletePackModal} from '../../../components/Modals/packModals/DeletePackModal';
 import {AddPackModal} from '../../../components/Modals/packModals/AddPackModal';
-import {Edit} from '@mui/icons-material';
-import {EditPackModal} from '../../../components/Modals/packModals/EditPackModel';
-import {setCloseModalAC, setOpenModalAC} from '../../../components/Modals/reducer/modalReducer';
+import {EditPackModal} from '../../../components/Modals/packModals/EditPackModal';
+import {handleOpenModal} from '../../../components/Modals/utilsModal';
 
 
 const selectCardPacks = (state: AppStateType): PackType[] => state.packList.cardPacks;
@@ -59,9 +58,7 @@ export const TablePacks = () => {
         dispatch(setSearchPackName(debouncedValue));
     }, [debouncedValue]);
 
-    const handleNewCardsPack = () => {
-        dispatch(setOpenModalAC(true))
-    };
+    const handleNewCardsPack = () => handleOpenModal(dispatch, 'addPack')
 
     const handleNameSort = () => {
         setName(name === '0name' ? '1name' : '0name');
@@ -89,6 +86,8 @@ export const TablePacks = () => {
             <h3 className={styles.table_title}>Packs list</h3>
             <div className={styles.text_field_group}>
                 <AddPackModal/>
+                <DeletePackModal />
+                <EditPackModal/>
                 <TextField
                     fullWidth
                     sx={{backgroundColor: '#ECECF9', mr: '2rem'}}

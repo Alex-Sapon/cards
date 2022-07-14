@@ -11,7 +11,9 @@ const initialState: TablePacksType = {
     pageCount: 5,
     user_id: '',
     min: 0,
-    max: 110
+    max: 110,
+    packId: '',
+    name: ''
 };
 
 export const tablePacksReducer = (state: TablePacksType = initialState, action: TablePacksActionsType): TablePacksType => {
@@ -25,11 +27,15 @@ export const tablePacksReducer = (state: TablePacksType = initialState, action: 
         case 'TABLE-PACKS/SET-SORT-PACK-NAME':
             return {...state, sortPacks: action.sortPackName};
         case 'TABLE-PACKS/SET-USER-ID':
-            return {...state, user_id: action.user_id}
+            return {...state, user_id: action.user_id};
         case 'TABLE-PACKS/SET-MIN-NUMBER-CARDS':
-            return {...state, min: action.min}
+            return {...state, min: action.min};
         case 'TABLE-PACKS/SET-MAX-NUMBER-CARDS':
-            return {...state, max: action.max}
+            return {...state, max: action.max};
+        case 'TABLE-PACKS/SET-PACK-ID':
+            return {...state, packId: action.id};
+        case 'TABLE-PACKS/SET-PACK-NAME':
+            return {...state, name: action.name};
         default:
             return state;
 
@@ -38,15 +44,20 @@ export const tablePacksReducer = (state: TablePacksType = initialState, action: 
 
 // actions
 export const setPage = (page: number) => ({type: 'TABLE-PACKS/SET-PAGE', page} as const);
-
 export const setCardsPageCount = (pageCount: number) => ({type: 'TABLE-PACKS/SET-PAGE-COUNT', pageCount} as const);
-
-export const setSearchPackName = (searchPackName: string) => ({type: 'TABLE-PACKS/SET-SEARCH-PACK-NAME', searchPackName} as const);
-
-export const setSortPackName = (sortPackName: string) => ({type: 'TABLE-PACKS/SET-SORT-PACK-NAME', sortPackName} as const);
-export const setUserId = (user_id: string) => ({type: 'TABLE-PACKS/SET-USER-ID', user_id} as const)
-export const setMinNumberCards = (min: number) => ({type: 'TABLE-PACKS/SET-MIN-NUMBER-CARDS', min} as const)
-export const setMaxNumberCards = (max: number) => ({type: 'TABLE-PACKS/SET-MAX-NUMBER-CARDS', max} as const)
+export const setSearchPackName = (searchPackName: string) => ({
+    type: 'TABLE-PACKS/SET-SEARCH-PACK-NAME',
+    searchPackName
+} as const);
+export const setSortPackName = (sortPackName: string) => ({
+    type: 'TABLE-PACKS/SET-SORT-PACK-NAME',
+    sortPackName
+} as const);
+export const setUserId = (user_id: string) => ({type: 'TABLE-PACKS/SET-USER-ID', user_id} as const);
+export const setMinNumberCards = (min: number) => ({type: 'TABLE-PACKS/SET-MIN-NUMBER-CARDS', min} as const);
+export const setMaxNumberCards = (max: number) => ({type: 'TABLE-PACKS/SET-MAX-NUMBER-CARDS', max} as const);
+export const setPackId = (id: string) => ({type: 'TABLE-PACKS/SET-PACK-ID', id} as const);
+export const setPackName = (name: string) => ({type: 'TABLE-PACKS/SET-PACK-NAME', name} as const);
 
 // thunks
 export const createNewCardsPack = (name: string, isPrivate: boolean): AppThunk => dispatch => {
@@ -69,7 +80,7 @@ export const createNewCardsPack = (name: string, isPrivate: boolean): AppThunk =
         })
         .finally(() => {
             dispatch(setAppStatusAC('idle'));
-        })
+        });
 };
 
 export const deleteUpdateCardsPack = (id: string, name?: string): AppThunk => dispatch => {
@@ -88,7 +99,7 @@ export const deleteUpdateCardsPack = (id: string, name?: string): AppThunk => di
         })
         .finally(() => {
             dispatch(setAppStatusAC('idle'));
-        })
+        });
 };
 
 // types
@@ -100,6 +111,8 @@ export type TablePacksActionsType =
     | ReturnType<typeof setUserId>
     | ReturnType<typeof setMinNumberCards>
     | ReturnType<typeof setMaxNumberCards>
+    | ReturnType<typeof setPackId>
+    | ReturnType<typeof setPackName>
 
 export type TablePacksType = {
     packName: string
@@ -108,5 +121,7 @@ export type TablePacksType = {
     pageCount: number
     user_id: string
     min: number
-    max: number
+    max: number,
+    packId: string,
+    name: string
 }

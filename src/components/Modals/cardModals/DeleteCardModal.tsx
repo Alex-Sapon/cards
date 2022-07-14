@@ -6,7 +6,7 @@ import {IconButton} from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import {BasicModal} from '../BasicModal';
 import {useAppDispatch, useAppSelector} from '../../../app/store';
-import {setCloseModalAC} from '../reducer/modalReducer';
+import {setOpenModalAC} from '../reducer/modalReducer';
 
 //styles
 const headerModalStyle = {
@@ -31,8 +31,13 @@ export const DeletePackModal = () => {
     const dispatch = useAppDispatch()
 
     const packName = useAppSelector(state => state.tablePacks.packName)
+    const nameModal = useAppSelector(state => state.modal.name)
 
-    const handleClose = () => dispatch(setCloseModalAC(false))
+    const handleClose = () => dispatch(setOpenModalAC(false))
+
+    if (nameModal !== 'deleteCard') {
+        return null
+    }
 
     return (
         <div>
