@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {ChangeEvent, KeyboardEvent} from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -9,14 +10,8 @@ import {useAppDispatch, useAppSelector} from '../../../app/store';
 import InputLabel from '@mui/material/InputLabel';
 import Input from '@mui/material/Input';
 import FormControl from '@mui/material/FormControl';
-import {setOpenModalAC} from '../reducer/modalReducer';
 import {handleCloseModal} from '../utilsModal';
-import {
-    createNewCardsPack,
-    deleteUpdateCardsPack,
-    setPackName
-} from '../../../features/packsList/tablePacks/tablePacksReducer';
-import {ChangeEvent, KeyboardEvent} from 'react';
+import {deleteUpdateCardsPack, setPackName} from '../../../features/packsList/tablePacks/tablePacksReducer';
 
 //styles
 const headerModalStyle = {

@@ -10,9 +10,8 @@ import styles from './TableRowPack.module.css';
 import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
 import IconButton from '@mui/material/IconButton';
 import {setUserCardId, setUserCardName} from '../../../packName/reducer/packCardReducer';
-import {setNameModalAC, setOpenModalAC} from '../../../../components/Modals/reducer/modalReducer';
 import {handleOpenModal} from '../../../../components/Modals/utilsModal';
-import {setPackId, setPackName, setSearchPackName} from '../tablePacksReducer';
+import {setPackId, setPackName} from '../tablePacksReducer';
 
 
 type TableRowPackType = {
@@ -42,7 +41,7 @@ export const TableRowPack = memo((props: TableRowPackType) => {
         dispatch(setPackName(name))
         dispatch(setPackId(_id))
     }
-    // const handleUpdatePack = () => dispatch(deleteUpdateCardsPack(_id, 'Update my new PACK'));
+
     const handleUpdatePack = () => {
         handleOpenModal(dispatch, 'editPack')
         dispatch(setPackName(name))

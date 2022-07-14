@@ -42,7 +42,8 @@ export const AddPackModal = () => {
     const [value, setValue] = useState<string>('');
     const [isPrivate, setIsPrivate] = useState(false)
 
-    const handleClose = () => handleCloseModal(dispatch);
+    const handleClose = () => handleCloseModal(dispatch)
+
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => setValue(e.currentTarget.value);
     const handleChangePrivate = (e: ChangeEvent<HTMLInputElement>) => setIsPrivate(e.currentTarget.checked)
     const handleSave = () => {

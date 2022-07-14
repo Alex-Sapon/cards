@@ -6,7 +6,8 @@ import {IconButton} from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import {BasicModal} from '../BasicModal';
 import {useAppDispatch, useAppSelector} from '../../../app/store';
-import {setOpenModalAC} from '../reducer/modalReducer';
+import {handleCloseModal} from '../utilsModal';
+import {removeCardTC} from '../../../features/packName/reducer/packCardReducer';
 
 //styles
 const headerModalStyle = {
@@ -26,14 +27,20 @@ const buttonStyle = {
 }
 
 
-export const DeletePackModal = () => {
+export const DeleteCardModal = () => {
 
     const dispatch = useAppDispatch()
 
-    const packName = useAppSelector(state => state.tablePacks.packName)
     const nameModal = useAppSelector(state => state.modal.name)
+    const id = useAppSelector(state => state.cardPack.cardId)
+    const cardName = useAppSelector(state => state.cardPack.question)
 
-    const handleClose = () => dispatch(setOpenModalAC(false))
+    const handleClose = () => handleCloseModal(dispatch)
+    const handleDelete = () => {
+        dispatch(removeCardTC(id))
+        handleClose()
+    }
+
 
     if (nameModal !== 'deleteCard') {
         return null
@@ -51,11 +58,11 @@ export const DeletePackModal = () => {
                     </IconButton>
                 </Box>
                 <Typography id="modal-modal-description" sx={{ mt: 12 }}>
-                    Do you really want to remove ... card?
+                    {`Do you really want to remove ${cardName} card?`}
                 </Typography>
                 <Box sx={buttonsModalStyle}>
                     <Button variant='contained' sx={buttonStyle} onClick={handleClose}>Cancel</Button>
-                    <Button variant='contained' sx={buttonStyle}>Delete</Button>
+                    <Button variant='contained' color='error' sx={buttonStyle} onClick={handleDelete}>Delete</Button>
                 </Box>
             </BasicModal>
         </div>

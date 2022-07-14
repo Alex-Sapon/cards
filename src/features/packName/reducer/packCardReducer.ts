@@ -1,7 +1,7 @@
-import {AppStateType, AppThunk} from "../../../app/store";
-import {setAppErrorAC, setAppStatusAC} from "../../../app/reducer/app-reducer";
-import {AxiosError} from "axios";
-import {cardNameAPI, CardsTypeResponseType, CardType} from "../apiCardName/apiPackName";
+import {AppStateType, AppThunk} from '../../../app/store';
+import {setAppErrorAC, setAppStatusAC} from '../../../app/reducer/app-reducer';
+import {AxiosError} from 'axios';
+import {cardNameAPI, CardsTypeResponseType, CardType} from '../apiCardName/apiPackName';
 
 const initialState: CardsNameStateType = {
 	cards: [] as CardType[],
@@ -16,7 +16,9 @@ const initialState: CardsNameStateType = {
 	cardsPack_id: '',
 	cardQuestion: "",
 	name: '',
-
+	cardId: '',
+	question: '',
+	answer: ''
 }
 
 export const cardsNameReducer = (state: CardsNameStateType = initialState, action: CardsNameActionsType): CardsNameStateType => {
@@ -35,6 +37,12 @@ export const cardsNameReducer = (state: CardsNameStateType = initialState, actio
 			return {...state, cardsTotalCount: action.cardsTotalCount};
 		case 'CARDS-NAME/SET-USER-ID':
 			return {...state, cardsPack_id: action.userId};
+		case 'CARDS-NAME/SET-CARD-ID':
+			return {...state, cardId: action.id}
+		case 'CARDS-NAME/SET-CARD-ANSWER':
+			return {...state, answer: action.answer}
+		case 'CARDS-NAME/SET-CARD-QUESTION':
+			return {...state, question: action.question}
 		default:
 			return state
 	}
@@ -62,6 +70,15 @@ export const setCardsPageCount = (pageCount: number) =>
 export const setCardsTotalCount = (cardsTotalCount: number) =>
 	({type: 'CARDS-NAME/SET-CARDS-TOTAL-COUNT', cardsTotalCount} as const)
 
+export const setCardId = (id: string) =>
+	({type: 'CARDS-NAME/SET-CARD-ID', id} as const)
+
+export const setCardQuestion = (question: string) =>
+	({type: 'CARDS-NAME/SET-CARD-QUESTION', question} as const)
+
+export const setCardAnswer = (answer: string) =>
+	({type: 'CARDS-NAME/SET-CARD-ANSWER', answer} as const)
+
 
 
 //thunks
@@ -85,8 +102,8 @@ export const fetchCardsTC = (): AppThunk => (dispatch, getState: () => AppStateT
 		})
 }
 
-export const addCardTC = (cardsPack_id: string, name: string): AppThunk => dispatch => {
-	const card = {cardsPack_id, name}
+export const addCardTC = (cardsPack_id: string, question: string, answer: string): AppThunk => dispatch => {
+	const card = {cardsPack_id, question, answer}
 
 	dispatch(setAppStatusAC('loading'))
 	cardNameAPI.createCard(card)
@@ -117,8 +134,8 @@ export const removeCardTC = (_id: string): AppThunk => dispatch => {
 		})
 }
 
-export const updateCardTC = (_id: string, question: string): AppThunk => dispatch => {
-	const card = {_id, question}
+export const updateCardTC = (_id: string, question: string, answer: string): AppThunk => dispatch => {
+	const card = {_id, question, answer}
 	dispatch(setAppStatusAC('loading'))
 	cardNameAPI.updateCard(card)
 		.then(res => {
@@ -138,6 +155,9 @@ export type CardsNameStateType = CardsTypeResponseType & {
 	cardsPack_id: string
 	cardQuestion?: string
 	name: string
+	cardId: string
+	question: string
+	answer: string
 
 }
 export type CardsNameActionsType =
@@ -148,4 +168,7 @@ export type CardsNameActionsType =
 	| ReturnType<typeof setCardsTotalCount>
 	| ReturnType<typeof setUserCardId>
 	| ReturnType<typeof setUserCardName>
+	| ReturnType<typeof setCardId>
+	| ReturnType<typeof setCardQuestion>
+	| ReturnType<typeof setCardAnswer>
 
