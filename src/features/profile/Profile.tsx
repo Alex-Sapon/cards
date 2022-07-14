@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import {Navigate} from 'react-router-dom';
 import {Avatar} from '@mui/material';
 import TextField from '@mui/material/TextField';
@@ -36,6 +36,10 @@ export const Profile = () => {
 		setTitle(title)
 	}
 
+	useEffect(() => {
+		dispatch(updateUserDataTC(title, avatar || userPhoto))
+	}, [])
+
 	const activateViewMode = () => {
 		setEditMode(false);
 	}
@@ -67,27 +71,25 @@ export const Profile = () => {
 	return (
 		<div>
 			{status === 'loading'
-				? (<div><Stack className={styles.profilePreloader} spacing={2} direction="row">
+				? (<div><Stack spacing={2} direction="row">
 					<CircularProgress color="secondary"/>
 				</Stack></div>)
 				: (<div className={styles.profileContainer}>
+						<div className={styles.profileLogOutButton}>
+							<Button onClick={logoutHandler}>Log out</Button>
+						</div>
 						<div className={styles.profileWrapper}>
+							<div className={styles.title}>Personal Information</div>
+							<Stack direction="row" spacing={2}>
+								<Badge
+									overlap="circular"
+									anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}
+									badgeContent={
+										<SmallAvatar alt="Remy Sharp" src={iconPhoto}/>}>
+									<Avatar alt="Travis Howard" src={avatar || userPhoto} sx={{width: 96, height: 96}}/>
+								</Badge>
+							</Stack>
 							<div>
-								<div>
-									<Button onClick={logoutHandler}>Log out</Button>
-								</div>
-								<Stack direction="row" spacing={2}>
-									<Badge
-										overlap="circular"
-										anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}
-										badgeContent={
-											<SmallAvatar alt="Remy Sharp" src={iconPhoto}/>}>
-										<Avatar alt="Travis Howard" src={avatar || userPhoto} sx={{width: 96, height: 96}}/>
-									</Badge>
-								</Stack>
-								{/*<Button onClick={logoutHandler}>Log out</Button>*/}
-							</div>
-							<div className={styles.name}>
 								{isEditMode
 									? <TextField
 										onKeyPress={onKeyPressHandler}
@@ -101,20 +103,20 @@ export const Profile = () => {
 											startAdornment: (<AccountCircle/>),
 											endAdornment: (<ClearIcon/>)
 										}}/>
-									: <>Nickname:
-										<div className={styles.title}>{title}</div>
+									: <div className={styles.nickName}>Nickname:
+										<div className={styles.name}>{title}</div>
 										{!!activateViewMode && <ModeEditIcon onClick={activateEditMode} fontSize={"small"}/>}
-									</>}
+									</div>}
 							</div>
-							<div>
-								<div>Contact email: {email}</div>
+							<div className={styles.information}>
+								<div className={styles.description}>Contact email: {email}</div>
 								<div>Number of decks created: {publicCardPacksCount}</div>
-								{/*<div className={styles.profileTitle}>Country/Region: Minsk, Belarus</div>*/}
 							</div>
 							<div>
-								<Button onClick={updateName} className={styles.button}>Save</Button>
+								<Button className={styles.button} onClick={updateName}>Save</Button>
 							</div>
 						</div>
+
 					</div>
 				)
 			}

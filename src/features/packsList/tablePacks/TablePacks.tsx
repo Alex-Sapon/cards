@@ -28,156 +28,156 @@ const selectStatus = (state: AppStateType): RequestStatusType => state.app.statu
 
 
 export const TablePacks = () => {
-    const [value, setValue] = useState('');
+	const [value, setValue] = useState('');
 
-    const [name, setName] = useState<'0name' | '1name'>('0name');
-    const [cardsCount, setCardsCount] = useState<'0cardsCount' | '1cardsCount'>('0cardsCount');
-    const [updated, setUpdated] = useState<'0updated' | '1updated'>('0updated');
-    const [userName, setUserName] = useState<'0user_name' | '1user_name'>('0user_name');
+	const [name, setName] = useState<'0name' | '1name'>('0name');
+	const [cardsCount, setCardsCount] = useState<'0cardsCount' | '1cardsCount'>('0cardsCount');
+	const [updated, setUpdated] = useState<'0updated' | '1updated'>('0updated');
+	const [userName, setUserName] = useState<'0user_name' | '1user_name'>('0user_name');
 
-    const dispatch = useAppDispatch();
+	const dispatch = useAppDispatch();
 
-    const debouncedValue = useDebounce<string>(value, 500);
+	const debouncedValue = useDebounce<string>(value, 500);
 
-    const cardPacks = useAppSelector(selectCardPacks);
-    const cardPacksTotalCount = useAppSelector(selectCardPacksTotalCount);
-    const pageCount = useAppSelector(selectPageCount);
-    const page = useAppSelector(selectPage);
-    const status = useAppSelector(selectStatus);
+	const cardPacks = useAppSelector(selectCardPacks);
+	const cardPacksTotalCount = useAppSelector(selectCardPacksTotalCount);
+	const pageCount = useAppSelector(selectPageCount);
+	const page = useAppSelector(selectPage);
+	const status = useAppSelector(selectStatus);
 
-    const handleChangeValue = (e: ChangeEvent<HTMLInputElement>) => {
-        setValue(e.currentTarget.value);
-    };
+	const handleChangeValue = (e: ChangeEvent<HTMLInputElement>) => {
+		setValue(e.currentTarget.value);
+	};
 
-    useEffect(() => {
-        dispatch(setSearchPackName(debouncedValue));
-        dispatch(setPage(1));
-    }, [debouncedValue]);
+	useEffect(() => {
+		dispatch(setSearchPackName(debouncedValue));
+		dispatch(setPage(1));
+	}, [debouncedValue]);
 
-    const handleNewCardsPack = () => {
-        dispatch(createNewCardsPack('My new PACK'));
-    };
+	const handleNewCardsPack = () => {
+		dispatch(createNewCardsPack('My new PACK'));
+	};
 
-    const handleChangePage = (page: number) => {
-        dispatch(setPage(page));
-    };
+	const handleChangePage = (page: number) => {
+		dispatch(setPage(page));
+	};
 
-    const handleChangeValueSelect = (value: number) => {
-        dispatch(setCardsPageCount(value));
-    };
+	const handleChangeValueSelect = (value: number) => {
+		dispatch(setCardsPageCount(value));
+	};
 
-    const handleNameSort = () => {
-        setName(name === '0name' ? '1name' : '0name');
-        name && dispatch(setSortPackName(name));
-    }
+	const handleNameSort = () => {
+		setName(name === '0name' ? '1name' : '0name');
+		name && dispatch(setSortPackName(name));
+	}
 
-    const handleCardsCount = () => {
-        setCardsCount(cardsCount === '0cardsCount' ? '1cardsCount' : '0cardsCount');
-        cardsCount && dispatch(setSortPackName(cardsCount));
-    }
+	const handleCardsCount = () => {
+		setCardsCount(cardsCount === '0cardsCount' ? '1cardsCount' : '0cardsCount');
+		cardsCount && dispatch(setSortPackName(cardsCount));
+	}
 
-    const handleSortUpdated = () => {
-        setUpdated(updated === '0updated' ? '1updated' : '0updated');
-        updated && dispatch(setSortPackName(updated));
-    }
+	const handleSortUpdated = () => {
+		setUpdated(updated === '0updated' ? '1updated' : '0updated');
+		updated && dispatch(setSortPackName(updated));
+	}
 
-    const handleSortUserName = () => {
-        setUserName(userName === '0user_name' ? '1user_name' : '0user_name');
-        userName && dispatch(setSortPackName(userName));
-    }
+	const handleSortUserName = () => {
+		setUserName(userName === '0user_name' ? '1user_name' : '0user_name');
+		userName && dispatch(setSortPackName(userName));
+	}
 
-    return (
-        <div className={styles.table_wrapper}>
-            <h3 className={styles.table_title}>Packs list</h3>
-            <div className={styles.text_field_group}>
-                <TextField
-                    fullWidth
-                    sx={{backgroundColor: '#ECECF9', mr: '2rem'}}
-                    size="small"
-                    placeholder="Search"
-                    disabled={status === 'loading'}
-                    value={value}
-                    onChange={handleChangeValue}
-                    InputProps={{startAdornment: <InputAdornment position="start"><SearchIcon/></InputAdornment>}}
-                />
-                <Button disabled={status === 'loading'} onClick={handleNewCardsPack}>Add new pack</Button>
-            </div>
-            <TableContainer className={styles.table_container}>
-                <Table>
-                    <TableHead>
-                        <TableRow sx={{display: 'grid', gridTemplateColumns: '21% 15% 19% 17% 28%'}}>
-                            <StyledTableCell>
-                                <TableSortLabel
-                                    active={true}
-                                    disabled={status === 'loading'}
-                                    direction={name === '1name' ? 'asc' : 'desc'}
-                                    onClick={handleNameSort}
-                                >
-                                </TableSortLabel>
-                                <b>Name</b>
-                            </StyledTableCell>
-                            <StyledTableCell align="center">
-                                <TableSortLabel
-                                    active={true}
-                                    disabled={status === 'loading'}
-                                    direction={cardsCount === '1cardsCount' ? 'asc' : 'desc'}
-                                    onClick={handleCardsCount}
-                                >
-                                </TableSortLabel>
-                                <b>Cards</b>
-                            </StyledTableCell>
-                            <StyledTableCell align="center">
-                                <TableSortLabel
-                                    active={true}
-                                    disabled={status === 'loading'}
-                                    direction={updated === '1updated' ? 'asc' : 'desc'}
-                                    onClick={handleSortUpdated}
-                                >
-                                </TableSortLabel>
-                                <b>Last Updated</b>
-                            </StyledTableCell>
-                            <StyledTableCell align="center">
-                                <TableSortLabel
-                                    active={true}
-                                    disabled={status === 'loading'}
-                                    direction={userName === '1user_name' ? 'asc' : 'desc'}
-                                    onClick={handleSortUserName}
-                                >
-                                </TableSortLabel>
-                                <b>Created by</b>
-                            </StyledTableCell>
-                            <StyledTableCell align="center">
-                                <b>Actions</b>
-                            </StyledTableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {cardPacks.length ? cardPacks.map(({_id, name, cardsCount, updated, user_name, user_id}) => (
-                            <TableRowPack
-                                key={_id}
-                                _id={_id}
-                                name={name}
-                                cardsCount={cardsCount}
-                                updated={updated}
-                                user_name={user_name}
-                                user_id={user_id}
-                                status={status}/>
-                        )) : (
-                            <TableRow>
-                                <TableCell className={styles.now_packs}>{'Now packs...'}</TableCell>
-                            </TableRow>)}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            <PaginationGroup
-                cardsTotalCount={cardPacksTotalCount}
-                pageCount={pageCount}
-                page={page}
-                title="Cards per Page"
-                disable={status === 'loading'}
-                onChangePage={handleChangePage}
-                onChangeValue={handleChangeValueSelect}
-            />
-        </div>
-    )
+	return (
+		<div className={styles.table_wrapper}>
+			<h3 className={styles.table_title}>Packs list</h3>
+			<div className={styles.text_field_group}>
+				<TextField
+					fullWidth
+					sx={{backgroundColor: '#ECECF9', mr: '2rem'}}
+					size="small"
+					placeholder="Search"
+					disabled={status === 'loading'}
+					value={value}
+					onChange={handleChangeValue}
+					InputProps={{startAdornment: <InputAdornment position="start"><SearchIcon/></InputAdornment>}}
+				/>
+				<Button disabled={status === 'loading'} onClick={handleNewCardsPack}>Add new pack</Button>
+			</div>
+			<TableContainer className={styles.table_container}>
+				<Table>
+					<TableHead>
+						<TableRow sx={{display: 'grid', gridTemplateColumns: '21% 15% 19% 17% 28%'}}>
+							<StyledTableCell>
+								<TableSortLabel
+									active={true}
+									disabled={status === 'loading'}
+									direction={name === '1name' ? 'asc' : 'desc'}
+									onClick={handleNameSort}
+								>
+								</TableSortLabel>
+								<b>Name</b>
+							</StyledTableCell>
+							<StyledTableCell align="center">
+								<TableSortLabel
+									active={true}
+									disabled={status === 'loading'}
+									direction={cardsCount === '1cardsCount' ? 'asc' : 'desc'}
+									onClick={handleCardsCount}
+								>
+								</TableSortLabel>
+								<b>Cards</b>
+							</StyledTableCell>
+							<StyledTableCell align="center">
+								<TableSortLabel
+									active={true}
+									disabled={status === 'loading'}
+									direction={updated === '1updated' ? 'asc' : 'desc'}
+									onClick={handleSortUpdated}
+								>
+								</TableSortLabel>
+								<b>Last Updated</b>
+							</StyledTableCell>
+							<StyledTableCell align="center">
+								<TableSortLabel
+									active={true}
+									disabled={status === 'loading'}
+									direction={userName === '1user_name' ? 'asc' : 'desc'}
+									onClick={handleSortUserName}
+								>
+								</TableSortLabel>
+								<b>Created by</b>
+							</StyledTableCell>
+							<StyledTableCell align="center">
+								<b>Actions</b>
+							</StyledTableCell>
+						</TableRow>
+					</TableHead>
+					<TableBody>
+						{cardPacks.length ? cardPacks.map(({_id, name, cardsCount, updated, user_name, user_id}) => (
+							<TableRowPack
+								key={_id}
+								_id={_id}
+								name={name}
+								cardsCount={cardsCount}
+								updated={updated}
+								user_name={user_name}
+								user_id={user_id}
+								status={status}/>
+						)) : (
+							<TableRow>
+								<TableCell className={styles.now_packs}>{'Now packs...'}</TableCell>
+							</TableRow>)}
+					</TableBody>
+				</Table>
+			</TableContainer>
+			<PaginationGroup
+				cardsTotalCount={cardPacksTotalCount}
+				pageCount={pageCount}
+				page={page}
+				title="Cards per Page"
+				disable={status === 'loading'}
+				onChangePage={handleChangePage}
+				onChangeValue={handleChangeValueSelect}
+			/>
+		</div>
+	)
 };

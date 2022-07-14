@@ -10,75 +10,76 @@ import styles from './TableRowPack.module.css';
 import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
 import IconButton from '@mui/material/IconButton';
 import {deleteUpdateCardsPack} from '../tablePacksReducer';
-import {fetchCardsTC, setUserCardId, setUserCardName} from '../../../packName/reducer/packCardReducer';
+import {setUserCardId, setUserCardName} from '../../../packName/reducer/packCardReducer';
 
 type TableRowPackType = {
-    _id: string
-    name: string
-    cardsCount: number
-    updated: string
-    user_name: string
-    user_id: string
-    status: RequestStatusType
+	_id: string
+	name: string
+	cardsCount: number
+	updated: string
+	user_name: string
+	user_id: string
+	status: RequestStatusType
 }
 
 const selectLoginUserId = (state: AppStateType): string => state.login._id;
 
 export const TableRowPack = memo((props: TableRowPackType) => {
-    const {_id, name, cardsCount, updated, user_id, user_name, status} = props;
+	const {_id, name, cardsCount, updated, user_id, user_name, status} = props;
 
-    const dispatch = useAppDispatch();
+	const dispatch = useAppDispatch();
 
-    const navigate = useNavigate();
+	const navigate = useNavigate();
 
-    const userId = useAppSelector(selectLoginUserId);
+	const userId = useAppSelector(selectLoginUserId);
 
-    const handleDeletePack = () => dispatch(deleteUpdateCardsPack(_id));
+	const handleDeletePack = () => dispatch(deleteUpdateCardsPack(_id));
 
-    const handleUpdatePack = () => dispatch(deleteUpdateCardsPack(_id, 'Update my new PACK'));
+	const handleUpdatePack = () => dispatch(deleteUpdateCardsPack(_id, 'Update my new PACK'));
 
-    const handleLearnPack = () => {
-        navigate(`/packs/learn-pack/${_id}`);
-    };
+	const handleLearnPack = () => {
+		navigate(`/packs/learn-pack/${_id}`);
+	};
 
-    const handleSendPackId = () => {
-        dispatch(setUserCardId(_id));
-        dispatch(setUserCardName(name));
-        navigate(PATH.PACKS + '/' + PATH.CARDS);
-    };
+	const handleSendPackId = () => {
+		dispatch(setUserCardId(_id));
+		dispatch(setUserCardName(name));
+		navigate(PATH.PACKS + '/' + PATH.CARDS);
+		//navigate(`/packs/cards/${_id}`)
+	};
 
-    return (
-        <StyledTableRow sx={{display: 'grid', gridTemplateColumns: '25% 8% 24% 15% 28%'}}>
-            <StyledTableCell component="th" scope="row" className={styles.sell}>
-                <span style={{display: 'inline-block', flex: '1 1 auto'}}>{shortWord(name, 12)}</span>
-                <IconButton
-                    disabled={status === 'loading'}
-                    aria-label="expand row"
-                    size="small"
-                    onClick={handleSendPackId}
-                >
-                    <DriveFolderUploadIcon/>
-                </IconButton>
-            </StyledTableCell>
-            <StyledTableCell className={styles.sell}>{cardsCount}</StyledTableCell>
-            <StyledTableCell className={styles.sell}>
-                {new Date(updated).toLocaleDateString()}
-            </StyledTableCell>
-            <StyledTableCell className={styles.sell}>
-                {shortWord(user_name, 8)}
-            </StyledTableCell>
-            <StyledTableCell align="center" className={styles.table_button_group}>
-                {userId === user_id
-                    ? <>
-                        <Button id="btn_delete" disabled={status === 'loading'} onClick={handleDeletePack}>
-                            Delete
-                        </Button>
-                        <Button disabled={status === 'loading'} onClick={handleUpdatePack}>
-                            Edit
-                        </Button>
-                    </> : null}
-                <Button disabled={!cardsCount || status === 'loading'} onClick={handleLearnPack}>Learn</Button>
-            </StyledTableCell>
-        </StyledTableRow>
-    )
+	return (
+		<StyledTableRow sx={{display: 'grid', gridTemplateColumns: '25% 8% 24% 15% 28%'}}>
+			<StyledTableCell component="th" scope="row" className={styles.sell}>
+				<span style={{display: 'inline-block', flex: '1 1 auto'}}>{shortWord(name, 12)}</span>
+				<IconButton
+					disabled={status === 'loading'}
+					aria-label="expand row"
+					size="small"
+					onClick={handleSendPackId}
+				>
+					<DriveFolderUploadIcon/>
+				</IconButton>
+			</StyledTableCell>
+			<StyledTableCell className={styles.sell}>{cardsCount}</StyledTableCell>
+			<StyledTableCell className={styles.sell}>
+				{new Date(updated).toLocaleDateString()}
+			</StyledTableCell>
+			<StyledTableCell className={styles.sell}>
+				{shortWord(user_name, 8)}
+			</StyledTableCell>
+			<StyledTableCell align="center" className={styles.table_button_group}>
+				{userId === user_id
+					? <>
+						<Button id="btn_delete" disabled={status === 'loading'} onClick={handleDeletePack}>
+							Delete
+						</Button>
+						<Button disabled={status === 'loading'} onClick={handleUpdatePack}>
+							Edit
+						</Button>
+					</> : null}
+				<Button disabled={!cardsCount || status === 'loading'} onClick={handleLearnPack}>Learn</Button>
+			</StyledTableCell>
+		</StyledTableRow>
+	)
 });

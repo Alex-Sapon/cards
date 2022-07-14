@@ -31,7 +31,6 @@ export const ShowPacks = () => {
 		dispatch(setMaxNumberCards(value[1]))
 	}
 
-
 	return (
 		<div className={styles.left_bar}>
 			<h3 className={styles.left_bar_title}>Show packs cards</h3>

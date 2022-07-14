@@ -15,7 +15,7 @@ const initialState: TablePacksType = {
 };
 
 export const tablePacksReducer = (state: TablePacksType = initialState, action: TablePacksActionsType): TablePacksType => {
-    switch (action.type) {
+  switch (action.type) {
         case 'TABLE-PACKS/SET-PAGE':
             return {...state, page: action.page};
         case 'TABLE-PACKS/SET-PAGE-COUNT':
@@ -32,7 +32,6 @@ export const tablePacksReducer = (state: TablePacksType = initialState, action: 
             return {...state, max: action.max}
         default:
             return state;
-
     }
 };
 
@@ -40,7 +39,9 @@ export const tablePacksReducer = (state: TablePacksType = initialState, action: 
 export const setPage = (page: number) => ({type: 'TABLE-PACKS/SET-PAGE', page} as const);
 export const setCardsPageCount = (pageCount: number) => ({type: 'TABLE-PACKS/SET-PAGE-COUNT', pageCount} as const);
 export const setSearchPackName = (searchPackName: string) => ({type: 'TABLE-PACKS/SET-SEARCH-PACK-NAME', searchPackName} as const);
-export const setSortPackName = (sortPackName: string) => ({type: 'TABLE-PACKS/SET-SORT-PACK-NAME', sortPackName} as const);
+export const setSortPackName = (sortPackName: string) =>{
+  //debugger
+  return  {type: 'TABLE-PACKS/SET-SORT-PACK-NAME', sortPackName} as const};
 export const setUserId = (user_id: string) => ({type: 'TABLE-PACKS/SET-USER-ID', user_id} as const)
 export const setMinNumberCards = (min: number) => ({type: 'TABLE-PACKS/SET-MIN-NUMBER-CARDS', min} as const)
 export const setMaxNumberCards = (max: number) => ({type: 'TABLE-PACKS/SET-MAX-NUMBER-CARDS', max} as const)
