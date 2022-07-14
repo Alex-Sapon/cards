@@ -55,7 +55,7 @@ export const DeletePackModal =() => {
                     </IconButton>
                 </Box>
                 <Typography id="modal-modal-description" sx={{ mt: 7 }}>
-                    {`Do you really want to remove ${packName} pack?`}
+                    Do you really want to remove <b>{packName}</b> pack?
                     <div>
                         All cards will be excluded from this course
                     </div>

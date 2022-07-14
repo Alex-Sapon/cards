@@ -12,8 +12,10 @@ export const ShowPacks = () => {
     const status = useAppSelector(state => state.app.status)
     const user_id = useAppSelector(state => state.tablePacks.user_id)
     const loginUserId = useAppSelector(state => state.login._id)
+    const min = useAppSelector(state => state.tablePacks.min)
+    const max = useAppSelector(state => state.tablePacks.max)
 
-    const [value, setValue] = React.useState<number[]>([0, 110]);
+    const [value, setValue] = React.useState<number[]>([min, max]);
 
     const handleSliderChange = (event: Event, newValue: number | number[])  => {
             setValue(newValue as number[])

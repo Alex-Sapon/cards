@@ -21,7 +21,8 @@ const rootReducer = combineReducers({
     packList: packsListReducer,
     tablePacks: tablePacksReducer,
     cardPack: cardsNameReducer,
-    modal: modalReducer
+    modal: modalReducer,
+    learnPack: learnPackReducer
 
 });
 

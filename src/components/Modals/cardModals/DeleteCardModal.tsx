@@ -58,7 +58,7 @@ export const DeleteCardModal = () => {
                     </IconButton>
                 </Box>
                 <Typography id="modal-modal-description" sx={{ mt: 12 }}>
-                    {`Do you really want to remove ${cardName} card?`}
+                    Do you really want to remove <b>{cardName}</b> card?
                 </Typography>
                 <Box sx={buttonsModalStyle}>
                     <Button variant='contained' sx={buttonStyle} onClick={handleClose}>Cancel</Button>
