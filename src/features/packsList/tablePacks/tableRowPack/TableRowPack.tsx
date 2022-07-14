@@ -37,7 +37,6 @@ export const TableRowPack = memo((props: TableRowPackType) => {
 
     const userId = useAppSelector(selectLoginUserId);
 
-   // const handleDeletePack = () => dispatch(deleteUpdateCardsPack(_id));
     const handleDeletePack = () => {
         handleOpenModal(dispatch, 'deletePack')
         dispatch(setPackName(name))
@@ -45,8 +44,9 @@ export const TableRowPack = memo((props: TableRowPackType) => {
     }
     // const handleUpdatePack = () => dispatch(deleteUpdateCardsPack(_id, 'Update my new PACK'));
     const handleUpdatePack = () => {
-        dispatch(setOpenModalAC(true))
-        dispatch(setNameModalAC('editPack'))
+        handleOpenModal(dispatch, 'editPack')
+        dispatch(setPackName(name))
+        dispatch(setPackId(_id))
     };
     const handleSendPackId = () => {
         dispatch(setUserCardId(_id));

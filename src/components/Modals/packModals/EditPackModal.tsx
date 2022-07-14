@@ -10,6 +10,13 @@ import InputLabel from '@mui/material/InputLabel';
 import Input from '@mui/material/Input';
 import FormControl from '@mui/material/FormControl';
 import {setOpenModalAC} from '../reducer/modalReducer';
+import {handleCloseModal} from '../utilsModal';
+import {
+    createNewCardsPack,
+    deleteUpdateCardsPack,
+    setPackName
+} from '../../../features/packsList/tablePacks/tablePacksReducer';
+import {ChangeEvent, KeyboardEvent} from 'react';
 
 //styles
 const headerModalStyle = {
@@ -35,8 +42,25 @@ export const EditPackModal = () => {
     const dispatch = useAppDispatch()
 
     const nameModal = useAppSelector(state => state.modal.name)
+    const value = useAppSelector(state => state.tablePacks.name)
+    const id = useAppSelector(state => state.tablePacks.packId)
 
-    const handleClose = () => dispatch(setOpenModalAC(false))
+    const handleClose = () => handleCloseModal(dispatch)
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => dispatch(setPackName(e.currentTarget.value));
+    const handleSave = () => {
+        if (value === '') {
+            return;
+        } else {
+            dispatch(deleteUpdateCardsPack(id, value.trim()))
+            handleClose();
+        }
+    }
+    const enterInput = (e: KeyboardEvent<HTMLDivElement>) => {
+        if (e.key === 'Enter'){
+            return handleSave()
+        }
+    }
+
 
     if (nameModal !== 'editPack') {
         return null
@@ -54,21 +78,13 @@ export const EditPackModal = () => {
                     </IconButton>
                 </Box>
 
-                <Typography id="modal-modal-description" sx={{ mt: 1 }}>
+                <Typography id="modal-modal-description" sx={{ mt: 8 }}>
                     <FormControl sx={{height: '50px', mb: '0.5rem', width: '100%'}} variant="standard">
                         <InputLabel htmlFor="packName">Pack Name</InputLabel>
                         <Input
-                            size='small'
-                            id="packName"
-                            fullWidth
-                        />
-                    </FormControl>
-                </Typography>
-
-                <Typography id="modal-modal-description" sx={{ mt: 1 }}>
-                    <FormControl sx={{height: '50px', mb: '0.5rem', width: '100%'}} variant="standard">
-                        <InputLabel htmlFor="packName">Pack Name</InputLabel>
-                        <Input
+                            onKeyPress={enterInput}
+                            onChange={handleChange}
+                            value={value}
                             size='small'
                             id="packName"
                             fullWidth
@@ -78,7 +94,7 @@ export const EditPackModal = () => {
 
                 <Box sx={buttonsModalStyle}>
                     <Button variant='contained' sx={buttonStyle} onClick={handleClose}>Cancel</Button>
-                    <Button variant='contained' sx={buttonStyle}>Save</Button>
+                    <Button variant='contained' sx={buttonStyle} onClick={handleSave}>Save</Button>
                 </Box>
             </BasicModal>
         </div>

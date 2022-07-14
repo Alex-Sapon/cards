@@ -18,9 +18,6 @@ export const modalReducer = (state: ModalStateType = initialState, action: Modal
 export const setOpenModalAC = (isOpen: boolean) => ({type: 'MODAL/SET-OPEN-MODAL', isOpen} as const);
 export const setNameModalAC = (name: NameModalType) => ({type: 'MODAL/SET-NAME-MODAL', name} as const);
 
-
-//thunks
-
 //types
 export type ModalStateType = {
     isOpenModal: boolean,
