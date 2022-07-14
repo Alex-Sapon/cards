@@ -93,4 +93,38 @@ export const TableRowPack = memo((props: TableRowPackType) => {
             </StyledTableCell>
         </StyledTableRow>
     )
+	return (
+		<StyledTableRow sx={{display: 'grid', gridTemplateColumns: '25% 8% 24% 15% 28%'}}>
+			<StyledTableCell component="th" scope="row" className={styles.sell}>
+				<span style={{display: 'inline-block', flex: '1 1 auto'}}>{shortWord(name, 12)}</span>
+				<IconButton
+					disabled={status === 'loading'}
+					aria-label="expand row"
+					size="small"
+					onClick={handleSendPackId}
+				>
+					<DriveFolderUploadIcon/>
+				</IconButton>
+			</StyledTableCell>
+			<StyledTableCell className={styles.sell}>{cardsCount}</StyledTableCell>
+			<StyledTableCell className={styles.sell}>
+				{new Date(updated).toLocaleDateString()}
+			</StyledTableCell>
+			<StyledTableCell className={styles.sell}>
+				{shortWord(user_name, 8)}
+			</StyledTableCell>
+			<StyledTableCell align="center" className={styles.table_button_group}>
+				{userId === user_id
+					? <>
+						<Button id="btn_delete" disabled={status === 'loading'} onClick={handleDeletePack}>
+							Delete
+						</Button>
+						<Button disabled={status === 'loading'} onClick={handleUpdatePack}>
+							Edit
+						</Button>
+					</> : null}
+				<Button disabled={!cardsCount || status === 'loading'} onClick={handleLearnPack}>Learn</Button>
+			</StyledTableCell>
+		</StyledTableRow>
+	)
 });

@@ -1,11 +1,10 @@
 import * as React from 'react';
 import {useEffect} from 'react';
-import {AlertBar} from "../../login/AlertBar";
 import styles from './tableCardName.module.css';
 import {useAppDispatch, useAppSelector} from "../../../app/store";
-import {fetchCardsTC, setUserCardId} from "../reducer/packCardReducer";
+import {fetchCardsTC} from "../reducer/packCardReducer";
 import {TableCard} from "./TableCard";
-import {Navigate} from "react-router-dom";
+import {Navigate, useNavigate} from "react-router-dom";
 import {PATH} from "../../../enums/path";
 
 export const TableCardName = () => {
@@ -23,17 +22,22 @@ export const TableCardName = () => {
 	const maxCards = useAppSelector(state => state.cardPack.max)
 
 	useEffect(() => {
-		dispatch(fetchCardsTC())
+		if (cardsPack_id) {
+			dispatch(fetchCardsTC())
+		}
 	},[cardsPack_id, page, pageCount, cardQuestion, cardAnswer, sortCards, minCards, maxCards])
 
 	if (!isLoggedIn) {
 		return <Navigate to={PATH.LOGIN}/>
 	}
 
+	if (!cardsPack_id) {
+		return <Navigate to={PATH.PACKS + '/' + PATH.PACKS_LIST}/>
+	}
+
 	return (
 		<div className={styles.container}>
 			<TableCard/>
-			{false && <AlertBar message={'Massage'}/>}
 		</div>
 	)
 }

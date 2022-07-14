@@ -1,24 +1,30 @@
 import {AppStateType, AppThunk} from '../../../app/store';
 import {setAppErrorAC, setAppStatusAC} from '../../../app/reducer/app-reducer';
 import {AxiosError} from 'axios';
-import {cardNameAPI, CardsTypeResponseType, CardType} from '../apiCardName/apiPackName';
+import {
+    cardNameAPI,
+    CardsTypeResponseType,
+    CardType,
+} from '../apiCardName/apiPackName';
 
 const initialState: CardsNameStateType = {
-	cards: [] as CardType[],
-	cardsTotalCount: 0,
-	maxGrade: 0,
-	minGrade: 0,
-	page: 1,
-	pageCount: 5,
-	packUserId: "",
-	token: "",
-	tokenDeathTime: 0,
-	cardsPack_id: '',
-	cardQuestion: "",
-	name: '',
-	cardId: '',
-	question: '',
-	answer: '',
+    cards: [] as CardType[],
+    cardsTotalCount: 0,
+    maxGrade: 0,
+    minGrade: 0,
+    page: 1,
+    pageCount: 5,
+    packUserId: '',
+    token: '',
+    tokenDeathTime: 0,
+    cardsPack_id: '',
+    cardQuestion: '',
+    name: '',
+    cardAnswer: '',
+    sortCards: '',
+    cardId: '',
+    question: '',
+    answer: '',
     min: 0,
     max: 0,
 }
@@ -45,6 +51,8 @@ export const cardsNameReducer = (state: CardsNameStateType = initialState, actio
 			return {...state, answer: action.answer}
 		case 'CARDS-NAME/SET-CARD-QUESTION':
 			return {...state, question: action.question}
+        case 'CARDS-NAME/SET-SORT-CARDS':
+            return {...state, sortCards: action.sortCards};
 		default:
 			return state
 	}
@@ -81,27 +89,26 @@ export const setCardQuestion = (question: string) =>
 export const setCardAnswer = (answer: string) =>
 	({type: 'CARDS-NAME/SET-CARD-ANSWER', answer} as const)
 
-
+export const setSortCards = (sortCards: string) => ({type: 'CARDS-NAME/SET-SORT-CARDS', sortCards} as const)
 
 //thunks
 export const fetchCardsTC = (): AppThunk => (dispatch, getState: () => AppStateType) => {
-	const {cardsPack_id, page, pageCount, packUserId, cardQuestion} = getState().cardPack
-	const params = {
-		cardsPack_id, page, pageCount, packUserId, cardQuestion
-	}
+	const {cardsPack_id, page, pageCount, packUserId, cardQuestion, cardAnswer, min, max, sortCards} = getState().cardPack
+	const params = {cardsPack_id, page, pageCount, packUserId, cardQuestion, cardAnswer, min, max, sortCards}
 
-	dispatch(setAppStatusAC('loading'));
-	cardNameAPI.getCard(params)
-		.then(res => {
-			dispatch(getCardsNameData(res.data));
-		})
-		.catch((e: AxiosError<{ error: string }>) => {
-			const error = e.response ? e.response.data.error : e.message;
-			dispatch(setAppErrorAC(error));
-		})
-		.finally(() => {
-			dispatch(setAppStatusAC('idle'));
-		})
+    dispatch(setAppStatusAC('loading'));
+
+    cardNameAPI.getCard(params)
+        .then(res => {
+            dispatch(getCardsNameData(res.data));
+        })
+        .catch((e: AxiosError<{ error: string }>) => {
+            const error = e.response ? e.response.data.error : e.message;
+            dispatch(setAppErrorAC(error));
+        })
+        .finally(() => {
+            dispatch(setAppStatusAC('idle'));
+        })
 }
 
 export const addCardTC = (cardsPack_id: string, question: string, answer: string): AppThunk => dispatch => {
@@ -109,46 +116,42 @@ export const addCardTC = (cardsPack_id: string, question: string, answer: string
 
 	dispatch(setAppStatusAC('loading'))
 	cardNameAPI.createCard(card)
-		.then(res => {
+		.then(() => {
 			dispatch(fetchCardsTC())
 		})
 		.catch((e: AxiosError<{ error: string }>) => {
 			const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
 			dispatch(setAppErrorAC(error))
-		})
-		.finally(() => {
-			dispatch(setAppStatusAC('idle'))
+			dispatch(setAppStatusAC('idle'));
 		})
 }
 
 export const removeCardTC = (_id: string): AppThunk => dispatch => {
 	dispatch(setAppStatusAC('loading'))
+
 	cardNameAPI.deleteCard(_id)
-		.then(res => {
+		.then(() => {
 			dispatch(fetchCardsTC())
 		})
 		.catch((e: AxiosError<{ error: string }>) => {
 			const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
 			dispatch(setAppErrorAC(error))
-		})
-		.finally(() => {
-			dispatch(setAppStatusAC('idle'))
+			dispatch(setAppStatusAC('idle'));
 		})
 }
 
 export const updateCardTC = (_id: string, question: string, answer: string): AppThunk => dispatch => {
 	const card = {_id, question, answer}
 	dispatch(setAppStatusAC('loading'))
+
 	cardNameAPI.updateCard(card)
-		.then(res => {
+		.then(() => {
 			dispatch(fetchCardsTC())
 		})
 		.catch((e: AxiosError<{ error: string }>) => {
 			const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
 			dispatch(setAppErrorAC(error))
-		})
-		.finally(() => {
-			dispatch(setAppStatusAC('idle'))
+			dispatch(setAppStatusAC('idle'));
 		})
 }
 
@@ -176,4 +179,5 @@ export type CardsNameActionsType =
 	| ReturnType<typeof setCardId>
 	| ReturnType<typeof setCardQuestion>
 	| ReturnType<typeof setCardAnswer>
+    | ReturnType<typeof setSortCards>
 

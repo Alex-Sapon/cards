@@ -37,10 +37,10 @@ const selectStatus = (state: AppStateType): RequestStatusType => state.app.statu
 export const TablePacks = () => {
 	const [value, setValue] = useState('');
 
-    const [name, setName] = useState<'0name' | '1name'>('0name');
-    const [cardsCount, setCardsCount] = useState<'0cardsCount' | '1cardsCount'>('0cardsCount');
-    const [updated, setUpdated] = useState<'0updated' | '1updated'>('0updated');
-    const [userName, setUserName] = useState<'0user_name' | '1user_name'>('0user_name');
+	const [name, setName] = useState<'0name' | '1name'>('0name');
+	const [cardsCount, setCardsCount] = useState<'0cardsCount' | '1cardsCount'>('0cardsCount');
+	const [updated, setUpdated] = useState<'0updated' | '1updated'>('0updated');
+	const [userName, setUserName] = useState<'0user_name' | '1user_name'>('0user_name');
 
 	const dispatch = useAppDispatch();
 

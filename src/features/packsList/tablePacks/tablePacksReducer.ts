@@ -17,7 +17,7 @@ const initialState: TablePacksType = {
 };
 
 export const tablePacksReducer = (state: TablePacksType = initialState, action: TablePacksActionsType): TablePacksType => {
-    switch (action.type) {
+  switch (action.type) {
         case 'TABLE-PACKS/SET-PAGE':
             return {...state, page: action.page};
         case 'TABLE-PACKS/SET-PAGE-COUNT':
@@ -38,7 +38,6 @@ export const tablePacksReducer = (state: TablePacksType = initialState, action: 
             return {...state, name: action.name};
         default:
             return state;
-
     }
 };
 

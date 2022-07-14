@@ -13,59 +13,42 @@ export const useStyles = makeStyles((theme) => ({
 	profileWrapper: {
 		display: 'flex',
 		flexDirection: 'column',
-		padding: '20px 20px 0px 20px',
-		background: '#D9D9F1',
+		justifyContent: 'center',
+		alignItems: 'center',
 		borderRadius: '8px',
-		minHeight: '300px',
-		maxHeight: '800px'
 	},
 	profileLogOutButton: {
 		display: 'flex',
 		justifyContent: 'flex-end',
 	},
-	profileAvatar: {
-		display: 'flex',
-		justifyContent: 'center',
-		paddingTop: '20px',
+
+	title: {
+		margin: '1.25em'
 	},
-	profileWrapperText: {
-		display: 'flex',
-		justifyContent: 'center',
-		alignItems: "center"
-	},
-	profileWrapperButtonSave: {
-		display: 'flex',
-		justifyContent: 'center',
-		alignItems: "center"
-	},
+
 	button: {
-		margin: '20px',
+		margin: '30px',
 		width: '127px',
 		height: '36px',
 	},
-	profileTitle: {
-		display: 'flex',
-		justifyContent: 'center',
-		padding: '20px',
-	},
-	name: {
+
+	nickName: {
 		display: "flex",
 		justifyContent: 'center',
-		padding: '20px 0 0 10px',
-		height: '80px'
+		padding: '20px 0 5px 0'
 	},
-	title: {
-		margin: '0.25em'
+	name: {
+		padding: '0 5px 0 5px'
 	},
-	profilePreloader: {
-		top: 0,
-		left: 0,
-		bottom: 0,
-		right: 0,
-		position: 'absolute',
+
+	information: {
 		display: 'flex',
 		alignItems: 'center',
-		justifyContent: 'center'
+		flexDirection: 'column',
+		justifyContent: 'space-between',
+	},
+	description: {
+		margin: '10px 0 20px 0',
 	}
 
 }))
