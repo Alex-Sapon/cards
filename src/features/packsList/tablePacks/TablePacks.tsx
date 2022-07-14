@@ -24,6 +24,8 @@ import {AddPackModal} from '../../../components/Modals/packModals/AddPackModal';
 import {EditPackModal} from '../../../components/Modals/packModals/EditPackModal';
 import {handleOpenModal} from '../../../components/Modals/utilsModal';
 
+import {TableCell} from '@mui/material';
+import {createNewCardsPack} from './tablePacksReducer';
 
 const selectCardPacks = (state: AppStateType): PackType[] => state.packList.cardPacks;
 const selectCardPacksTotalCount = (state: AppStateType): number => state.packList.cardPacksTotalCount;
@@ -56,9 +58,18 @@ export const TablePacks = () => {
 
     useEffect(() => {
         dispatch(setSearchPackName(debouncedValue));
+        dispatch(setPage(1));
     }, [debouncedValue]);
 
     const handleNewCardsPack = () => handleOpenModal(dispatch, 'addPack')
+
+    const handleChangePage = (page: number) => {
+        dispatch(setPage(page));
+    };
+
+    const handleChangeValueSelect = (value: number) => {
+        dispatch(setCardsPageCount(value));
+    };
 
     const handleNameSort = () => {
         setName(name === '0name' ? '1name' : '0name');
@@ -79,7 +90,6 @@ export const TablePacks = () => {
         setUserName(userName === '0user_name' ? '1user_name' : '0user_name');
         userName && dispatch(setSortPackName(userName));
     }
-
 
     return (
         <div className={styles.table_wrapper}>
@@ -160,7 +170,10 @@ export const TablePacks = () => {
                                 user_name={user_name}
                                 user_id={user_id}
                                 status={status}/>
-                        )) : <div className={styles.now_packs}>Now packs...</div>}
+                        )) : (
+                            <TableRow>
+                                <TableCell className={styles.now_packs}>{'Now packs...'}</TableCell>
+                            </TableRow>)}
                     </TableBody>
                 </Table>
             </TableContainer>
@@ -170,8 +183,8 @@ export const TablePacks = () => {
                 page={page}
                 title="Cards per Page"
                 disable={status === 'loading'}
-                onChangePage={(page: number) => setPage(page)}
-                onChangeValue={(value: number) => setCardsPageCount(value)}
+                onChangePage={handleChangePage}
+                onChangeValue={handleChangeValueSelect}
             />
         </div>
     )

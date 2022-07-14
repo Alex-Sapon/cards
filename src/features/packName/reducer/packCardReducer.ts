@@ -18,7 +18,9 @@ const initialState: CardsNameStateType = {
 	name: '',
 	cardId: '',
 	question: '',
-	answer: ''
+	answer: '',
+    min: 0,
+    max: 0,
 }
 
 export const cardsNameReducer = (state: CardsNameStateType = initialState, action: CardsNameActionsType): CardsNameStateType => {
@@ -158,7 +160,10 @@ export type CardsNameStateType = CardsTypeResponseType & {
 	cardId: string
 	question: string
 	answer: string
-
+	cardAnswer: string
+	sortCards: string
+	min: number
+	max: number
 }
 export type CardsNameActionsType =
 	| ReturnType<typeof getCardsNameData>

@@ -3,15 +3,8 @@ import {ChangeEvent, useEffect, useState} from 'react';
 import styles from './tableCardName.module.css';
 import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
 import {TextField} from '@mui/material';
 import {PaginationGroup} from '../../packsList/paginationGroup/PaginationGroup';
-import Rating from '@mui/material/Rating';
 import ArrowBackSharpIcon from '@mui/icons-material/ArrowBackSharp';
 import Paper from '@mui/material/Paper';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -34,36 +27,46 @@ import {AddCardModal} from '../../../components/Modals/cardModals/AddCardModal';
 import {handleOpenModal} from '../../../components/Modals/utilsModal';
 import {DeleteCardModal} from '../../../components/Modals/cardModals/DeleteCardModal';
 import {EditCardModal} from '../../../components/Modals/cardModals/EditCardModal';
+import useDebounce from '../../packsList/tablePacks/utils/useDebounce';
+import {TableContainerCards} from './tableContainerCards/TableContainerCards';
 
 export const TableCard = () => {
 
-    const [value, setValue] = useState('');
+	const [value, setValue] = useState('')
 
-    const navigate = useNavigate();
-    const dispatch = useAppDispatch();
+	const navigate = useNavigate()
+	const dispatch = useAppDispatch()
 
-    const debouncedValue = useDebounce<string>(value, 500);
+	const debouncedValue = useDebounce<string>(value, 500)
 
     const page = useAppSelector(state => state.cardPack.page);
     const cardsTotalCount = useAppSelector(state => state.cardPack.cardsTotalCount);
     const pageCount = useAppSelector(state => state.cardPack.pageCount);
     const cards = useAppSelector(state => state.cardPack.cards);
     const packName = useAppSelector(state => state.cardPack.name);
+	const userId = useAppSelector(state => state.login._id)
+	const user_id = useAppSelector(state => state.cardPack.packUserId)
 
 
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+
+	const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setValue(e.currentTarget.value);
     };
 
-    useEffect(() => {
-        dispatch(setSearchQuestion(debouncedValue));
-    }, [debouncedValue]);
 
+    useEffect(() => {
+        dispatch(setSearchQuestion(debouncedValue))
+        dispatch(setCardsPage(1))
+    }, [debouncedValue,])
 
     const addNewCard = () => {
         handleOpenModal(dispatch, 'addCard');
     };
 
+	const onChangePageHandler = (value: number) => {
+		setCardsPage(value)
+	}
+	
     return (
         <div>
             <AddCardModal/>
@@ -183,4 +186,36 @@ export const TableCard = () => {
             </div>
         </div>
     );
+				<span onClick={() => {navigate(-1)}}>
+                    <ArrowBackSharpIcon className={styles.arrowBackSharpIcon} fontSize="medium"/>
+                </span>
+                {packName}
+            </h2>
+            <div className={styles.inputContainer}>
+                <TextField
+                    onChange={onChangeHandler}
+                    fullWidth
+                    sx={{backgroundColor: '#ECECF9', mr: '2rem'}}
+                    size="small"
+                    placeholder="Search..."
+                    InputProps={{startAdornment: <InputAdornment position="start"><SearchIcon/></InputAdornment>}}
+                />
+                {userId === user_id
+                    ? <>
+                        <Button onClick={addNewCard}>ADD NEW CARD</Button>
+                    </> : null}
+            </div>
+            <TableContainerCards/>
+            <div className={styles.paginationContainer}>
+                <PaginationGroup
+                    page={page}
+                    pageCount={pageCount}
+                    cardsTotalCount={cardsTotalCount}
+                    onChangePage={onChangePageHandler}
+                    onChangeValue={(pageNumber: number) => setCardsPageCount(pageNumber)}
+                    title="Cards per Page"
+                />
+            </div>
+        </div>
+    )
 };

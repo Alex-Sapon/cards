@@ -1,6 +1,8 @@
 .left_bar {
     background: #ECECF9;
     padding: 35px 30px 30px 30px;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
 }
 
 .left_bar_title {

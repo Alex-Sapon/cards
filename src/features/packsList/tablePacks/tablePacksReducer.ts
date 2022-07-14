@@ -77,8 +77,6 @@ export const createNewCardsPack = (name: string, isPrivate: boolean): AppThunk =
         })
         .catch((e: AxiosError<{ error: string }>) => {
             dispatch(setAppErrorAC(e.response ? e.response.data.error : e.message));
-        })
-        .finally(() => {
             dispatch(setAppStatusAC('idle'));
         });
 };
@@ -96,8 +94,6 @@ export const deleteUpdateCardsPack = (id: string, name?: string): AppThunk => di
         })
         .catch((e: AxiosError<{ error: string }>) => {
             dispatch(setAppErrorAC(e.response ? e.response.data.error : e.message));
-        })
-        .finally(() => {
             dispatch(setAppStatusAC('idle'));
         });
 };

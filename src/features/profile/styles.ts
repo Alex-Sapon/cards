@@ -3,8 +3,8 @@ import {Avatar} from "@mui/material";
 
 export const useStyles = makeStyles((theme) => ({
 	profileContainer: {
-		width: '650px',
-		maxHeight: '460px',
+		width: '400px',
+		maxHeight: '800px',
 		background: '#f9f9fe',
 		margin: '20px auto 0',
 		padding: '20px 20px 20px 20px',
@@ -17,11 +17,26 @@ export const useStyles = makeStyles((theme) => ({
 		background: '#D9D9F1',
 		borderRadius: '8px',
 		minHeight: '300px',
+		maxHeight: '800px'
 	},
-	profileItems: {
+	profileLogOutButton: {
 		display: 'flex',
-		justifyContent: 'space-between',
-		alignItems: 'flex-start',
+		justifyContent: 'flex-end',
+	},
+	profileAvatar: {
+		display: 'flex',
+		justifyContent: 'center',
+		paddingTop: '20px',
+	},
+	profileWrapperText: {
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: "center"
+	},
+	profileWrapperButtonSave: {
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: "center"
 	},
 	button: {
 		margin: '20px',
@@ -29,11 +44,15 @@ export const useStyles = makeStyles((theme) => ({
 		height: '36px',
 	},
 	profileTitle: {
+		display: 'flex',
+		justifyContent: 'center',
 		padding: '20px',
 	},
 	name: {
-		padding: '20px',
-		height: '60px'
+		display: "flex",
+		justifyContent: 'center',
+		padding: '20px 0 0 10px',
+		height: '80px'
 	},
 	title: {
 		margin: '0.25em'

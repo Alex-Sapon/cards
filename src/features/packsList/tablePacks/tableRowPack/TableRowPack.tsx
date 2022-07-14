@@ -13,6 +13,8 @@ import {setUserCardId, setUserCardName} from '../../../packName/reducer/packCard
 import {handleOpenModal} from '../../../../components/Modals/utilsModal';
 import {setPackId, setPackName} from '../tablePacksReducer';
 
+import {deleteUpdateCardsPack} from '../tablePacksReducer';
+import {fetchCardsTC} from '../../../packName/reducer/packCardReducer';
 
 type TableRowPackType = {
     _id: string
@@ -28,7 +30,6 @@ const selectLoginUserId = (state: AppStateType): string => state.login._id;
 
 export const TableRowPack = memo((props: TableRowPackType) => {
     const {_id, name, cardsCount, updated, user_id, user_name, status} = props;
-
 
     const dispatch = useAppDispatch();
 
@@ -47,17 +48,21 @@ export const TableRowPack = memo((props: TableRowPackType) => {
         dispatch(setPackName(name))
         dispatch(setPackId(_id))
     };
+
+    const handleLearnPack = () => {
+        navigate(`/packs/learn-pack/${_id}`);
+    };
+
     const handleSendPackId = () => {
         dispatch(setUserCardId(_id));
         dispatch(setUserCardName(name));
-        navigate(PATH.CARDS)
+        navigate(PATH.PACKS + '/' + PATH.CARDS);
     };
-
 
     return (
             <StyledTableRow sx={{display: 'grid', gridTemplateColumns: '25% 8% 24% 15% 28%'}}>
             <StyledTableCell component="th" scope="row" className={styles.sell}>
-                <span style={{display: 'inline-block', flex: '1 1 auto'}}>{shortWord(name, 15)}</span>
+                <span style={{display: 'inline-block', flex: '1 1 auto'}}>{shortWord(name, 12)}</span>
                 <IconButton
                     disabled={status === 'loading'}
                     aria-label="expand row"
@@ -84,8 +89,8 @@ export const TableRowPack = memo((props: TableRowPackType) => {
                             Edit
                         </Button>
                     </> : null}
-                <Button disabled={status === 'loading'}>Learn</Button>
+                <Button disabled={!cardsCount || status === 'loading'} onClick={handleLearnPack}>Learn</Button>
             </StyledTableCell>
         </StyledTableRow>
-    );
+    )
 });
